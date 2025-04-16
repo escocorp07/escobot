@@ -4,6 +4,7 @@ package main.java.bot;
 import arc.util.Log;
 import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import main.java.bot.commands.botCommands;
 import reactor.core.publisher.Mono;
 
 import main.java.BVars;
@@ -18,6 +19,7 @@ public class botLoader {
         DiscordClient client = DiscordClient.create(btoken);
         Log.info("Bot loaded!");
         BVars.login = client.withGateway(gw -> {
+            botCommands.registerCommands();
             Log.info("Gateway connected!");
             BVars.gateway = gw;
             return gw.on(MessageCreateEvent.class, event -> {
