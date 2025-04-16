@@ -48,7 +48,11 @@ jar{
     from{
         configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
     }
-
+    manifest {
+        attributes(
+                'Main-Class': 'example.Main'
+        )
+    }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 javadoc {
