@@ -1,0 +1,82 @@
+package main.java.bot.commands;
+
+import arc.struct.Seq;
+import discord4j.common.util.Snowflake;
+import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.User;
+import lombok.*;
+import main.java.BVars;
+import java.util.Arrays;
+import reactor.core.publisher.Mono;
+
+import java.util.Optional;
+import java.util.function.BiConsumer;
+
+/**Сделанный мною хендлер команд бота.*/
+public class commandHandler {
+    public static Seq<botcommand> commands = new Seq<>();
+    /**Зарегестрировать обычную команду.*/
+    public static botcommand registerCommand(String name, String description, BiConsumer<MessageCreateEvent, String[]> executor) {
+        botcommand c = new botcommand(name, description, executor);
+        commands.add(c);
+        return c;
+    }
+    /**Зарегестрировать команду с требованием к доступу.*/
+    public static botcommand registerCommand(String name, String description, long role, BiConsumer<MessageCreateEvent, String[]> executor) {
+        botcommand c = new botcommand(name, description, executor);
+        c.setRoleID(role);
+        commands.add(c);
+        return c;
+    }
+    public static void handleEvent(MessageCreateEvent event) {
+        Message message = event.getMessage();
+        Optional<User> authorOpt = message.getAuthor();
+        if (authorOpt.isPresent() && authorOpt.get().isBot()) {
+            return;
+        }
+        User author = authorOpt.get();
+        String content = message.getContent();
+        if(content.startsWith(BVars.prefix)) {
+            String[] args = content.replace(BVars.prefix, "").trim().split(" ");
+            botcommand command = commands.find(c->{
+                return c.getName().equals(args[0]);
+            });
+            if(command != null) {
+                // Arrays.copyOfRange(args, 1, args.length)
+                if(command.getRoleID() == 0) {
+                    command.exec(event, Arrays.copyOfRange(args, 1, args.length));
+                } else {
+                  author.asMember(BVars.guild).flatMap(m->{
+                      if(m.getRoleIds().contains(Snowflake.of(command.getRoleID()))) {
+                          command.exec(event, Arrays.copyOfRange(args, 1, args.length));
+                      } else {
+                          message.getChannel().flatMap(ch->{
+                              return ch.getRestChannel().createMessage("No access, sorry.");
+                          }).subscribe();
+                      }
+                      return Mono.empty();
+                  }).subscribe();
+                }
+            }
+        }
+    }
+    @Getter
+    @Setter
+    public static class botcommand {
+        String name;
+        String description;
+        BiConsumer<MessageCreateEvent, String[]> executor;
+        long roleID;
+
+        botcommand(String name, String description, BiConsumer<MessageCreateEvent, String[]> executor) {
+            this.name = name;
+            this.description = description;
+            this.executor = executor;
+        }
+
+        public void exec(MessageCreateEvent e, String[] args) {
+            executor.accept(e, args);
+        }
+    }
+}
