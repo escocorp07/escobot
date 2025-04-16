@@ -50,7 +50,7 @@ jar{
     }
     manifest {
         attributes(
-                'Main-Class': 'example.Main'
+                'Main-Class': 'main.java.Main'
         )
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
