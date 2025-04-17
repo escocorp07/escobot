@@ -33,13 +33,19 @@ public class botCommands {
 
             e.getMessage().getChannel().subscribe(ch->ch.type().subscribe());
             //Threads.daemon(()->{
-                new Net(new ArcNetProvider()).pingHost(args[0], Integer.parseInt(args[1]), host->{
-                    sendMessage(e.getMessage().getChannelId(), "Server name: " + host.name.replace("omnicorp", "omniporn")+"\nPlayers: "+host.players+"/"+host.playerLimit+"\nMode Name: "+host.modeName+"\nPing: "+host.ping+"\nMap: "+host.mapname);
-                }, err->{
+            try {
+                new Net(new ArcNetProvider()).pingHost(args[0], Integer.parseInt(args[1]), host -> {
+                    sendMessage(e.getMessage().getChannelId(), "Server name: " + host.name.replace("omnicorp", "omniporn") + "\nPlayers: " + host.players + "/" + host.playerLimit + "\nMode Name: " + host.modeName + "\nPing: " + host.ping + "\nMap: " + host.mapname);
+                }, err -> {
                     sendMessage(e.getMessage().getChannelId(), "Im only received error, logged to file.");
                     e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
                     errorLogger.logErr(err);
                 });
+            } catch (Exception err) {
+                sendMessage(e.getMessage().getChannelId(), "Im only received error, logged to file.");
+                e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
+                errorLogger.logErr(err);
+            }
             //});
         });
     }
