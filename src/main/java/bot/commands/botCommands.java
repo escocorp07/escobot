@@ -1,19 +1,33 @@
 package main.java.bot.commands;
 
+import arc.graphics.Pixmap;
+import arc.graphics.PixmapIO;
 import arc.util.Log;
 import arc.util.Threads;
 import bot.KbotCommands;
 import discord4j.common.util.Snowflake;
+import discord4j.core.object.entity.Attachment;
+import discord4j.core.object.entity.Message;
 import discord4j.core.object.reaction.ReactionEmoji;
+import discord4j.core.spec.EmbedCreateSpec;
+import discord4j.core.spec.MessageCreateSpec;
 import main.java.bot.botUtils;
 import main.java.bot.errorLogger;
+import mindustry.io.MapIO;
 import mindustry.net.ArcNetProvider;
 import mindustry.net.Net;
+import java.io.*;
+import mindustry.maps.Map;
+import arc.files.Fi;
 
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.List;
 
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.commands.commandHandler.registerCommand;
+import static main.java.bot.utils.*;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -27,6 +41,45 @@ public class botCommands {
         registerCommand("test", "Just test command", (e, args)->{
             sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
         });
+        registerCommand("map", "Render map", (e, args) -> {
+            Message message = e.getMessage();
+            List<Attachment> atch = message.getAttachments();
+            if (atch.isEmpty()) {
+                sendMessage(message.getChannelId(), "Please, attach .msav file");
+                return;
+            }
+            if (!atch.get(0).getFilename().endsWith(".msav")) {
+                sendMessage(message.getChannelId(), "Please, attach .msav file");
+                return;
+            }
+            Attachment fmap = atch.get(0);
+            String fname = "./maps/png/" + fmap.getFilename().replace("/", "");
+            downloadMap(fname, fmap.getUrl());
+
+            Map map = getMap(new Fi(fname));
+            if (map != null) {
+                Pixmap pix;
+                try {
+                    pix = MapIO.generatePreview(map);
+                } catch (Exception er) {
+                    errorLogger.logErr(er);
+                    return;
+                }
+                Fi file = new Fi(fname);
+                PixmapIO.writePng(file, pix);
+                try (FileInputStream fileInputStream = new FileInputStream(fname)) {
+                    e.getMessage().getChannel().flatMap(ch ->
+                            ch.getRestChannel().createMessage(MessageCreateSpec.builder()
+                                    .addFile(fmap.getFilename(), fileInputStream)
+                                    .build()
+                            )
+                    ).subscribe();
+                } catch (Exception err) {
+                    errorLogger.logErr(err);
+                }
+            }
+        });
+    });
         /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");

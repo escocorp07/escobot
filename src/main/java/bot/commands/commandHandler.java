@@ -9,6 +9,8 @@ import discord4j.core.object.reaction.ReactionEmoji;
 import lombok.*;
 import main.java.BVars;
 import java.util.Arrays;
+
+import main.java.bot.errorLogger;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -50,15 +52,19 @@ public class commandHandler {
                 if(command.getRoleID() == 0) {
                     command.exec(event, Arrays.copyOfRange(args, 1, args.length));
                 } else {
-                  author.asMember(BVars.guild).flatMap(m->{
-                      if(m.getRoleIds().contains(Snowflake.of(command.getRoleID())) && command.getRoleID() == 0) {
-                          command.exec(event, Arrays.copyOfRange(args, 1, args.length));
-                      } else {
-                          sendMessage(message.getChannelId(), "No access.");
-                          message.addReaction(ReactionEmoji.unicode("❌")).subscribe();
-                      }
-                      return Mono.empty();
-                  }).subscribe();
+                    try {
+                        author.asMember(BVars.guild).flatMap(m -> {
+                            if (m.getRoleIds().contains(Snowflake.of(command.getRoleID())) && command.getRoleID() == 0) {
+                                command.exec(event, Arrays.copyOfRange(args, 1, args.length));
+                            } else {
+                                sendMessage(message.getChannelId(), "No access.");
+                                message.addReaction(ReactionEmoji.unicode("❌")).subscribe();
+                            }
+                            return Mono.empty();
+                        }).subscribe();
+                    } catch (Exception e) {
+                        errorLogger.logErr(e);
+                    }
                 }
             }
         }
