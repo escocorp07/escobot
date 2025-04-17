@@ -68,10 +68,10 @@ public class commandHandler {
     @Getter
     @Setter
     public static class botcommand {
-        String name;
-        String description;
-        BiConsumer<MessageCreateEvent, String[]> executor;
-        long roleID;
+        public String name;
+        public String description;
+        public BiConsumer<MessageCreateEvent, String[]> executor;
+        public long roleID;
 
         botcommand(String name, String description, BiConsumer<MessageCreateEvent, String[]> executor) {
             this.name = name;
