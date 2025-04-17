@@ -4,6 +4,7 @@ import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
 import arc.util.Log;
 import arc.util.Threads;
+import discord4j.core.spec.MessageCreateFields;
 import main.kotlin.bot.KbotCommands;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
@@ -69,7 +70,7 @@ public class botCommands {
                 PixmapIO.writePng(file, pix);
                 try (FileInputStream fileInputStream = new FileInputStream(fname)) {
                     e.getMessage().getChannel().flatMap(ch->{
-                        return ch.getRestChannel().createMessage(MessageCreateSpec.builder().addFile(new File(fname)).build())
+                        return ch.getRestChannel().createMessage(MessageCreateSpec.builder().addFile(fname, fileInputStream).build())
                     }).subscribe();
                 } catch (Exception err) {
                     errorLogger.logErr(err);
