@@ -8,6 +8,8 @@ import main.java.bot.errorLogger;
 import mindustry.net.ArcNetProvider;
 import mindustry.net.Net;
 
+import java.util.Arrays;
+
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.commands.commandHandler.registerCommand;
 
@@ -17,7 +19,7 @@ public class botCommands {
         loaded = true;
         Log.info("Creating commands.");
         registerCommand("test", "Just test command", (e, args)->{
-            sendMessage(e.getMessage().getChannelId(), "It works!");
+            sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
         });
         registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
