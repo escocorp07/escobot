@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
+import static main.java.bot.botUtils.sendMessage;
+
 /**Сделанный мною хендлер команд бота.*/
 public class commandHandler {
     public static Seq<botcommand> commands = new Seq<>();
@@ -52,9 +54,7 @@ public class commandHandler {
                       if(m.getRoleIds().contains(Snowflake.of(command.getRoleID()))) {
                           command.exec(event, Arrays.copyOfRange(args, 1, args.length));
                       } else {
-                          message.getChannel().flatMap(ch->{
-                              return ch.getRestChannel().createMessage("No access, sorry.");
-                          }).subscribe();
+                          sendMessage(message.getChannelId(), "No access.");
                           message.addReaction(ReactionEmoji.unicode("❌")).subscribe();
                       }
                       return Mono.empty();
