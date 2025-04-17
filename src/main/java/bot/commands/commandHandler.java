@@ -60,8 +60,6 @@ public class commandHandler {
                       return Mono.empty();
                   }).subscribe();
                 }
-            } else {
-                message.addReaction(ReactionEmoji.unicode("❌")).subscribe();
             }
         }
     }
