@@ -13,7 +13,7 @@ public class Main {
         Vars.loadLogger();
         Log.info("Loading bot...");
         loadcfg();
-        File mapsDir = new File("./maps/png");
+        File mapsDir = new File("./maps");
         if (!mapsDir.exists()) {
             mapsDir.mkdirs();
         }
