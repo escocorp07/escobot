@@ -51,7 +51,7 @@ public class utils {
             return null;
         }
     }
-    public static void downloadMap(String fileName, String fileUrl) {
+    /*public static void downloadMap(String fileName, String fileUrl) {
         Path filePath = Path.of(".maps/", fileName);
 
         try (InputStream in = new URL(fileUrl).openStream();
@@ -60,5 +60,5 @@ public class utils {
         } catch (IOException e) {
             errorLogger.logErr(e);
         }
-    }
+    }*/
 }

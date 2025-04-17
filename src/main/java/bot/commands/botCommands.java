@@ -4,7 +4,9 @@ import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
 import arc.util.Log;
 import arc.util.Threads;
+import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.spec.MessageCreateFields;
+import discord4j.discordjson.json.MessageCreateRequest;
 import main.kotlin.bot.*;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
@@ -42,7 +44,7 @@ public class botCommands {
         registerCommand("test", "Just test command", (e, args)->{
             sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
         });
-        registerCommand("map", "Render map", (e, args) -> {
+        /*registerCommand("map", "Render map", (e, args) -> {
             Message message = e.getMessage();
             List<Attachment> atch = message.getAttachments();
             if (atch.isEmpty()) {
@@ -69,14 +71,14 @@ public class botCommands {
                 Fi file = new Fi(fname);
                 PixmapIO.writePng(file, pix);
                 try (FileInputStream fileInputStream = new FileInputStream(fname)) {
-                    e.getMessage().getChannel().flatMap(ch->{
+                    e.getMessage().getChannel().ofType(GuildMessageChannel.class).flatMap(ch->{
                         return ch.getRestChannel().createMessage(MessageCreateSpec.builder().addFile(fname, fileInputStream).build());
                     }).subscribe();
                 } catch (Exception err) {
                     errorLogger.logErr(err);
                 }
             }
-        });
+        });*/
         /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");
