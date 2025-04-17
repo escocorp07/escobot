@@ -2,6 +2,7 @@ package main.java.bot.commands;
 
 import arc.util.Log;
 import arc.util.Threads;
+import bot.KbotCommands;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.reaction.ReactionEmoji;
 import main.java.bot.botUtils;
@@ -26,7 +27,7 @@ public class botCommands {
         registerCommand("test", "Just test command", (e, args)->{
             sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
         });
-        registerCommand("status", "Check server status.", (e, args)->{
+        /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");
                 return;
@@ -39,16 +40,18 @@ public class botCommands {
                 new Net(new ArcNetProvider()).pingHost(args[0], Integer.parseInt(args[1]), host -> {
                     sendMessage(id, "Server name: " + host.name.replace("omnicorp", "omniporn") + "\nPlayers: " + host.players + "/" + host.playerLimit + "\nMode Name: " + host.modeName + "\nPing: " + host.ping + "\nMap: " + host.mapname);
                 }, err -> {
-                    sendMessage(id, "Im only received error, logged to file.");
+                    sendMessage(id, "I`m only received error, logged to file.");
                     e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
                     errorLogger.logErr(err);
                 });
             } catch (Exception err) {
-                sendMessage(id, "Im only received error, logged to file.");
+                sendMessage(id, "I`m only received error, logged to file.");
                 e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
                 errorLogger.logErr(err);
             }
             //});
-        });
+        });*/
+
+        KbotCommands.Companion.KregisterCommands();
     }
 }
