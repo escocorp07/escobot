@@ -77,7 +77,6 @@ public class botCommands {
                 }
             }
         });
-    });
         /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");
