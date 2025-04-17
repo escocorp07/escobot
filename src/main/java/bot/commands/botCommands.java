@@ -16,11 +16,11 @@ import static main.java.bot.commands.commandHandler.registerCommand;
 public class botCommands {
     private static boolean loaded = false;
     public static void registerCommands() {
-        loaded = true;
         if(loaded) {
             Log.err("Someone trying to register commands when it already loaded!");
             return;
         }
+        loaded = true;
         Log.info("Creating commands.");
         registerCommand("test", "Just test command", (e, args)->{
             sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
