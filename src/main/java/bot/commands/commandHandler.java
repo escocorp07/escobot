@@ -5,6 +5,7 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
+import discord4j.core.object.reaction.ReactionEmoji;
 import lombok.*;
 import main.java.BVars;
 import java.util.Arrays;
@@ -54,10 +55,13 @@ public class commandHandler {
                           message.getChannel().flatMap(ch->{
                               return ch.getRestChannel().createMessage("No access, sorry.");
                           }).subscribe();
+                          message.addReaction(ReactionEmoji.unicode("❌")).subscribe();
                       }
                       return Mono.empty();
                   }).subscribe();
                 }
+            } else {
+                message.addReaction(ReactionEmoji.unicode("❌")).subscribe();
             }
         }
     }
