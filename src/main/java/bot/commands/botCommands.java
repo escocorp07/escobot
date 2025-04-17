@@ -2,6 +2,7 @@ package main.java.bot.commands;
 
 import arc.util.Log;
 import arc.util.Threads;
+import discord4j.common.util.Snowflake;
 import discord4j.core.object.reaction.ReactionEmoji;
 import main.java.bot.botUtils;
 import main.java.bot.errorLogger;
@@ -32,17 +33,18 @@ public class botCommands {
             }
 
             e.getMessage().getChannel().subscribe(ch->ch.type().subscribe());
+            Snowflake id = e.getMessage().getChannelId();
             //Threads.daemon(()->{
             try {
                 new Net(new ArcNetProvider()).pingHost(args[0], Integer.parseInt(args[1]), host -> {
-                    sendMessage(e.getMessage().getChannelId(), "Server name: " + host.name.replace("omnicorp", "omniporn") + "\nPlayers: " + host.players + "/" + host.playerLimit + "\nMode Name: " + host.modeName + "\nPing: " + host.ping + "\nMap: " + host.mapname);
+                    sendMessage(id, "Server name: " + host.name.replace("omnicorp", "omniporn") + "\nPlayers: " + host.players + "/" + host.playerLimit + "\nMode Name: " + host.modeName + "\nPing: " + host.ping + "\nMap: " + host.mapname);
                 }, err -> {
-                    sendMessage(e.getMessage().getChannelId(), "Im only received error, logged to file.");
+                    sendMessage(id, "Im only received error, logged to file.");
                     e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
                     errorLogger.logErr(err);
                 });
             } catch (Exception err) {
-                sendMessage(e.getMessage().getChannelId(), "Im only received error, logged to file.");
+                sendMessage(id, "Im only received error, logged to file.");
                 e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
                 errorLogger.logErr(err);
             }
