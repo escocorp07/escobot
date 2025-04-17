@@ -68,12 +68,9 @@ public class botCommands {
                 Fi file = new Fi(fname);
                 PixmapIO.writePng(file, pix);
                 try (FileInputStream fileInputStream = new FileInputStream(fname)) {
-                    e.getMessage().getChannel().flatMap(ch ->
-                            ch.getRestChannel().createMessage(MessageCreateSpec.builder()
-                                    .addFile(fmap.getFilename(), fileInputStream)
-                                    .build()
-                            )
-                    ).subscribe();
+                    e.getMessage().getChannel().flatMap(ch->{
+                        return ch.getRestChannel().createMessage(MessageCreateSpec.builder().addFile(new File(fname)).build())
+                    }).subscribe();
                 } catch (Exception err) {
                     errorLogger.logErr(err);
                 }
