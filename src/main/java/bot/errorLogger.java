@@ -12,6 +12,7 @@ public class errorLogger {
         try {
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             Path logPath = Paths.get("logs/errors/log-" + date + ".txt");
+            Log.warn("New error, path: logs/errors/log-@.txt", date);
             Files.createDirectories(logPath.getParent());
             if (!Files.exists(logPath)) {
                 Files.createFile(logPath);

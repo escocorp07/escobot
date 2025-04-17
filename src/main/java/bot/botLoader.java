@@ -9,8 +9,6 @@ import reactor.core.publisher.Mono;
 
 import main.java.BVars;
 
-import java.util.Optional;
-
 import static main.java.BVars.btoken;
 import static main.java.bot.commands.commandHandler.handleEvent;
 
@@ -19,13 +17,13 @@ public class botLoader {
         DiscordClient client = DiscordClient.create(btoken);
         Log.info("Bot loaded!");
         BVars.login = client.withGateway(gw -> {
-            botCommands.registerCommands();
             Log.info("Gateway connected!");
+            botCommands.registerCommands();
             BVars.gateway = gw;
             return gw.on(MessageCreateEvent.class, event -> {
                 handleEvent(event);
                 return Mono.empty();
-            });
+            }).doOnError(errorLogger::logErr);
         });
         BVars.login.block();
     }
