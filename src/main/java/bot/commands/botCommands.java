@@ -4,7 +4,7 @@ import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
 import arc.util.Log;
 import arc.util.Threads;
-import bot.KbotCommands;
+import main.kotlin.bot.KbotCommands;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;

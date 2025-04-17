@@ -1,4 +1,4 @@
-package bot
+package main.kotlin.bot
 
 import discord4j.core.event.domain.message.MessageCreateEvent
 import main.java.bot.botUtils.sendMessage
