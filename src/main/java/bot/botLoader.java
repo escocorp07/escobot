@@ -92,6 +92,6 @@ public class botLoader {
                 return Mono.empty();
             });
         });
-        BVars.login.block();
+        BVars.login.subscribe();
     }
 }
