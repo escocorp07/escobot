@@ -29,13 +29,14 @@ public class botLoader {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
                         if(s != null) {
                             if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
-                                m.getAuthor().ifPresent(a -> {
+                                event.getUser().flatMap(a -> {
                                     a.asMember(guild).flatMap(mem -> {
                                         mem.addRole(Snowflake.of(newsid), "Reaction add.").subscribe();
                                         errorLogger.debug("added news role.");
                                         return Mono.empty();
                                     }).subscribe();
-                                });
+                                    return Mono.empty();
+                                }).subscribe();
                             } else {
                                 errorLogger.debug("emoji is not news paper");
                             }
