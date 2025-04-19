@@ -12,6 +12,7 @@ import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import reactor.core.publisher.Mono;
 
+import static main.java.bot.emoji.emojiHandler.*;
 import static main.java.BVars.*;
 import static main.java.bot.commands.commandHandler.handleEvent;
 
@@ -24,6 +25,7 @@ public class botLoader {
             Log.info("Gateway connected!");
             botCommands.registerCommands();
             gw.on(ReactionAddEvent.class, event -> {
+                handleEmojiEvent(event);
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
@@ -51,6 +53,7 @@ public class botLoader {
                 return Mono.empty();
             }).subscribe();
             gw.on(ReactionRemoveEvent.class, event -> {
+                handleEmojiEvent(event);
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
