@@ -24,7 +24,7 @@ public class botCommands {
         registerCommand("say", "idk.", ownerid, (e, args)->{
             StringBuilder sb = new StringBuilder();
             for (String arg : args) {
-                sb.append(arg);
+                sb.append(arg + " ");
             }
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);

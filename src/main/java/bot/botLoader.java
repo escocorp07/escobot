@@ -22,7 +22,10 @@ public class botLoader {
             return gw.on(MessageCreateEvent.class, event -> {
                 handleEvent(event);
                 return Mono.empty();
-            }).doOnError(errorLogger::logErr);
+            }).doOnError(errorLogger::logErr).onErrorResume(e->{
+                errorLogger.logErr(e);
+                return Mono.empty();
+            });
         });
         BVars.login.block();
     }
