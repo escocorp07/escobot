@@ -27,15 +27,23 @@ public class botLoader {
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
-                        if(s != null)
-                            if(s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
+                        if(s != null) {
+                            if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
                                 m.getAuthor().ifPresent(a -> {
                                     a.asMember(guild).flatMap(mem -> {
                                         mem.addRole(Snowflake.of(newsid), "Reaction add.").subscribe();
+                                        errorLogger.debug("added news role.");
                                         return Mono.empty();
                                     }).subscribe();
                                 });
+                            } else {
+                                errorLogger.debug("emoji is not news paper");
                             }
+                        } else {
+                            errorLogger.debug("emoji is null");
+                        }
+                    } else {
+                        errorLogger.debug("Not reaction message");
                     }
                     return Mono.empty();
                 }).subscribe();
@@ -48,15 +56,22 @@ public class botLoader {
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
-                        if(s != null)
-                            if(s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
+                        if(s != null) {
+                            if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
                                 m.getAuthor().ifPresent(a -> {
                                     a.asMember(guild).flatMap(mem -> {
                                         mem.removeRole(Snowflake.of(newsid), "Reaction remove.").subscribe();
                                         return Mono.empty();
                                     }).subscribe();
                                 });
+                            } else {
+                                errorLogger.debug("Not news paper.");
                             }
+                        } else {
+                            errorLogger.debug("emoji is null.");
+                        }
+                    } else {
+                        errorLogger.debug("Not reaction message");
                     }
                     return Mono.empty();
                 }).subscribe();

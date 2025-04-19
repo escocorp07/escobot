@@ -11,4 +11,5 @@ public class BVars {
     public static String btoken, prefix;
     public static Snowflake guild;
     public static long ownerid, reactionMessage, newsid;
+    public static boolean debug;
 }

@@ -11,6 +11,9 @@ import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static main.java.BVars.*;
+
+/**Логер ошибок и не только.*/
 public class errorLogger {
     public static void logErr(Throwable error) {
         try {
@@ -34,5 +37,10 @@ public class errorLogger {
         } catch (IOException ioException) {
             Log.err(ioException);
         }
+    }
+
+    public static void debug(Object o) {
+        if(debug)
+            Log.info("D", o);
     }
 }
