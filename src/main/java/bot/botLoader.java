@@ -77,13 +77,11 @@ public class botLoader {
                 }).subscribe();
                 return Mono.empty();
             }).subscribe();
-            return gw.on(MessageCreateEvent.class, event -> {
+            gw.on(MessageCreateEvent.class, event -> {
                 handleEvent(event);
                 return Mono.empty();
-            }).doOnError(errorLogger::logErr).onErrorResume(e->{
-                errorLogger.logErr(e);
-                return Mono.empty();
-            });
+            }).subscribe();
+            return Mono.empty();
         });
         BVars.login.block();
     }
