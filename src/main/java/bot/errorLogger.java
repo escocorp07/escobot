@@ -43,4 +43,12 @@ public class errorLogger {
         if(debug)
             System.out.println("\033[32m[D]\033[0m " + o);
     }
+    public static void debug(String s, Object... o) {
+        if(debug)
+            System.out.println("\033[32m[D]\033[0m " + s +" "+o);
+    }
+    public static void debug(Object... o) {
+        if(debug)
+            System.out.println("\033[32m[D]\033[0m " + o);
+    }
 }
