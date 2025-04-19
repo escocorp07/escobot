@@ -2,6 +2,7 @@ package main.java.bot.commands;
 
 import arc.util.Log;
 import arc.util.OS;
+import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.core.Version;
 
@@ -23,9 +24,6 @@ public class botCommands {
         }
         loaded = true;
         Log.info("Creating commands.");
-        registerCommand("test", "Just test command", (e, args)->{
-            sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
-        });
         registerCommand("stats", "Bot stats.", (e, args)->{
             StringBuilder sb = new StringBuilder();
             if(OS.username.equals("container")) {
@@ -64,7 +62,9 @@ public class botCommands {
             }
             sendMessage(e.getMessage().getChannelId(), output.isEmpty() ? "No output." : output);
         });
-
+        registerCommand("error", "idk.", grelyid, (e, args) -> {
+            errorLogger.logErr(new RuntimeException("test"));
+        });
         /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");
