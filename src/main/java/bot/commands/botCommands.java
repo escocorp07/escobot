@@ -1,6 +1,7 @@
 package main.java.bot.commands;
 
 import arc.util.Log;
+import arc.util.OS;
 import main.kotlin.bot.KbotCommands;
 
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.commands.commandHandler.registerCommand;
+import static main.java.BuildInfo.*;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -20,6 +22,17 @@ public class botCommands {
         Log.info("Creating commands.");
         registerCommand("test", "Just test command", (e, args)->{
             sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
+        });
+        registerCommand("stats", "Bot stats.", (e, args)->{
+            StringBuilder sb = new StringBuilder();
+            if(OS.username.equals("container")) {
+                sb.append("Running from docker\n");
+            } else {
+                sb.append("Running from "+OS.username+"\n");
+            }
+            sb.append("Version: " + VERSION);
+            sendMessage(e.getMessage().getChannelId(), sb.toString());
+            sb.setLength(0);
         });
         registerCommand("say", "idk.", ownerid, (e, args)->{
             StringBuilder sb = new StringBuilder();
