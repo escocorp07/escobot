@@ -11,6 +11,7 @@ public class ConfigLoader {
              Fi file = new Fi("./config.json");
             if(!file.exists() || file.isDirectory()){
                 Log.err("No config file found!");
+                System.exit(2);
                 return;
             }
             JsonReader JSON = new JsonReader();
