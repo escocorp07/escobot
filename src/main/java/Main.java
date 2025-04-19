@@ -5,10 +5,6 @@ import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import mindustry.Vars;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import static main.java.ConfigLoader.loadcfg;
 
 public class Main {
@@ -16,6 +12,12 @@ public class Main {
         Vars.loadLogger();
         Log.info("Loading bot...");
         loadcfg();
+        for (String arg : args) {
+            if (arg.equals("-d")) {
+                BVars.debug = true;
+                break;
+            }
+        }
         errorLogger.debug("Bot running in debug mode!");
         botLoader.load();
     }
