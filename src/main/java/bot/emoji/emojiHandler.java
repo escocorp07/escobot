@@ -6,6 +6,7 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.event.domain.message.ReactionRemoveEvent;
 import lombok.*;
+import main.java.bot.errorLogger;
 
 import java.util.function.Consumer;
 
@@ -22,6 +23,7 @@ public class emojiHandler {
     }
 
     public static void handleEmojiEvent(Object o) {
+        errorLogger.debug(o.getClass().getSimpleName());
         if (o instanceof ReactionAddEvent event) {
             emojia.each(e -> {
                 String emojiRaw = event.getEmoji().asUnicodeEmoji()
