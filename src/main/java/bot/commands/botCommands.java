@@ -42,14 +42,25 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("do", "idk.", grelyid, (e, args)->{
-            StringBuilder sb = new StringBuilder();
-            for (int i = 1; i<args.length;i++) {
-                sb.append(args[i] + " ");
+        registerCommand("do", "idk.", grelyid, (e, args) -> {
+            if (args.length == 0) {
+                sendMessage(e.getMessage().getChannelId(), "No command provided.");
+                return;
             }
-            sendMessage(e.getMessage().getChannelId(), OS.exec(args[0], sb.toString()));
-            sb.setLength(0);
+            String cmd = args[0];
+            String output;
+            if (args.length == 1) {
+                output = OS.exec(cmd);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < args.length; i++) {
+                    sb.append(args[i]).append(" ");
+                }
+                output = OS.exec(cmd, sb.toString().trim());
+            }
+            sendMessage(e.getMessage().getChannelId(), output.isEmpty() ? "No output." : output);
         });
+
         /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");
