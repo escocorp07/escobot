@@ -6,13 +6,13 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.reaction.ReactionEmoji;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import main.java.BVars;
-import java.util.Arrays;
-
 import main.java.bot.errorLogger;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 

@@ -8,14 +8,6 @@ import mindustry.type.Item;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-
 import static mindustry.io.MapIO.colorFor;
 
 public class utils {

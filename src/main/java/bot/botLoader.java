@@ -4,10 +4,9 @@ package main.java.bot;
 import arc.util.Log;
 import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import reactor.core.publisher.Mono;
-
-import main.java.BVars;
 
 import static main.java.BVars.btoken;
 import static main.java.bot.commands.commandHandler.handleEvent;

@@ -10,4 +10,5 @@ public class BVars {
     public static GatewayDiscordClient gateway;
     public static String btoken, prefix;
     public static Snowflake guild;
+    public static long ownerid;
 }

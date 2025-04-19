@@ -1,36 +1,13 @@
 package main.java.bot.commands;
 
-import arc.graphics.Pixmap;
-import arc.graphics.PixmapIO;
 import arc.util.Log;
-import arc.util.Threads;
-import discord4j.core.object.entity.channel.GuildMessageChannel;
-import discord4j.core.spec.MessageCreateFields;
-import discord4j.discordjson.json.MessageCreateRequest;
-import main.kotlin.bot.*;
-import discord4j.common.util.Snowflake;
-import discord4j.core.object.entity.Attachment;
-import discord4j.core.object.entity.Message;
-import discord4j.core.object.reaction.ReactionEmoji;
-import discord4j.core.spec.EmbedCreateSpec;
-import discord4j.core.spec.MessageCreateSpec;
-import main.java.bot.botUtils;
-import main.java.bot.errorLogger;
-import mindustry.io.MapIO;
-import mindustry.net.ArcNetProvider;
-import mindustry.net.Net;
-import java.io.*;
-import mindustry.maps.Map;
-import arc.files.Fi;
+import main.kotlin.bot.KbotCommands;
 
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.List;
 
+import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.commands.commandHandler.registerCommand;
-import static main.java.bot.utils.*;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -44,7 +21,7 @@ public class botCommands {
         registerCommand("test", "Just test command", (e, args)->{
             sendMessage(e.getMessage().getChannelId(), Arrays.toString(args));
         });
-        registerCommand("say", "idk.", (e, args)->{
+        registerCommand("say", "idk.", ownerid, (e, args)->{
             StringBuilder sb = new StringBuilder();
             for (String arg : args) {
                 sb.append(arg);
