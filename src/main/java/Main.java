@@ -19,11 +19,7 @@ public class Main {
         errorLogger.debug("Bot running in debug mode!");
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         File logFile = new File("./logs/log-" + date + ".txt");
-
-// Создаём директорию, если она не существует
         logFile.getParentFile().mkdirs();
-
-// Создаём файл, если он не существует
         if (!logFile.exists()) {
             try {
                 logFile.createNewFile();
