@@ -18,10 +18,23 @@ public class Main {
         loadcfg();
         errorLogger.debug("Bot running in debug mode!");
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        File logDir = new File("./logs/log-"+date+".txt");
-        if (!logDir.exists()) logDir.mkdirs();
+        File logFile = new File("./logs/log-" + date + ".txt");
+
+// Создаём директорию, если она не существует
+        logFile.getParentFile().mkdirs();
+
+// Создаём файл, если он не существует
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile();
+            } catch (IOException e) {
+                Log.warn("Failed to create log file!");
+                errorLogger.logErr(e);
+            }
+        }
+
         try {
-            FileOutputStream fos = new FileOutputStream(logDir, true);
+            FileOutputStream fos = new FileOutputStream(logFile, true);
             PrintStream psFile = new PrintStream(fos);
             PrintStream psConsole = System.out;
             Log.info("Logging loaded!");
