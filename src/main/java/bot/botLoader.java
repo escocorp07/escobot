@@ -33,7 +33,6 @@ public class botLoader {
                                     a.asMember(guild).flatMap(mem -> {
                                         errorLogger.debug("Adding role.");
                                         mem.addRole(Snowflake.of(newsid), "Reaction add.").subscribe();
-                                        errorLogger.debug("added news role.");
                                         return Mono.empty();
                                     }).subscribe();
                                     return Mono.empty();
@@ -59,7 +58,7 @@ public class botLoader {
                             if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
                                 event.getUser().flatMap(a -> {
                                     a.asMember(guild).flatMap(mem -> {
-                                        errorLogger.debug("Adding role.");
+                                        errorLogger.debug("Removing role.");
                                         mem.removeRole(Snowflake.of(newsid), "Reaction remove.").subscribe();
                                         return Mono.empty();
                                     }).subscribe();
