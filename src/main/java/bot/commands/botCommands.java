@@ -42,6 +42,14 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
+        registerCommand("do", "idk.", grelyid, (e, args)->{
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            sendMessage(e.getMessage().getChannelId(), OS.exec(sb.toString()));
+            sb.setLength(0);
+        });
         /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");

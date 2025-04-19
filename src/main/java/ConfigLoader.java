@@ -22,6 +22,7 @@ public class ConfigLoader {
             BVars.ownerid = value.getLong("owner_role");
             BVars.reactionMessage = value.getLong("reaction_message");
             BVars.newsid = value.getLong("news_role");
+            BVars.grelyid = value.getLong("grelyid");
             BVars.debug = value.getBoolean("debug", false);
             if(!BVars.prefix.endsWith(".")) BVars.prefix += ".";
             Log.info("Config loaded!");
