@@ -10,6 +10,7 @@ import discord4j.core.event.domain.message.ReactionRemoveEvent;
 import discord4j.core.object.reaction.ReactionEmoji;
 import main.java.BVars;
 import main.java.bot.commands.botCommands;
+import main.java.bot.emoji.botEmoji;
 import reactor.core.publisher.Mono;
 
 import static main.java.bot.emoji.emojiHandler.*;
@@ -24,6 +25,7 @@ public class botLoader {
             BVars.gateway = gw;
             Log.info("Gateway connected!");
             botCommands.registerCommands();
+            botEmoji.registerEmojis();
             gw.on(ReactionAddEvent.class, event -> {
                 handleEmojiEvent(event);
                 event.getMessage().flatMap(m->{
