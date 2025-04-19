@@ -4,6 +4,9 @@ import arc.util.Log;
 import arc.util.Strings;
 import main.java.bot.errorLogger;
 import reactor.util.Logger;
+
+import static main.java.BVars.*;
+
 public class CustomLogger implements Logger {
     @Override
     public String getName() {
@@ -29,7 +32,7 @@ public class CustomLogger implements Logger {
 
     @Override
     public boolean isDebugEnabled() {
-        return false;
+        return debug;
     }
 
     @Override
