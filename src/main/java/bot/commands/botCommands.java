@@ -30,7 +30,7 @@ public class botCommands {
             } else {
                 sb.append("Running from "+OS.username+"\n");
             }
-            sb.append("Version: " + VERSION);
+            sb.append("Version: " + VERSION + BUILD_TIME);
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });

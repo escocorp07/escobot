@@ -77,6 +77,9 @@ task generateBuildInfo {
         file.text = """
             package main.java;
 
+            import javax.annotation.Generated;
+
+            @Generated(value = "Gradle Build Task", comments = "Automatically generated class")
             public class BuildInfo {
                 public static final String VERSION = "${buildVersion}";
                 public static final String BUILD_TIME = "${buildTime}";
@@ -87,4 +90,5 @@ task generateBuildInfo {
 }
 
 compileJava.dependsOn(generateBuildInfo)
+compileKotlin.dependsOn(generateBuildInfo)
 sourceSets.main.java.srcDirs += "$buildDir/generated/sources/buildInfo/main/java"
