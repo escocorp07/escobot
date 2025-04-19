@@ -37,7 +37,7 @@ public class CustomLogger implements Logger {
 
     @Override
     public void debug(String s) {
-        errorLogger.debug(s.replace("{}", "@"));
+        errorLogger.debug(s);
     }
 
     @Override
