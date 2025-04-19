@@ -23,7 +23,7 @@ public class botLoader {
             Log.info("Gateway connected!");
             botCommands.registerCommands();
             BVars.gateway = gw;
-            gw.on(ReactionAddEvent.class, event -> {
+            return gw.on(ReactionAddEvent.class, event -> {
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
@@ -54,7 +54,7 @@ public class botLoader {
                 errorLogger.logErr(e);
                 return Mono.empty();
             });
-            gw.on(ReactionRemoveEvent.class, event -> {
+            /*gw.on(ReactionRemoveEvent.class, event -> {
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
@@ -90,7 +90,7 @@ public class botLoader {
             }).doOnError(errorLogger::logErr).onErrorResume(e->{
                 errorLogger.logErr(e);
                 return Mono.empty();
-            });
+            });*/
         });
         BVars.login.block();
     }
