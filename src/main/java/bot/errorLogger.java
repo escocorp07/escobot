@@ -15,6 +15,7 @@ import static main.java.BVars.*;
 
 /**Логер ошибок и не только.*/
 public class errorLogger {
+    /**Записать ошибку в файл.*/
     public static void logErr(Throwable error) {
         try {
             String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -38,15 +39,17 @@ public class errorLogger {
             Log.err(ioException);
         }
     }
-
+    /**Дебаг сообщение видное только при включенном дебаге.*/
     public static void debug(Object o) {
         if(debug)
             System.out.println("\033[32m[D]\033[0m " + o);
     }
+    /**Дебаг сообщение видное только при включенном дебаге.*/
     public static void debug(String s, Object... o) {
         if(debug)
             System.out.println("\033[32m[D]\033[0m " + s +" "+o);
     }
+    /**Дебаг сообщение видное только при включенном дебаге.*/
     public static void debug(Object... o) {
         if(debug)
             System.out.println("\033[32m[D]\033[0m " + o);

@@ -18,8 +18,10 @@ import static main.java.BVars.*;
 import static main.java.bot.commands.commandHandler.handleEvent;
 
 public class botLoader {
+    /**Инициализировать бота.*/
     public static void load() {
         DiscordClient client = DiscordClient.create(btoken);
+        BVars.client = client;
         Log.info("Bot loaded!");
         BVars.login = client.withGateway(gw -> {
             BVars.gateway = gw;

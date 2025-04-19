@@ -6,6 +6,7 @@ import arc.util.serialization.JsonReader;
 import discord4j.common.util.Snowflake;
 
 public class ConfigLoader {
+    /**Подгрузить конфиг.*/
     public static void loadcfg() {
         try {
              Fi file = new Fi("./config.json");

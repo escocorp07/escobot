@@ -3,6 +3,7 @@ package main.java.bot.commands;
 import arc.util.Log;
 import arc.util.OS;
 import main.kotlin.bot.KbotCommands;
+import mindustry.core.Version;
 
 import java.util.Arrays;
 
@@ -10,9 +11,11 @@ import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.commands.commandHandler.registerCommand;
 import static main.java.BuildInfo.*;
+import static main.java.BVars.*;
 
 public class botCommands {
     private static boolean loaded = false;
+    /**Зарегестрировать команды.*/
     public static void registerCommands() {
         if(loaded) {
             Log.err("Someone trying to register commands when it already loaded!");
@@ -30,7 +33,8 @@ public class botCommands {
             } else {
                 sb.append("Running from "+OS.username+"\n");
             }
-            sb.append("Version: " + GIT_HASH);
+            sb.append("Version: " + GIT_HASH+"\n");
+            sb.append("Mindustry version: " + Version.buildString()+"\n");
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });

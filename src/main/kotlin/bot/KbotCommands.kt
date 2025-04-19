@@ -6,6 +6,7 @@ import main.java.bot.commands.commandHandler.*
 
 class KbotCommands {
     companion object {
+        /**Зарегестрировать котлин команды.*/
         fun KregisterCommands() {
             registerCommand("help", "See command list") { ev: MessageCreateEvent, args: Array<String?> ->
                 val sb: StringBuilder = StringBuilder()

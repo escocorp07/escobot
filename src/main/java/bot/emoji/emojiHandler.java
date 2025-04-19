@@ -13,15 +13,15 @@ import java.util.function.Consumer;
 public class emojiHandler {
     public static Seq<emojiAdd> emojia = new Seq<>();
     public static Seq<emojiRemove> emojir = new Seq<>();
-
+    /**Зарегестрировать добавление эмодзи.*/
     public static void registerEmojiAdd(String raw, Snowflake messageId, Consumer<ReactionAddEvent> code) {
         emojia.add(new emojiAdd(raw, messageId, code));
     }
-
+    /**Зарегестрировать удаление эмодзи.*/
     public static void registerEmojiRemove(String raw, Snowflake messageId, Consumer<ReactionRemoveEvent> code) {
         emojir.add(new emojiRemove(raw, messageId, code));
     }
-
+    /**Зарегестрировать хендлер эмодзи на опр. сообщении -> код*/
     public static void handleEmojiEvent(Object o) {
         errorLogger.debug(o.getClass().getSimpleName());
         if (o instanceof ReactionAddEvent event) {
