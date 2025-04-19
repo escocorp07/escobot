@@ -54,7 +54,7 @@ public class commandHandler {
                 } else {
                     try {
                         author.asMember(BVars.guild).flatMap(m -> {
-                            if (m.getRoleIds().contains(Snowflake.of(command.getRoleID())) && command.getRoleID() == 0) {
+                            if (m.getRoleIds().contains(Snowflake.of(command.getRoleID())) || command.getRoleID() == 0) {
                                 command.exec(event, Arrays.copyOfRange(args, 1, args.length));
                             } else {
                                 sendMessage(message.getChannelId(), "No access.");
