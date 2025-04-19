@@ -37,17 +37,17 @@ public class CustomLogger implements Logger {
 
     @Override
     public void debug(String s) {
-        errorLogger.debug(s);
+        errorLogger.debug(s.replace("{}", "@"));
     }
 
     @Override
     public void debug(String s, Object... objects) {
-        errorLogger.debug(s, objects);
+        errorLogger.debug(s.replace("{}", "@"), objects);
     }
 
     @Override
     public void debug(String s, Throwable throwable) {
-        errorLogger.debug(s+"\n"+throwable);
+        errorLogger.debug(s.replace("{}", "@")+"\n"+throwable);
     }
 
     @Override
@@ -62,12 +62,12 @@ public class CustomLogger implements Logger {
 
     @Override
     public void info(String s, Object... objects) {
-        Log.info(s, objects);
+        Log.info(s.replace("{}", "@"), objects);
     }
 
     @Override
     public void info(String s, Throwable throwable) {
-        Log.info(s, throwable);
+        Log.info(s.replace("{}", "@"), throwable);
     }
 
     @Override
@@ -82,12 +82,12 @@ public class CustomLogger implements Logger {
 
     @Override
     public void warn(String s, Object... objects) {
-        Log.warn(s, objects);
+        Log.warn(s.replace("{}", "@"), objects);
     }
 
     @Override
     public void warn(String s, Throwable throwable) {
-        Log.warn(s, throwable.toString());
+        Log.warn(s.replace("{}", "@"), throwable.toString());
     }
 
     @Override
@@ -102,11 +102,11 @@ public class CustomLogger implements Logger {
 
     @Override
     public void error(String s, Object... objects) {
-        Log.err(s, objects);
+        Log.err(s.replace("{}", "@"), objects);
     }
 
     @Override
     public void error(String s, Throwable throwable) {
-        Log.err(s, throwable);
+        Log.err(s.replace("{}", "@"), throwable);
     }
 }
