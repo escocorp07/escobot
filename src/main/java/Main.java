@@ -15,7 +15,7 @@ public class Main {
         Log.info("Loading bot...");
         loadcfg();
         errorLogger.debug("Bot running in debug mode!");
-        File logDir = new File("./logs");
+        File logDir = new File("./logs/log.txt");
         if (!logDir.exists()) logDir.mkdirs();
         try {
             FileOutputStream fos = new FileOutputStream(logDir, true);
