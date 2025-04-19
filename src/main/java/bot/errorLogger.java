@@ -41,6 +41,6 @@ public class errorLogger {
 
     public static void debug(Object o) {
         if(debug)
-            Log.info("D", o);
+            System.out.println("[D] " + o);
     }
 }
