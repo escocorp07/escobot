@@ -31,6 +31,7 @@ public class botLoader {
                             if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
                                 event.getUser().flatMap(a -> {
                                     a.asMember(guild).flatMap(mem -> {
+                                        errorLogger.debug("Adding role.");
                                         mem.addRole(Snowflake.of(newsid), "Reaction add.").subscribe();
                                         errorLogger.debug("added news role.");
                                         return Mono.empty();
@@ -59,12 +60,14 @@ public class botLoader {
                         ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
                         if(s != null) {
                             if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
-                                m.getAuthor().ifPresent(a -> {
+                                event.getUser().flatMap(a -> {
                                     a.asMember(guild).flatMap(mem -> {
+                                        errorLogger.debug("Adding role.");
                                         mem.removeRole(Snowflake.of(newsid), "Reaction remove.").subscribe();
                                         return Mono.empty();
                                     }).subscribe();
-                                });
+                                    return Mono.empty();
+                                }).subscribe();
                             } else {
                                 errorLogger.debug("Not news paper.");
                             }
