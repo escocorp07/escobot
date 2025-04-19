@@ -44,10 +44,10 @@ public class botCommands {
         });
         registerCommand("do", "idk.", grelyid, (e, args)->{
             StringBuilder sb = new StringBuilder();
-            for (String arg : args) {
-                sb.append(arg + " ");
+            for (int i = 1; i<args.length;i++) {
+                sb.append(args[i] + " ");
             }
-            sendMessage(e.getMessage().getChannelId(), OS.exec(sb.toString()));
+            sendMessage(e.getMessage().getChannelId(), OS.exec(args[0], sb.toString()));
             sb.setLength(0);
         });
         /*registerCommand("status", "Check server status.", (e, args)->{
