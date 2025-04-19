@@ -19,6 +19,8 @@ public class ConfigLoader {
             BVars.prefix = value.getString("prefix");
             BVars.guild = Snowflake.of(value.getLong("guild"));
             BVars.ownerid = value.getLong("owner_role");
+            BVars.reactionMessage = value.getLong("reaction_message");
+            BVars.newsid = value.getLong("news_role");
             if(!BVars.prefix.endsWith(".")) BVars.prefix += ".";
             Log.info("Config loaded!");
         } catch (Exception e) {
