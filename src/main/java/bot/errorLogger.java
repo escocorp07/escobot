@@ -17,7 +17,7 @@ import static main.java.BVars.*;
 public class errorLogger {
     public static void logErr(Throwable error) {
         try {
-            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
             Path logPath = Paths.get("logs/errors/log-" + date + ".txt");
             Log.warn("New error, path: logs/errors/log-@.txt", date);
             Files.createDirectories(logPath.getParent());
@@ -41,6 +41,6 @@ public class errorLogger {
 
     public static void debug(Object o) {
         if(debug)
-            System.out.println("[D] " + o);
+            System.out.println("\033[32m[D]\033[0m " + o);
     }
 }
