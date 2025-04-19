@@ -7,6 +7,7 @@ import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.event.domain.message.ReactionRemoveEvent;
+import discord4j.core.object.reaction.ReactionEmoji;
 import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import reactor.core.publisher.Mono;
@@ -25,12 +26,16 @@ public class botLoader {
             gw.on(ReactionAddEvent.class, event -> {
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
-                        m.getAuthor().ifPresent(a->{
-                            a.asMember(guild).flatMap(mem->{
-                                mem.addRole(Snowflake.of(newsid), "Reaction add.");
-                                return Mono.empty();
-                            }).subscribe();
-                        });
+                        ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
+                        if(s != null)
+                            if(s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
+                                m.getAuthor().ifPresent(a -> {
+                                    a.asMember(guild).flatMap(mem -> {
+                                        mem.addRole(Snowflake.of(newsid), "Reaction add.").subscribe();
+                                        return Mono.empty();
+                                    }).subscribe();
+                                });
+                            }
                     }
                     return Mono.empty();
                 }).subscribe();
@@ -42,12 +47,16 @@ public class botLoader {
             gw.on(ReactionRemoveEvent.class, event -> {
                 event.getMessage().flatMap(m->{
                     if(m.getId().asLong() == reactionMessage) {
-                        m.getAuthor().ifPresent(a->{
-                            a.asMember(guild).flatMap(mem->{
-                                mem.removeRole(Snowflake.of(newsid), "Reaction remove.");
-                                return Mono.empty();
-                            }).subscribe();
-                        });
+                        ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
+                        if(s != null)
+                            if(s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
+                                m.getAuthor().ifPresent(a -> {
+                                    a.asMember(guild).flatMap(mem -> {
+                                        mem.removeRole(Snowflake.of(newsid), "Reaction remove.").subscribe();
+                                        return Mono.empty();
+                                    }).subscribe();
+                                });
+                            }
                     }
                     return Mono.empty();
                 }).subscribe();
