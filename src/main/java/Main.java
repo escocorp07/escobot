@@ -18,10 +18,16 @@ public class Main {
         File logDir = new File("./logs");
         if (!logDir.exists()) logDir.mkdirs();
         try {
-            FileOutputStream fos = new FileOutputStream("./logs/log.txt", true);
-            PrintStream ps = new PrintStream(fos);
-            System.setOut(ps);
-            System.setErr(ps);
+            FileOutputStream fos = new FileOutputStream(logDir, true);
+            PrintStream psFile = new PrintStream(fos);
+            PrintStream psConsole = System.out;
+            System.setOut(new PrintStream(new OutputStream() {
+                @Override
+                public void write(int b) throws IOException {
+                    psConsole.write(b);
+                    psFile.write(b);
+                }
+            }));
         } catch (Exception e) {
             Log.warn("No logging to file!");
             errorLogger.logErr(e);
