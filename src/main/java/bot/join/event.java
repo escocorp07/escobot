@@ -18,7 +18,7 @@ public class event {
             if (event.getMember().getId().getTimestamp().isAfter(Instant.now().minus(30, ChronoUnit.DAYS))) {
                 errorLogger.debug("Giving role.");
                 event.getMember().addRole(Snowflake.of(forumBannedid), "New account").subscribe();
-                sendMessageP(arrivalsid, "<@" + event.getMember().getId() + ">" + " Ваш аккаунт создан недавно, вы будете автоматически зачислены в список заблокированных к подаче заявок на администратора.");
+                sendMessageP(arrivalsid, "<@" + event.getMember().getId().asString() + ">" + " Ваш аккаунт создан недавно, вы будете автоматически зачислены в список заблокированных к подаче заявок на администратора.");
             } else {
                 errorLogger.debug("acc>month");
             }
