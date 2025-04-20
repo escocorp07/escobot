@@ -7,6 +7,7 @@ import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.*;
 import discord4j.core.event.domain.guild.*;
 import discord4j.core.object.reaction.ReactionEmoji;
+import discord4j.gateway.intent.IntentSet;
 import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import main.java.bot.emoji.botEmoji;
@@ -93,6 +94,10 @@ public class botLoader {
                 handleEvent(event);
                 return Mono.empty();
             }).subscribe();
+            return Mono.empty();
+        });
+        gateway.getEventDispatcher().on(MemberJoinEvent.class, event->{
+            handleJEvent(event);
             return Mono.empty();
         });
         BVars.login.block();
