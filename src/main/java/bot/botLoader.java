@@ -85,6 +85,7 @@ public class botLoader {
                 return Mono.empty();
             }).subscribe();
             gw.on(MemberJoinEvent.class, event -> {
+                errorLogger.debug("Event received!");
                 handleJEvent(event);
                 return Mono.empty();
             }).subscribe();
