@@ -1,5 +1,6 @@
 package main.java.bot.join;
 
+import arc.util.Log;
 import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.guild.MemberJoinEvent;
 import main.java.bot.errorLogger;
@@ -13,6 +14,7 @@ import static main.java.bot.botUtils.*;
 public class event {
     public static void handleJEvent(MemberJoinEvent event) {
         errorLogger.debug("Event received to func.");
+        Log.info("esco @ join @", guild, event.getGuildId());
         if(event.getGuildId()==guild) {
             if (event.getMember().getId().getTimestamp().isAfter(Instant.now().minus(30, ChronoUnit.DAYS))) {
                 errorLogger.debug("Giving role.");
