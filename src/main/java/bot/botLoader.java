@@ -101,5 +101,6 @@ public class botLoader {
             handleJEvent(event);
             return Mono.empty();
         }).subscribe();
+        gateway.onDisconnect().block();
     }
 }
