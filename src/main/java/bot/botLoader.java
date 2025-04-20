@@ -11,7 +11,7 @@ import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import main.java.bot.emoji.botEmoji;
 import reactor.core.publisher.Mono;
-import static main.java.bot.join.event.*;
+import static main.java.bot.join.event.handleJEvent;
 
 import static main.java.bot.emoji.emojiHandler.*;
 import static main.java.BVars.*;
