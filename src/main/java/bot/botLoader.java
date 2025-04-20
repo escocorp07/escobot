@@ -101,6 +101,6 @@ public class botLoader {
             handleJEvent(event);
             return Mono.empty();
         }).subscribe();
-        //BVars.login.block();
+        BVars.login.block();
     }
 }
