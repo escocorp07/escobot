@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 
 public class BVars {
-    public static Mono<Void> login;
+    public static Mono<GatewayDiscordClient> login;
     public static DiscordClient client;
     public static GatewayDiscordClient gateway;
     public static String btoken, prefix;

@@ -28,7 +28,8 @@ public class botLoader {
         Log.info("Bot loaded!");
         GatewayBootstrap<GatewayOptions> gp = client.gateway()
                 .setEnabledIntents(IntentSet.all());
-        gateway = gp.login().block();
+        login = gp.login();
+        gateway = login.block();
         Log.info("Gateway connected!");
         botCommands.registerCommands();
         botEmoji.registerEmojis();
