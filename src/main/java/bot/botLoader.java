@@ -94,10 +94,10 @@ public class botLoader {
                 handleEvent(event);
                 return Mono.empty();
             }).subscribe();
-            return Mono.empty();
-        });
-        gateway.getEventDispatcher().on(MemberJoinEvent.class, event->{
-            handleJEvent(event);
+            gateway.getEventDispatcher().on(MemberJoinEvent.class, event->{
+                handleJEvent(event);
+                return Mono.empty();
+            });
             return Mono.empty();
         });
         BVars.login.block();
