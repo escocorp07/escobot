@@ -28,8 +28,7 @@ public class botLoader {
         Log.info("Bot loaded!");
         GatewayBootstrap<GatewayOptions> gp = client.gateway()
                 .setEnabledIntents(IntentSet.all());
-        login = gp.login();
-        gateway = login.block();
+        gateway = gp.login().block();
         Log.info("Gateway connected!");
         botCommands.registerCommands();
         botEmoji.registerEmojis();
@@ -102,6 +101,5 @@ public class botLoader {
             handleJEvent(event);
             return Mono.empty();
         }).subscribe();
-        BVars.login.block();
     }
 }
