@@ -24,6 +24,8 @@ public class ConfigLoader {
             BVars.reactionMessage = value.getLong("reaction_message");
             BVars.newsid = value.getLong("news_role");
             BVars.grelyid = value.getLong("grelyid");
+            BVars.forumBannedid = value.getLong("forum_banned_id");
+            BVars.arrivalsid = value.getLong("arrivals_id");
             BVars.debug = value.getBoolean("debug", false);
             if(!BVars.prefix.endsWith(".")) BVars.prefix += ".";
             Log.info("Config loaded!");

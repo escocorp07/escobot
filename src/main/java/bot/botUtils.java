@@ -16,9 +16,24 @@ public class botUtils {
                 .flatMap(ch -> ch.getRestChannel().createMessage(content.replace("@", "")))
                 .subscribe();
     }
-    public static void sendMessage(int cha, String content) {
+    public static void sendMessage(long cha, String content) {
         gateway.getChannelById(Snowflake.of(cha))
                 .flatMap(ch -> ch.getRestChannel().createMessage(content.replace("@", "")))
+                .subscribe();
+    }
+    public static void sendMessageP(Snowflake cha, String content) {
+        gateway.getChannelById(cha)
+                .flatMap(ch -> ch.getRestChannel().createMessage(content))
+                .subscribe();
+    }
+    public static void sendMessageP(String cha, String content) {
+        gateway.getChannelById(Snowflake.of(cha))
+                .flatMap(ch -> ch.getRestChannel().createMessage(content))
+                .subscribe();
+    }
+    public static void sendMessageP(long cha, String content) {
+        gateway.getChannelById(Snowflake.of(cha))
+                .flatMap(ch -> ch.getRestChannel().createMessage(content))
                 .subscribe();
     }
 }

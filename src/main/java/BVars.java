@@ -11,7 +11,15 @@ public class BVars {
     public static DiscordClient client;
     public static GatewayDiscordClient gateway;
     public static String btoken, prefix;
-    public static Snowflake guild;
-    public static long ownerid, reactionMessage, newsid, grelyid;
+    public static Snowflake guild; // сервер бота
+    /**
+     * ownerid-айди роли-владельца сервера
+     * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей
+     * newsid-роль новостей из реакшенмесадж
+     * grelid-роль грелы
+     * forumBannedid-не может писать в форуме заявок на админку
+     * arrivalsid-место где идут оповещения о прибытии участников на сервер
+     * */
+    public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid;
     public static boolean debug;
 }

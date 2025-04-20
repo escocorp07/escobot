@@ -4,14 +4,14 @@ package main.java.bot;
 import arc.util.Log;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
-import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.event.domain.message.ReactionAddEvent;
-import discord4j.core.event.domain.message.ReactionRemoveEvent;
+import discord4j.core.event.domain.message.*;
+import discord4j.core.event.domain.guild.*;
 import discord4j.core.object.reaction.ReactionEmoji;
 import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import main.java.bot.emoji.botEmoji;
 import reactor.core.publisher.Mono;
+import static main.java.bot.join.event.*;
 
 import static main.java.bot.emoji.emojiHandler.*;
 import static main.java.BVars.*;
@@ -82,6 +82,10 @@ public class botLoader {
                     }
                     return Mono.empty();
                 }).subscribe();
+                return Mono.empty();
+            }).subscribe();
+            gw.on(MemberJoinEvent.class, event -> {
+                handleJEvent(event);
                 return Mono.empty();
             }).subscribe();
             gw.on(MessageCreateEvent.class, event -> {
