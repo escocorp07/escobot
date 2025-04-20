@@ -13,9 +13,8 @@ import static main.java.bot.botUtils.*;
 
 public class event {
     public static void handleJEvent(MemberJoinEvent event) {
-        errorLogger.debug("Event received to func.");
-        Log.info("esco @ join @", guild, event.getGuildId());
-        if(event.getGuildId()==guild) {
+        errorLogger.debug("Event received to func., your @ rec @", guild, event.getGuildId());
+        if(event.getGuildId().equals(guild)) {
             if (event.getMember().getId().getTimestamp().isAfter(Instant.now().minus(30, ChronoUnit.DAYS))) {
                 errorLogger.debug("Giving role.");
                 event.getMember().addRole(Snowflake.of(forumBannedid), "New account").subscribe();

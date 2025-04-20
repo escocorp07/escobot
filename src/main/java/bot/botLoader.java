@@ -97,10 +97,6 @@ public class botLoader {
             handleEvent(event);
             return Mono.empty();
         }).subscribe();
-        gateway.getEventDispatcher().on(MemberJoinEvent.class, event->{
-            handleJEvent(event);
-            return Mono.empty();
-        }).subscribe();
         gateway.onDisconnect().block();
     }
 }
