@@ -1,5 +1,7 @@
 package main.java;
 
+import arc.*;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.OS;
 import arc.util.Threads;
@@ -15,6 +17,38 @@ public class Main {
     public static void main(String[] args) {
         Vars.loadLogger();
         Loggers.useCustomLoggers(new LoggerProvider());
+        Core.app = new Application() {
+            @Override
+            public Seq<ApplicationListener> getListeners() {
+                return null;
+            }
+
+            @Override
+            public ApplicationType getType() {
+                return null;
+            }
+
+            @Override
+            public String getClipboardText() {
+                return "";
+            }
+
+            @Override
+            public void setClipboardText(String text) {
+                // no
+            }
+
+            @Override
+            public void post(Runnable runnable) {
+                runnable.run();
+            }
+
+            @Override
+            public void exit() {
+                Log.info("Exit used!");
+                System.exit(0);
+            }
+        };
         Log.info("Loading bot...");
         loadcfg();
         for (String arg : args) {
