@@ -1,6 +1,9 @@
 package main.java;
 
 import arc.util.Log;
+import arc.util.OS;
+import arc.util.Threads;
+import arc.util.Timer;
 import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import mindustry.Vars;
@@ -21,6 +24,17 @@ public class Main {
             }
         }
         errorLogger.debug("Bot running in debug mode!");
+        Timer.schedule(() -> {
+            Threads.daemon("autoUpdate", () -> {
+                String out = OS.exec("git", "pull").trim().toLowerCase();
+                if (!out.contains("already up to date")) {
+                    Log.info("Auto updating! "+BuildInfo.GIT_HASH+" -> "+OS.exec("git", "rev-parse --short HEAD"));
+                    System.exit(92148); // autoupd code.
+                } else {
+                    Log.info("No new updates found!");
+                }
+            });
+        }, 0, 30 * 60);
         botLoader.load();
     }
 }
