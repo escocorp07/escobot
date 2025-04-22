@@ -20,7 +20,7 @@ public class Main {
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners() {
-                return null;
+                return new Seq<>();
             }
 
             @Override
