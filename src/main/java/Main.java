@@ -12,7 +12,7 @@ import mindustry.Vars;
 import reactor.util.Loggers;
 
 import static main.java.ConfigLoader.loadcfg;
-
+// 123
 public class Main {
     public static void main(String[] args) {
         Vars.loadLogger();
