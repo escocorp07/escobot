@@ -73,7 +73,7 @@ public class botCommands {
             });
         });
         registerCommand("suggest", "idk.", (e, args)->{
-            if(args.length < 10) {
+            if(args.length < 3) {
                 sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком слов символов! (10 - минимум)");
                 return;
             }
