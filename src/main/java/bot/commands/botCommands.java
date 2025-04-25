@@ -81,15 +81,10 @@ public class botCommands {
             MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
                             .addEmbed(embed.build());
             if(!e.getMessage().getAttachments().isEmpty()) {
-                StringBuilder content = new StringBuilder();
-                for(Attachment a : e.getMessage().getAttachments())
-                    content.append(a.getUrl()+" \n");
-                content.append("\n\n<@&1365377730115403837>");
-                ms.content(content.toString());
-                content.setLength(0);
-            } else {
-                ms.content("<@&1365377730115403837>");
+                for (Attachment a : e.getMessage().getAttachments())
+                    ms.addEmbed(EmbedCreateSpec.builder().image(a.getUrl()).build());
             }
+                ms.content("<@&1365377730115403837>");
             gateway.getChannelById(Snowflake.of(sugid))
                     .ofType(GuildMessageChannel.class)
                     .flatMap(channel -> channel.createMessage(ms.build()
