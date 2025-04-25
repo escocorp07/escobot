@@ -10,6 +10,7 @@ import static main.java.BVars.*;
 public class botEmoji {
     /**Зарегестрировать эмодзи на опр. сообщении -> код*/
     public static void registerEmojis() {
+        Log.info("Time to load emojis!");
         if(debug) {
             registerEmojiAdd("\uD83D\uDED0", Snowflake.of(1363081927690686505L), e -> {
                 Log.info("EventA!");

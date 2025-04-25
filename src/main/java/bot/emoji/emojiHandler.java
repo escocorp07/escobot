@@ -32,7 +32,8 @@ public class emojiHandler {
                 if (e.getRaw().equals(emojiRaw)
                         && e.getMessageId().equals(event.getMessageId())) {
                     e.getExec().accept(event);
-                }
+                } else
+                    errorLogger.debug("not raw");
             });
         } else if (o instanceof ReactionRemoveEvent event) {
             emojir.each(e -> {
@@ -42,7 +43,8 @@ public class emojiHandler {
                 if (e.getRaw().equals(emojiRaw)
                         && e.getMessageId().equals(event.getMessageId())) {
                     e.getExec().accept(event);
-                }
+                } else
+                    errorLogger.debug("not raw");
             });
         } else {
             Log.warn("What do you put into event?");
