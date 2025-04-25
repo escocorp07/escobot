@@ -74,7 +74,7 @@ public class botCommands {
                 });
                 return Mono.empty();
             });
-            embed.addField("", sb.toString()+"\n\n**[Message]("+url.toString()+")", false);
+            embed.addField("", sb.toString()+"\n\n**[Message]("+url.toString()+")**", false);
             MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
                             .addEmbed(embed.build());
             if(!e.getMessage().getAttachments().isEmpty()) {
