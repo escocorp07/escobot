@@ -55,18 +55,15 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("join", "idk.", ownerid, (e, args)->{
-            e.getMessage().getAuthor().ifPresent(a->{
-                a.asMember(guild).flatMap(f->{
-                    f.getVoiceState().flatMap(v->{
-                        v.getChannel().flatMap(vo->{
-                            vo.join().subscribe();
-                            return Mono.empty();
-                        });
-                        return Mono.empty();
-                    }).subscribe();
-                    return Mono.empty();
-                }).subscribe();
+        registerCommand("join", "idk.", ownerid, (e, args) -> {
+            e.getMessage().getAuthor().ifPresent(a -> {
+                a.asMember(guild).flatMap(f ->
+                        f.getVoiceState().flatMap(vs ->
+                                vs.getChannel().flatMap(vc ->
+                                        vc.join(spec -> {})
+                                )
+                        )
+                ).subscribe();
             });
         });
         registerCommand("suggest", "idk.", (e, args)->{
