@@ -54,6 +54,9 @@ public class botCommands {
             sb.setLength(0);
         });
         registerCommand("suggest", "idk.", (e, args)->{
+            if(e.getMessage().getContent().length() < 10) {
+                sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало символов! (10 - минимум)");
+            }
             EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
                     .color(Color.GREEN);
             if(e.getMessage().getAuthor().orElse(null) != null) {
