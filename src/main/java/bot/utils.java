@@ -2,6 +2,8 @@ package main.java.bot;
 
 import arc.files.Fi;
 import arc.graphics.Pixmap;
+import discord4j.core.object.entity.Attachment;
+import discord4j.core.object.entity.Message;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import mindustry.type.Item;
@@ -43,14 +45,4 @@ public class utils {
             return null;
         }
     }
-    /*public static void downloadMap(String fileName, String fileUrl) {
-        Path filePath = Path.of(".maps/", fileName);
-
-        try (InputStream in = new URL(fileUrl).openStream();
-             OutputStream out = Files.newOutputStream(filePath)) {
-            Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            errorLogger.logErr(e);
-        }
-    }*/
 }

@@ -102,7 +102,22 @@ public class botCommands {
                             .addEmbed(embed.build());
             if(!e.getMessage().getAttachments().isEmpty()) {
                 for (Attachment a : e.getMessage().getAttachments())
-                    ms.addEmbed(EmbedCreateSpec.builder().image(a.getUrl()).build());
+                    if (a.getFilename().toLowerCase().endsWith(".png") ||
+                            a.getFilename().toLowerCase().endsWith(".jpg") ||
+                            a.getFilename().toLowerCase().endsWith(".jpeg") ||
+                            a.getFilename().toLowerCase().endsWith(".webp") ||
+                            a.getFilename().toLowerCase().endsWith(".bmp") ||
+                            a.getFilename().toLowerCase().endsWith(".tiff") ||
+                            a.getFilename().toLowerCase().endsWith(".gif") ||
+                            a.getFilename().toLowerCase().endsWith(".mp4") ||
+                            a.getFilename().toLowerCase().endsWith(".webm") ||
+                            a.getFilename().toLowerCase().endsWith(".mov") ||
+                            a.getFilename().toLowerCase().endsWith(".avi") ||
+                            a.getFilename().toLowerCase().endsWith(".mkv") ||
+                            a.getFilename().toLowerCase().endsWith(".flv") ||
+                            a.getFilename().toLowerCase().endsWith(".wmv")) {
+                        ms.addEmbed(EmbedCreateSpec.builder().image(a.getUrl()).build());
+                    }
             }
                 ms.content("<@&1365377730115403837>");
             gateway.getChannelById(Snowflake.of(sugid))
