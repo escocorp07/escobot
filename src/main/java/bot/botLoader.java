@@ -112,6 +112,7 @@ public class botLoader {
                                             .build());
                                 } catch (FileNotFoundException e) {
                                     errorLogger.logErr(e);
+                                    return Mono.empty();
                                 }
                             })
                             .subscribe();
