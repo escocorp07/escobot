@@ -85,7 +85,7 @@ public class botCommands {
                 ms.content(content.toString());
                 content.setLength(0);
             } else {
-                ms.content("<@1365377730115403837>");
+                ms.content("<@&1365377730115403837>");
             }
             gateway.getChannelById(Snowflake.of(sugid))
                     .ofType(GuildMessageChannel.class)
