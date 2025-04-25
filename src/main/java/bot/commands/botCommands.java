@@ -81,8 +81,11 @@ public class botCommands {
                 StringBuilder content = new StringBuilder();
                 for(Attachment a : e.getMessage().getAttachments())
                     content.append(a.getProxyUrl()+" \n");
+                content.append("\n\n<@1365377730115403837>");
                 ms.content(content.toString());
                 content.setLength(0);
+            } else {
+                ms.content("<@1365377730115403837>");
             }
             gateway.getChannelById(Snowflake.of(sugid))
                     .ofType(GuildMessageChannel.class)
