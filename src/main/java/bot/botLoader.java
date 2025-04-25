@@ -100,6 +100,7 @@ public class botLoader {
             return Mono.empty();
         }).subscribe();
         gateway.on(MessageCreateEvent.class, event -> {
+            handledMessages+=1;
             handleEvent(event);
             if (event.getMessage().getContent().toLowerCase().contains("здарова")) {
                 File image = new File("images/здарова.png");

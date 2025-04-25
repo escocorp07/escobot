@@ -11,6 +11,7 @@ public class BVars {
     public static GatewayDiscordClient gateway;
     public static String btoken, prefix;
     public static Snowflake guild; // сервер бота
+    public static long handledCommands, handledMessages;
     /**
      * ownerid-айди роли-владельца сервера
      * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей

@@ -42,6 +42,8 @@ public class botCommands {
             }
             sb.append("Version: " + GIT_HASH+"\n");
             sb.append("Mindustry version: " + Version.buildString()+"\n");
+            sb.append("Commands handled: "+handledCommands+"\n");
+            sb.append("Messages handled: "+handledMessages+"\n");
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });

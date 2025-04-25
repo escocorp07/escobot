@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
+import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
 
 /**Сделанный мною хендлер команд бота.*/
@@ -62,6 +63,7 @@ public class commandHandler {
                             }
                             return Mono.empty();
                         }).subscribe();
+                        handledCommands+=1;
                     } catch (Exception e) {
                         errorLogger.logErr(e);
                     }
