@@ -9,6 +9,7 @@ import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
+import discord4j.core.spec.VoiceChannelJoinSpec;
 import discord4j.rest.util.Color;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
@@ -59,9 +60,14 @@ public class botCommands {
             e.getMessage().getAuthor().ifPresent(author -> {
                 author.asMember(guild).flatMap(member ->
                         member.getVoiceState().flatMap(state ->
-                                state.getChannel().flatMap(channel ->
-                                        channel.join(spec -> spec.setSelfDeaf(false))
-                                )
+                                state.getChannel().flatMap(channel -> {
+                                    VoiceChannelJoinSpec joinSpec = VoiceChannelJoinSpec.builder()
+                                            .selfDeaf(true)
+                                            .selfMute(false)
+                                            .build();
+
+                                    return channel.join(joinSpec);
+                                })
                         )
                 ).subscribe();
             });
