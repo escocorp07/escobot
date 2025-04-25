@@ -37,7 +37,7 @@ dependencies{
     implementation "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
-    implementation 'com.discord4j:discord4j-core:3.2.7-SNAPSHOT'
+    implementation 'com.discord4j:discord4j-core:3.2.7'
     //implementation 'org.postgresql:postgresql:42.7.5'
     compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
