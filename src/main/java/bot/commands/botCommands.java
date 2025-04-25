@@ -74,16 +74,16 @@ public class botCommands {
                 e.getMessage().getChannel().flatMap(c->{
                     url.append(c.getId().asString()+"/"+e.getMessage().getId().asString());
                     return Mono.empty();
-                });
+                }).subscribe();
                 return Mono.empty();
-            });
+            }).subscribe();
             embed.addField("", sb.toString()+"\n\n**[Message]("+url.toString()+")**", false);
             MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
                             .addEmbed(embed.build());
             if(!e.getMessage().getAttachments().isEmpty()) {
                 StringBuilder content = new StringBuilder();
                 for(Attachment a : e.getMessage().getAttachments())
-                    content.append(a.getProxyUrl()+" \n");
+                    content.append(a.getUrl()+" \n");
                 content.append("\n\n<@1365377730115403837>");
                 ms.content(content.toString());
                 content.setLength(0);
