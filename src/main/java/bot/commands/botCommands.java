@@ -76,8 +76,8 @@ public class botCommands {
                             .addEmbed(embd)
                             .build()
                     )).subscribe(m->{
-                        m.addReaction(ReactionEmoji.unicode("✅"));
-                        m.addReaction(ReactionEmoji.unicode("❌"));
+                        m.addReaction(ReactionEmoji.unicode("✅")).subscribe();
+                        m.addReaction(ReactionEmoji.unicode("❌")).subscribe();
                     });
             sb.setLength(0);
         });
