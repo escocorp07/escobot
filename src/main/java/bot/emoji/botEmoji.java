@@ -17,6 +17,22 @@ public class botEmoji {
             registerEmojiRemove("\uD83D\uDED0", Snowflake.of(1363081927690686505L), e -> {
                 Log.info("EventR!");
             });
+            registerEmojiAdd("✡", Snowflake.of(1365376732600860713L), e->{
+                e.getUser().flatMap(u->{
+                    return u.asMember(guild).flatMap(m->{
+                        m.addRole(Snowflake.of(1365377730115403837L), "Reaction-role.").subscribe();
+                        return Mono.empty();
+                    });
+                });
+            });
+            registerEmojiRemove("✡", Snowflake.of(1365376732600860713L), e->{
+                e.getUser().flatMap(u->{
+                    return u.asMember(guild).flatMap(m->{
+                        m.removeRole(Snowflake.of(1365377730115403837L), "Reaction-role.").subscribe();
+                        return Mono.empty();
+                    });
+                });
+            });
         }
     }
 }
