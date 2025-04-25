@@ -54,8 +54,7 @@ public class botCommands {
         });
         registerCommand("suggest", "idk.", (e, args)->{
             EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
-                    .color(Color.GREEN)
-                            .title("Suggestion");
+                    .color(Color.GREEN);
             if(e.getMessage().getAuthor().orElse(null) != null) {
                 User u = e.getMessage().getAuthor().orElse(null);
                 embed=embed.author(u.getUsername(), /*empty url*/"", u.getAvatarUrl());
@@ -65,16 +64,18 @@ public class botCommands {
                 sb.append(arg + " ");
             }
             embed.addField("Says:", sb.toString(), false);
+            MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
+                            .addEmbed(embed.build());
             if(!e.getMessage().getAttachments().isEmpty()) {
+                StringBuilder content = new StringBuilder();
                 for(Attachment a : e.getMessage().getAttachments())
-                    embed=embed.image(a.getProxyUrl());
+                    content.append(a.getProxyUrl()+" \n");
+                ms.content(content.toString());
+                content.setLength(0);
             }
-            EmbedCreateSpec embd = embed.build();
             gateway.getChannelById(Snowflake.of(sugid))
                     .ofType(GuildMessageChannel.class)
-                    .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
-                            .addEmbed(embd)
-                            .build()
+                    .flatMap(channel -> channel.createMessage(ms.build()
                     )).subscribe(m->{
                         m.addReaction(ReactionEmoji.unicode("✅")).subscribe();
                         m.addReaction(ReactionEmoji.unicode("❌")).subscribe();
