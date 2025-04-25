@@ -32,7 +32,7 @@ public class botCommands {
             return;
         }
         loaded = true;
-        Log.info("Creating commands.");
+        Log.info("Time to create commands!");
         registerCommand("stats", "Bot stats.", (e, args)->{
             StringBuilder sb = new StringBuilder();
             if(OS.username.equals("container")) {

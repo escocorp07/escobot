@@ -8,6 +8,7 @@ class KbotCommands {
     companion object {
         /**Зарегестрировать котлин команды.*/
         fun KregisterCommands() {
+            Log.info("Time to create kotlin commands!");
             registerCommand("help", "See command list") { ev: MessageCreateEvent, args: Array<String?> ->
                 val sb: StringBuilder = StringBuilder()
                 commands.each() { c: botcommand ->
