@@ -8,12 +8,18 @@ import discord4j.core.event.domain.message.*;
 import discord4j.core.event.domain.guild.*;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.core.shard.GatewayBootstrap;
+import discord4j.core.spec.MessageCreateSpec;
 import discord4j.gateway.GatewayOptions;
 import discord4j.gateway.intent.IntentSet;
 import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import main.java.bot.emoji.botEmoji;
 import reactor.core.publisher.Mono;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import static main.java.bot.join.event.handleJEvent;
 
 import static main.java.bot.emoji.emojiHandler.*;
@@ -95,6 +101,22 @@ public class botLoader {
         }).subscribe();
         gateway.on(MessageCreateEvent.class, event -> {
             handleEvent(event);
+            if (event.getMessage().getContent().toLowerCase().contains("здарова")) {
+                File image = new File("images/здарова.png");
+                if (image.exists()) {
+                    event.getMessage().getChannel()
+                            .flatMap(channel -> {
+                                try {
+                                    return channel.createMessage(MessageCreateSpec.builder()
+                                            .addFile("здарова.png", new FileInputStream(image))
+                                            .build());
+                                } catch (FileNotFoundException e) {
+                                    errorLogger.logErr(e);
+                                }
+                            })
+                            .subscribe();
+                }
+            }
             return Mono.empty();
         }).subscribe();
         gateway.onDisconnect().doFinally(t->{
