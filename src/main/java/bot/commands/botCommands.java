@@ -53,6 +53,20 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
+        registerCommand("join", "idk.", ownerid, (e, args)->{
+            e.getMessage().getAuthor().ifPresent(a->{
+                a.asMember(guild).flatMap(f->{
+                    f.getVoiceState().flatMap(v->{
+                        v.getChannel().flatMap(vo->{
+                            vo.join().subscribe();
+                            return Mono.empty();
+                        });
+                        return Mono.empty();
+                    }).subscribe();
+                    return Mono.empty();
+                }).subscribe();
+            });
+        });
         registerCommand("suggest", "idk.", (e, args)->{
             if(args.length < 10) {
                 sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало символов! (10 - минимум)");
