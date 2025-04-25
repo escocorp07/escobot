@@ -97,6 +97,8 @@ public class botLoader {
             handleEvent(event);
             return Mono.empty();
         }).subscribe();
-        gateway.onDisconnect().block();
+        gateway.onDisconnect().doFinally(t->{
+            Log.info("Bot disconnected!");
+        }).block();
     }
 }
