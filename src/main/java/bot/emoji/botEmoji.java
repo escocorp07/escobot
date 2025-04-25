@@ -17,6 +17,7 @@ public class botEmoji {
             registerEmojiRemove("\uD83D\uDED0", Snowflake.of(1363081927690686505L), e -> {
                 Log.info("EventR!");
             });
+        }
             registerEmojiAdd("✡", Snowflake.of(1365376732600860713L), e->{
                 e.getUser().flatMap(u->{
                     u.asMember(guild).flatMap(m->{
@@ -35,6 +36,5 @@ public class botEmoji {
                     return Mono.empty();
                 }).subscribe();
             });
-        }
     }
 }
