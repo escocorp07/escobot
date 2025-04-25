@@ -13,6 +13,7 @@ import discord4j.rest.util.Color;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.core.Version;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 
@@ -63,7 +64,17 @@ public class botCommands {
             for (String arg : args) {
                 sb.append(arg + " ");
             }
-            embed.addField("Says:", sb.toString(), false);
+            StringBuilder url = new StringBuilder();
+            url.append("https://discord.com/channels/");
+            e.getMessage().getGuild().flatMap(g->{
+                url.append(g.getId().asString()+"/");
+                e.getMessage().getChannel().flatMap(c->{
+                    url.append(c.getId().asString()+"/"+e.getMessage().getId().asString());
+                    return Mono.empty();
+                });
+                return Mono.empty();
+            });
+            embed.addField("Says:", sb.toString()+"\n\n**[Message]("+url.toString()+")", false);
             MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
                             .addEmbed(embed.build());
             if(!e.getMessage().getAttachments().isEmpty()) {
