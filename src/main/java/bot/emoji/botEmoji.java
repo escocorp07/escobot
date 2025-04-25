@@ -19,19 +19,21 @@ public class botEmoji {
             });
             registerEmojiAdd("✡", Snowflake.of(1365376732600860713L), e->{
                 e.getUser().flatMap(u->{
-                    return u.asMember(guild).flatMap(m->{
+                    u.asMember(guild).flatMap(m->{
                         m.addRole(Snowflake.of(1365377730115403837L), "Reaction-role.").subscribe();
                         return Mono.empty();
-                    });
-                });
+                    }).subscribe();
+                    return Mono.empty();
+                }).subscribe();
             });
             registerEmojiRemove("✡", Snowflake.of(1365376732600860713L), e->{
                 e.getUser().flatMap(u->{
-                    return u.asMember(guild).flatMap(m->{
+                    u.asMember(guild).flatMap(m->{
                         m.removeRole(Snowflake.of(1365377730115403837L), "Reaction-role.").subscribe();
                         return Mono.empty();
-                    });
-                });
+                    }).subscribe();
+                    return Mono.empty();
+                }).subscribe();
             });
         }
     }
