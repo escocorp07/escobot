@@ -74,7 +74,7 @@ public class botCommands {
         });
         registerCommand("suggest", "idk.", (e, args)->{
             if(args.length < 3) {
-                sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком слов символов! (3 - минимум)");
+                sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало слов ! (3 - минимум)");
                 return;
             }
             EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
