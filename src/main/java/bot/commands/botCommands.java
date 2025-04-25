@@ -60,7 +60,7 @@ public class botCommands {
                 author.asMember(guild).flatMap(member ->
                         member.getVoiceState().flatMap(state ->
                                 state.getChannel().flatMap(channel ->
-                                        channel.join(spec -> {})
+                                        channel.join(spec -> spec.setSelfDeaf(false))
                                 )
                         )
                 ).subscribe();
