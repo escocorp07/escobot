@@ -22,7 +22,6 @@ public class Main {
         for (String arg : args) {
             if (arg.equals("-d")) {
                 BVars.debug = true;
-                break;
             }
         }
         errorLogger.debug("Bot running in debug mode!");

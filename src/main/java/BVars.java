@@ -18,7 +18,8 @@ public class BVars {
      * grelid-роль грелы
      * forumBannedid-не может писать в форуме заявок на админку
      * arrivalsid-место где идут оповещения о прибытии участников на сервер
+     * sugid - канал для предложений участников
      * */
-    public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid;
+    public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid;
     public static boolean debug;
 }

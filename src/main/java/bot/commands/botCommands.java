@@ -2,6 +2,14 @@ package main.java.bot.commands;
 
 import arc.util.Log;
 import arc.util.OS;
+import discord4j.common.util.Snowflake;
+import discord4j.core.object.entity.Attachment;
+import discord4j.core.object.entity.User;
+import discord4j.core.object.entity.channel.GuildMessageChannel;
+import discord4j.core.object.reaction.ReactionEmoji;
+import discord4j.core.spec.EmbedCreateSpec;
+import discord4j.core.spec.MessageCreateSpec;
+import discord4j.rest.util.Color;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.core.Version;
@@ -42,6 +50,35 @@ public class botCommands {
                 sb.append(arg + " ");
             }
             sendMessage(e.getMessage().getChannelId(), sb.toString());
+            sb.setLength(0);
+        });
+        registerCommand("suggest", "idk.", (e, args)->{
+            EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
+                    .color(Color.GREEN)
+                            .title("Suggestion");
+            if(e.getMessage().getAuthor().orElse(null) != null) {
+                User u = e.getMessage().getAuthor().orElse(null);
+                embed=embed.author(u.getUsername(), /*empty url*/"", u.getAvatarUrl());
+            }
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            embed.addField("Says:", sb.toString(), false);
+            if(!e.getMessage().getAttachments().isEmpty()) {
+                for(Attachment a : e.getMessage().getAttachments())
+                    embed=embed.image(a.getProxyUrl());
+            }
+            EmbedCreateSpec embd = embed.build();
+            gateway.getChannelById(Snowflake.of(sugid))
+                    .ofType(GuildMessageChannel.class)
+                    .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
+                            .addEmbed(embd)
+                            .build()
+                    )).subscribe(m->{
+                        m.addReaction(ReactionEmoji.unicode("✅"));
+                        m.addReaction(ReactionEmoji.unicode("❌"));
+                    });
             sb.setLength(0);
         });
         registerCommand("do", "idk.", grelyid, (e, args) -> {
