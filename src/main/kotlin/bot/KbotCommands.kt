@@ -3,6 +3,7 @@ package main.kotlin.bot
 import discord4j.core.event.domain.message.MessageCreateEvent
 import main.java.bot.botUtils.sendMessage
 import main.java.bot.commands.commandHandler.*
+import arc.util.Log
 
 class KbotCommands {
     companion object {
