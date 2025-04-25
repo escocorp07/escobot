@@ -56,11 +56,11 @@ public class botCommands {
             sb.setLength(0);
         });
         registerCommand("join", "idk.", ownerid, (e, args) -> {
-            e.getMessage().getAuthor().ifPresent(a -> {
-                a.asMember(guild).flatMap(f ->
-                        f.getVoiceState().flatMap(vs ->
-                                vs.getChannel().flatMap(vc ->
-                                        vc.join(spec -> {})
+            e.getMessage().getAuthor().ifPresent(author -> {
+                author.asMember(guild).flatMap(member ->
+                        member.getVoiceState().flatMap(state ->
+                                state.getChannel().flatMap(channel ->
+                                        channel.join(spec -> {})
                                 )
                         )
                 ).subscribe();
