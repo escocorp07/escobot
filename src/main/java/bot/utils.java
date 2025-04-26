@@ -6,6 +6,7 @@ import arc.util.Log;
 import arc.util.serialization.*;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;
+import main.java.BVars;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import mindustry.net.Packets;
@@ -57,6 +58,7 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import main.java.bot.commands.commandHandler;
 import static main.java.BVars.*;
 import static mindustry.io.MapIO.colorFor;
 
@@ -247,6 +249,9 @@ public class utils {
 
             if (ktsEngine != null) {
                 Log.info("Kotlin ScriptEngine initialized successfully.");
+                ktsEngine.put("commands", commandHandler.class);
+                ktsEngine.put("utils", utils.class);
+                ktsEngine.put("BVars", BVars.class);
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
