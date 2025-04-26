@@ -64,7 +64,7 @@ public class Main {
                 try {
                     runnable.run();
                 } catch (Exception e) {
-                    net.showError(e);
+                    Vars.net.showError(e);
                 }
                 //});
             }
