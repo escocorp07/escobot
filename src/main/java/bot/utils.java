@@ -50,6 +50,12 @@ import java.util.Random;
 import java.util.zip.InflaterInputStream;
 import java.io.StringWriter;
 import java.nio.file.Files;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import static main.java.BVars.*;
 import static mindustry.io.MapIO.colorFor;
@@ -232,6 +238,29 @@ public class utils {
             }
         } catch (IOException exception) {
             errorLogger.logErr(exception);
+        }
+    }
+    public static void initKotlinScripting() {
+        try {
+            File jarFile = new File("fooKotlinScriptSupport.jar");
+            if (!jarFile.exists()) {
+                System.out.println("Kotlin scripting jar not found!");
+                return;
+            }
+
+            URL jarUrl = jarFile.toURI().toURL();
+            URLClassLoader classLoader = new URLClassLoader(new URL[]{jarUrl}, main.java.Main.class.getClassLoader());
+
+            ScriptEngineManager manager = new ScriptEngineManager(classLoader);
+            ktsEngine = manager.getEngineByExtension("kts");
+
+            if (ktsEngine != null) {
+                Log.info("Kotlin ScriptEngine initialized successfully.");
+            } else {
+                Log.err("Failed to initialize Kotlin ScriptEngine.");
+            }
+        } catch (Throwable e) {
+            Log.err(e);
         }
     }
 }

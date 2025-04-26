@@ -71,6 +71,26 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
+        registerCommand("kt", "kt really", ownerid, (e, args)->{
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            String out = "No output";
+            if(ktsEngine == null)
+                initKotlinScripting();
+            if(ktsEngine == null){
+                sendMessage(e.getMessage().getChannelId(), "No jar found!");
+                return;
+            }
+            try {
+                out = ktsEngine.eval(sb.toString().trim()).toString();
+            } catch (Exception er) {
+                out = er.getMessage();
+            }
+            sendMessage(e.getMessage().getChannelId(), out);
+            sb.setLength(0);
+        });
         registerCommand("render", "Render map", ownerid, (e, args)->{
             Message msg = e.getMessage();
             if(msg.getAttachments().size()<1)

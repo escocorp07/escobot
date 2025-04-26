@@ -4,12 +4,7 @@ import arc.struct.Seq;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
-import reactor.core.publisher.Mono;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
+import javax.script.ScriptEngine;
 
 public class BVars {
     public static DiscordClient client;
@@ -17,6 +12,7 @@ public class BVars {
     public static String btoken, prefix, joinMessage;
     public static Snowflake guild; // сервер бота
     public static long handledCommands, handledMessages;
+    public static ScriptEngine ktsEngine = null;
     /**
      * ownerid-айди роли-владельца сервера
      * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей
