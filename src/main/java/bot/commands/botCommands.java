@@ -154,6 +154,20 @@ public class botCommands {
         registerCommand("error", "idk.", grelyid, (e, args) -> {
             errorLogger.logErr(new RuntimeException("test"));
         });
+        registerCommand("set-join", "idk.", grelyid, (e, args) -> {
+            if(args.length == 0) {
+                joinMessage="";
+                sendMessage(e.getMessage().getChannelId(), "Перестал отправлять сообщение при входе.");
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            joinMessage=sb.toString();
+            sendMessage(e.getMessage().getChannelId(), "Новое сообщение: "+sb.toString());
+            sb.setLength(0);
+        });
         /*registerCommand("status", "Check server status.", (e, args)->{
             if(args.length != 2) {
                 sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");

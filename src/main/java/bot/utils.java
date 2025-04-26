@@ -83,6 +83,7 @@ public class utils {
         if(settings != null) {
             handledCommands=settings.getLong("handledCommands");
             handledMessages=settings.getLong("handledMessages");
+            joinMessage=settings.getString("joinMessage");
         } else {
             Log.warn("No settings file found! First run?");
         }
@@ -91,6 +92,7 @@ public class utils {
         JsonValue data = new JsonValue(JsonValue.ValueType.object);
         data.addChild("handledMessages", new JsonValue(handledMessages));
         data.addChild("handledCommands", new JsonValue(handledCommands));
+        data.addChild("joinMessage", new JsonValue(joinMessage));
         saveJson("settings", data);
     }
 }

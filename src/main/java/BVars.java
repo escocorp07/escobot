@@ -5,11 +5,15 @@ import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import reactor.core.publisher.Mono;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 public class BVars {
     public static DiscordClient client;
     public static GatewayDiscordClient gateway;
-    public static String btoken, prefix;
+    public static String btoken, prefix, joinMessage;
     public static Snowflake guild; // сервер бота
     public static long handledCommands, handledMessages;
     /**
@@ -23,4 +27,8 @@ public class BVars {
      * */
     public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid;
     public static boolean debug;
+    /**
+     * scheduler.scheduleAtFixedRate(runnable, 0, 7, TimeUnit.SECONDS);
+     * */
+    public static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 }

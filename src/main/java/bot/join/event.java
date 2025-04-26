@@ -23,6 +23,10 @@ public class event {
             } else {
                 errorLogger.debug("acc>month");
             }
+            event.getMember().getPrivateChannel().flatMap(u->{
+                u.createMessage(joinMessage.replace("<@ping>", "<@"+event.getMember().getId().asString()+">")).subscribe();
+                return Mono.empty();
+            }).subscribe();
         } else {
             errorLogger.debug("Wrong guild.");
         }
