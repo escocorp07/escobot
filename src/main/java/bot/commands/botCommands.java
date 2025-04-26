@@ -190,9 +190,11 @@ public class botCommands {
                     Groups.player.each(p->{
                         sendMessage(e.getMessage().getChannelId(), p.plainName()+" id:"+p.id);
                     });
-                    Vars.net.setClientLoaded(false);
-                    Vars.net.disconnect();
-                    Vars.player=null;
+                    Timer.schedule(()->{
+                        Vars.net.setClientLoaded(false);
+                        Vars.net.disconnect();
+                        Vars.player=null;
+                    }, 3);
                 }, 3);
             } catch (Exception err) {
                 errorLogger.logErr(err);
