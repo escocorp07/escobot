@@ -16,6 +16,7 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.core.spec.VoiceChannelJoinSpec;
 import discord4j.rest.util.Color;
+import main.java.BMapIo;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.Vars;
@@ -81,7 +82,9 @@ public class botCommands {
             Fi fmap = new Fi("./data/atch/"+msg.getAttachments().get(0).getFilename());
             Map map = getMap(fmap);
             try {
-                Pixmap px = MapIO.generatePreview(map);
+                if(map == null)
+                    return;
+                Pixmap px = BMapIo.generatePreview(map);
                 Fi png = new Fi("data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
                 PixmapIO.writePng(png, px);
                 px.dispose();
