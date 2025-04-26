@@ -13,6 +13,7 @@ import discord4j.core.spec.VoiceChannelJoinSpec;
 import discord4j.rest.util.Color;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
+import mindustry.Vars;
 import mindustry.core.Version;
 import reactor.core.publisher.Mono;
 
@@ -168,31 +169,14 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), "Новое сообщение: "+sb.toString());
             sb.setLength(0);
         });
-        /*registerCommand("status", "Check server status.", (e, args)->{
-            if(args.length != 2) {
-                sendMessage(e.getMessage().getChannelId(), "Args: <ip> <port>");
-                return;
-            }
-
-            e.getMessage().getChannel().subscribe(ch->ch.type().subscribe());
-            Snowflake id = e.getMessage().getChannelId();
-            //Threads.daemon(()->{
-            try {
-                new Net(new ArcNetProvider()).pingHost(args[0], Integer.parseInt(args[1]), host -> {
-                    sendMessage(id, "Server name: " + host.name.replace("omnicorp", "omniporn") + "\nPlayers: " + host.players + "/" + host.playerLimit + "\nMode Name: " + host.modeName + "\nPing: " + host.ping + "\nMap: " + host.mapname);
-                }, err -> {
-                    sendMessage(id, "I`m only received error, logged to file.");
-                    e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
-                    errorLogger.logErr(err);
-                });
-            } catch (Exception err) {
-                sendMessage(id, "I`m only received error, logged to file.");
-                e.getMessage().addReaction(ReactionEmoji.unicode("❌")).subscribe();
-                errorLogger.logErr(err);
-            }
-            //});
-        });*/
-
+        registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
+            Vars.net.pingHost(args[0], Integer.parseInt(args[1]), host->{
+                sendMessage(e.getMessage().getChannelId(), "Name: "+host.name+"\nPlayers: "+host.players+"/"+host.playerLimit);
+            }, er->{
+                errorLogger.logErr(er);
+                sendMessage(e.getMessage().getChannelId(), "Ошибка при проверке статуса хоста.");
+            });
+        });
         KbotCommands.Companion.KregisterCommands();
     }
 }

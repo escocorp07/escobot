@@ -9,6 +9,8 @@ import arc.util.Timer;
 import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import mindustry.Vars;
+import mindustry.core.Platform;
+import mindustry.net.Net;
 import reactor.util.Loggers;
 
 import static main.java.ConfigLoader.loadcfg;
@@ -21,6 +23,8 @@ public class Main {
         Log.info("Loading bot...");
         loadcfg();
         loadSettings();
+        Vars.platform = new Platform() {};
+        Vars.net = new Net(Vars.platform.getNet());
         for (String arg : args) {
             if (arg.equals("-d")) {
                 BVars.debug = true;
