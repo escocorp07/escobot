@@ -25,9 +25,14 @@ public class Main {
         loadcfg();
         loadSettings();
         Vars.platform = new Platform() {};
-        Vars.net = new Net(Vars.platform.getNet());
+        Vars.net = new BNet(Vars.platform.getNet());
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
+        Vars.state = new GameState();
+        Vars.state.set(GameState.State.playing);
+        Vars.state.map = null;
+        Vars.state.rules = new Rules();
+        Log.info("GameState initialized.");
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
