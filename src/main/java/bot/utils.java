@@ -242,16 +242,7 @@ public class utils {
     }
     public static void initKotlinScripting() {
         try {
-            File jarFile = new File("fooKotlinScriptSupport.jar");
-            if (!jarFile.exists()) {
-                Log.warn("Kotlin scripting jar not found!");
-                return;
-            }
-
-            URL jarUrl = jarFile.toURI().toURL();
-            URLClassLoader classLoader = new URLClassLoader(new URL[]{jarUrl}, main.java.Main.class.getClassLoader());
-
-            ScriptEngineManager manager = new ScriptEngineManager(classLoader);
+            ScriptEngineManager manager = new ScriptEngineManager();
             ktsEngine = manager.getEngineByExtension("kts");
 
             if (ktsEngine != null) {
