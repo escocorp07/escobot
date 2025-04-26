@@ -56,7 +56,7 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("join", "idk.", ownerid, (e, args) -> {
+        /*registerCommand("join", "idk.", ownerid, (e, args) -> {
             e.getMessage().getAuthor().ifPresent(author -> {
                 author.asMember(guild).flatMap(member ->
                         member.getVoiceState().flatMap(state ->
@@ -71,7 +71,7 @@ public class botCommands {
                         )
                 ).subscribe();
             });
-        });
+        });*/
         registerCommand("suggest", "idk.", (e, args)->{
             if(args.length < 3) {
                 sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало слов ! (3 - минимум)");

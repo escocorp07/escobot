@@ -23,9 +23,21 @@ public class Main {
             if (arg.equals("-d")) {
                 BVars.debug = true;
             }
+            switch (arg) {
+                case "-d":
+                case "--debug":
+                    BVars.debug = true;
+                    break;
+                default:
+                    Log.warn("Unkown arg @", arg);
+                    break;
+            }
         }
         errorLogger.debug("Bot running in debug mode!");
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Log.info("Saving settings, please wait.");
+            // TODO
+        }));
         botLoader.load();
-        Log.info("Bot exited?");
     }
 }
