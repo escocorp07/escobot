@@ -34,7 +34,7 @@ public class Main {
         Vars.state.set(GameState.State.playing);
         Vars.state.map = null;
         Vars.state.rules = new Rules();
-        Log.info("GameState initialized.");
+        loadNet();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
