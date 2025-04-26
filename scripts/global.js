@@ -20,8 +20,7 @@ const cons = method => new Cons(){get: method}
 const prov = method => new Prov(){get: method}
 const func = method => new Func(){get: method}
 
-const msg = text => Vars.ui.chatfrag.addMessage(text)
-
+const newEffect = (lifetime, renderer) => new Effect.Effect(lifetime, new Effect.EffectRenderer({render: renderer}))
 Call = Packages.mindustry.gen.Call
 
 //js 'extend(Base, ..., {})' = java 'new Base(...) {}'
@@ -41,26 +40,6 @@ function extend(/*Base, ..., def*/){
     }
     return instance
 }
-
-//Below utility functions by BalaM314
-
-function makeUnit(unit, x, y, team){
-    if(team == undefined) team = Team.sharded;
-    let payload = new UnitPayload(unit.create(team));
-    payload.set(x * 8, y * 8, 0);
-    payload.dump();
-}
-
-function info(object){
-    return Object.keys(object).toString();
-}
-
-function targetedBuilding(){
-    return Vars.world.build(Vars.player.unit().aimX / 8 + 0.5, Vars.player.unit().aimY / 8 + 0.5);
-}
-
-//more coming soon
-
 
 importPackage(Packages.arc)
 importPackage(Packages.arc.audio)
@@ -92,16 +71,6 @@ importPackage(Packages.mindustry.ai)
 importPackage(Packages.mindustry.ai.types)
 importPackage(Packages.mindustry.async)
 importPackage(Packages.mindustry.audio)
-importPackage(Packages.mindustry.client)
-importPackage(Packages.mindustry.client.antigrief)
-importPackage(Packages.mindustry.client.claj)
-importPackage(Packages.mindustry.client.communication)
-importPackage(Packages.mindustry.client.communication.syncing)
-importPackage(Packages.mindustry.client.crypto)
-importPackage(Packages.mindustry.client.navigation)
-importPackage(Packages.mindustry.client.navigation.waypoints)
-importPackage(Packages.mindustry.client.ui)
-importPackage(Packages.mindustry.client.utils)
 importPackage(Packages.mindustry.content)
 importPackage(Packages.mindustry.core)
 importPackage(Packages.mindustry.ctype)
@@ -164,7 +133,6 @@ importPackage(Packages.main.java.bot)
 importPackage(Packages.main.java.bot.commands)
 importPackage(Packages.main.java.bot.emoji)
 importPackage(Packages.main.java.bot.join)
-const SendChatMessageEvent = Packages.mindustry.game.EventType.SendChatMessageEvent
 const AdminRequestEvent = Packages.mindustry.game.EventType.AdminRequestEvent
 const PlayerIpUnbanEvent = Packages.mindustry.game.EventType.PlayerIpUnbanEvent
 const PlayerIpBanEvent = Packages.mindustry.game.EventType.PlayerIpBanEvent
@@ -176,7 +144,6 @@ const PlayerJoin = Packages.mindustry.game.EventType.PlayerJoin
 const PlayerConnectionConfirmed = Packages.mindustry.game.EventType.PlayerConnectionConfirmed
 const ConnectPacketEvent = Packages.mindustry.game.EventType.ConnectPacketEvent
 const ConnectionEvent = Packages.mindustry.game.EventType.ConnectionEvent
-const UnitChangeEventClient = Packages.mindustry.game.EventType.UnitChangeEventClient
 const UnitChangeEvent = Packages.mindustry.game.EventType.UnitChangeEvent
 const UnitUnloadEvent = Packages.mindustry.game.EventType.UnitUnloadEvent
 const UnitSpawnEvent = Packages.mindustry.game.EventType.UnitSpawnEvent
@@ -184,42 +151,34 @@ const UnitCreateEvent = Packages.mindustry.game.EventType.UnitCreateEvent
 const UnitDrownEvent = Packages.mindustry.game.EventType.UnitDrownEvent
 const UnitDamageEvent = Packages.mindustry.game.EventType.UnitDamageEvent
 const UnitBulletDestroyEvent = Packages.mindustry.game.EventType.UnitBulletDestroyEvent
-const UnitDeadEvent = Packages.mindustry.game.EventType.UnitDeadEvent
 const UnitDestroyEvent = Packages.mindustry.game.EventType.UnitDestroyEvent
 const BuildingBulletDestroyEvent = Packages.mindustry.game.EventType.BuildingBulletDestroyEvent
 const GeneratorPressureExplodeEvent = Packages.mindustry.game.EventType.GeneratorPressureExplodeEvent
 const BlockDestroyEvent = Packages.mindustry.game.EventType.BlockDestroyEvent
 const BuildSelectEvent = Packages.mindustry.game.EventType.BuildSelectEvent
 const BuildRotateEvent = Packages.mindustry.game.EventType.BuildRotateEvent
-const BlockBreakEvent = Packages.mindustry.game.EventType.BlockBreakEvent
-const BuildPayloadDrop = Packages.mindustry.game.EventType.BuildPayloadDrop
-const BuildPayloadPickup = Packages.mindustry.game.EventType.BuildPayloadPickup
-const BlockBuildEventTile = Packages.mindustry.game.EventType.BlockBuildEventTile
 const BlockBuildEndEvent = Packages.mindustry.game.EventType.BlockBuildEndEvent
-const BlockBuildBeginEventBefore = Packages.mindustry.game.EventType.BlockBuildBeginEventBefore
 const BlockBuildBeginEvent = Packages.mindustry.game.EventType.BlockBuildBeginEvent
 const ResearchEvent = Packages.mindustry.game.EventType.ResearchEvent
 const UnlockEvent = Packages.mindustry.game.EventType.UnlockEvent
 const StateChangeEvent = Packages.mindustry.game.EventType.StateChangeEvent
 const CoreChangeEvent = Packages.mindustry.game.EventType.CoreChangeEvent
 const BuildTeamChangeEvent = Packages.mindustry.game.EventType.BuildTeamChangeEvent
+const TileFloorChangeEvent = Packages.mindustry.game.EventType.TileFloorChangeEvent
 const TileChangeEvent = Packages.mindustry.game.EventType.TileChangeEvent
 const TilePreChangeEvent = Packages.mindustry.game.EventType.TilePreChangeEvent
 const BuildDamageEvent = Packages.mindustry.game.EventType.BuildDamageEvent
-const GameOverEventClient = Packages.mindustry.game.EventType.GameOverEventClient
 const GameOverEvent = Packages.mindustry.game.EventType.GameOverEvent
 const BuildingCommandEvent = Packages.mindustry.game.EventType.BuildingCommandEvent
 const UnitControlEvent = Packages.mindustry.game.EventType.UnitControlEvent
 const PayloadDropEvent = Packages.mindustry.game.EventType.PayloadDropEvent
 const PickupEvent = Packages.mindustry.game.EventType.PickupEvent
 const TapEvent = Packages.mindustry.game.EventType.TapEvent
-const ConfigEventBefore = Packages.mindustry.game.EventType.ConfigEventBefore
 const ConfigEvent = Packages.mindustry.game.EventType.ConfigEvent
 const DepositEvent = Packages.mindustry.game.EventType.DepositEvent
 const WithdrawEvent = Packages.mindustry.game.EventType.WithdrawEvent
 const SectorCaptureEvent = Packages.mindustry.game.EventType.SectorCaptureEvent
 const ClientChatEvent = Packages.mindustry.game.EventType.ClientChatEvent
-const PlayerChatEventClient = Packages.mindustry.game.EventType.PlayerChatEventClient
 const PlayerChatEvent = Packages.mindustry.game.EventType.PlayerChatEvent
 const TextInputEvent = Packages.mindustry.game.EventType.TextInputEvent
 const MenuOptionChooseEvent = Packages.mindustry.game.EventType.MenuOptionChooseEvent
@@ -235,11 +194,11 @@ const SaveLoadEvent = Packages.mindustry.game.EventType.SaveLoadEvent
 const WorldLoadEndEvent = Packages.mindustry.game.EventType.WorldLoadEndEvent
 const WorldLoadBeginEvent = Packages.mindustry.game.EventType.WorldLoadBeginEvent
 const WorldLoadEvent = Packages.mindustry.game.EventType.WorldLoadEvent
-const MenuReturnEvent = Packages.mindustry.game.EventType.MenuReturnEvent
-const ServerJoinEvent = Packages.mindustry.game.EventType.ServerJoinEvent
 const FileTreeInitEvent = Packages.mindustry.game.EventType.FileTreeInitEvent
 const MusicRegisterEvent = Packages.mindustry.game.EventType.MusicRegisterEvent
 const ClientLoadEvent = Packages.mindustry.game.EventType.ClientLoadEvent
+const ModContentLoadEvent = Packages.mindustry.game.EventType.ModContentLoadEvent
+const AtlasPackEvent = Packages.mindustry.game.EventType.AtlasPackEvent
 const ContentInitEvent = Packages.mindustry.game.EventType.ContentInitEvent
 const BlockInfoEvent = Packages.mindustry.game.EventType.BlockInfoEvent
 const CoreItemDeliverEvent = Packages.mindustry.game.EventType.CoreItemDeliverEvent
@@ -259,5 +218,4 @@ const MapMakeEvent = Packages.mindustry.game.EventType.MapMakeEvent
 const ResizeEvent = Packages.mindustry.game.EventType.ResizeEvent
 const LoseEvent = Packages.mindustry.game.EventType.LoseEvent
 const WinEvent = Packages.mindustry.game.EventType.WinEvent
-const TeamCoreDamage = Packages.mindustry.game.EventType.TeamCoreDamage
 const Trigger = Packages.mindustry.game.EventType.Trigger
