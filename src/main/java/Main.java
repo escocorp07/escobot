@@ -29,6 +29,7 @@ public class Main {
         Vars.net = new BNet(Vars.platform.getNet());
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
+        Vars.content.loadColors();
         Vars.state = new GameState();
         Vars.state.set(GameState.State.playing);
         Vars.state.map = null;

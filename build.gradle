@@ -87,7 +87,12 @@ task generateBuildInfo {
         """.stripIndent()
     }
 }
-
+tasks.withType(ProcessResources) {
+    from('sprites') {
+        include '**/*'
+        into 'sprites'
+    }
+}
 compileJava.dependsOn(generateBuildInfo)
 compileKotlin.dependsOn(generateBuildInfo)
 sourceSets.main.java.srcDirs += "$buildDir/generated/sources/buildInfo/main/java"
