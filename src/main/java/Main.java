@@ -35,6 +35,7 @@ public class Main {
         Vars.state.rules = new Rules();
         Vars.logic = new Logic();
         Vars.world = new World();
+        Vars.netClient = new NetClient();
         Groups.init();
         loadNet();
         Core.app = new Application() {
