@@ -160,7 +160,9 @@ public class utils {
                 }
             }
             Vars.net.setClientLoaded(false);
+            Vars.net.disconnect();
             Vars.player=null;
+            Groups.clear();
         });
         Vars.net.handleClient(WorldStream.class, data -> {
             Log.info("Received world data: @ bytes.", data.stream.available());
