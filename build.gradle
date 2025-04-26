@@ -98,6 +98,10 @@ tasks.withType(ProcessResources) {
         include '**/*'
         into 'sprites'
     }
+    from("scripts") {
+        include '**/*'
+        into 'scripts'
+    }
 }
 compileJava.dependsOn(generateBuildInfo)
 compileKotlin.dependsOn(generateBuildInfo)
