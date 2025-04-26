@@ -223,7 +223,7 @@ public class utils {
         Attachment attachment = message.getAttachments().get(0);
         String urlStr = attachment.getUrl();
         String fileName = attachment.getFilename();
-        Path savePath = Paths.get(".data/atch", fileName);
+        Path savePath = Paths.get("data/atch", fileName);
 
         try {
             Files.createDirectories(savePath.getParent());
