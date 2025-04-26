@@ -244,7 +244,7 @@ public class utils {
         try {
             File jarFile = new File("fooKotlinScriptSupport.jar");
             if (!jarFile.exists()) {
-                System.out.println("Kotlin scripting jar not found!");
+                Log.warn("Kotlin scripting jar not found!");
                 return;
             }
 
@@ -257,7 +257,7 @@ public class utils {
             if (ktsEngine != null) {
                 Log.info("Kotlin ScriptEngine initialized successfully.");
             } else {
-                Log.err("Failed to initialize Kotlin ScriptEngine.");
+                Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
         } catch (Throwable e) {
             Log.err(e);
