@@ -198,6 +198,7 @@ public class botCommands {
                         Vars.net.setClientLoaded(false);
                         Vars.net.disconnect();
                         Vars.player=null;
+                        Groups.clear();
                     }, 3);
                 }, 5);
             } catch (Exception err) {
