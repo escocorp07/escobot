@@ -47,6 +47,7 @@ dependencies{
     implementation "org.jetbrains.kotlin:kotlin-scripting-jvm:2.0.10"
     implementation "org.jetbrains.kotlin:kotlin-scripting-jsr223:2.0.10"
     implementation "org.jetbrains.kotlin:kotlin-compiler-embeddable:2.0.10"
+    implementation 'org.reflections:reflections:0.10.2'
 }
 
 jar{

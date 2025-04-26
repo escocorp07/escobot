@@ -249,9 +249,16 @@ public class utils {
 
             if (ktsEngine != null) {
                 Log.info("Kotlin ScriptEngine initialized successfully.");
-                ktsEngine.put("commands", commandHandler.class);
-                ktsEngine.put("utils", utils.class);
-                ktsEngine.put("BVars", BVars.class);
+                // ktsEngine.put("commands", commandHandler.class);
+                // ktsEngine.put("utils", utils.class);
+                // ktsEngine.put("BVars", BVars.class);
+
+                Reflections reflections = new Reflections("main.java");
+                Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
+                for (Class<?> clazz : allClasses) {
+                    System.out.println(clazz.getName());
+                    ktsEngine.put(clazz.getSimpleName(), clazz);
+                }
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
