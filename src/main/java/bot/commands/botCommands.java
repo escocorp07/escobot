@@ -27,6 +27,7 @@ import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.commands.commandHandler.registerCommand;
 import static main.java.BuildInfo.*;
 import static main.java.BVars.*;
+import static main.java.bot.utils.finishConnecting;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -184,8 +185,11 @@ public class botCommands {
                 Vars.net.connect(args[0], port, () -> {
                     sendMessage(e.getMessage().getChannelId(), "Connectiong to "+args[0]+":"+port);
                 });
+                Timer.schedule(() -> {
+                    Log.info("finishing connect manually.");
+                    finishConnecting();
+                }, 2);
                 Timer.schedule(()->{
-                    Call.connectConfirm();
                     sendMessage(e.getMessage().getChannelId(), "Bot nick: "+Vars.player.name);
                     Groups.player.each(p->{
                         sendMessage(e.getMessage().getChannelId(), p.plainName()+" id:"+p.id);
@@ -195,7 +199,7 @@ public class botCommands {
                         Vars.net.disconnect();
                         Vars.player=null;
                     }, 3);
-                }, 3);
+                }, 5);
             } catch (Exception err) {
                 errorLogger.logErr(err);
             }

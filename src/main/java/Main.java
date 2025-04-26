@@ -62,13 +62,11 @@ public class Main {
 
             @Override
             public void post(Runnable runnable){
-                //Threads.daemon(() -> {
                 try {
                     runnable.run();
                 } catch (Exception e) {
                     Vars.net.showError(e);
                 }
-                //});
             }
 
             @Override
