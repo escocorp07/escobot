@@ -11,19 +11,19 @@ public class botEmoji {
     /**Зарегестрировать эмодзи на опр. сообщении -> код*/
     public static void registerEmojis() {
         Log.info("Time to create emojis!");
-            registerEmojiAdd("✡\uFE0F", Snowflake.of(1365376732600860713L), e->{
+            registerEmojiAdd("✡\uFE0F", Snowflake.of(sugping), e->{
                 e.getUser().flatMap(u->{
                     u.asMember(guild).flatMap(m->{
-                        m.addRole(Snowflake.of(1365377730115403837L), "Reaction-role.").subscribe();
+                        m.addRole(Snowflake.of(sugpingrole), "Reaction-role.").subscribe();
                         return Mono.empty();
                     }).subscribe();
                     return Mono.empty();
                 }).subscribe();
             });
-            registerEmojiRemove("✡\uFE0F", Snowflake.of(1365376732600860713L), e->{
+            registerEmojiRemove("✡\uFE0F", Snowflake.of(sugping), e->{
                 e.getUser().flatMap(u->{
                     u.asMember(guild).flatMap(m->{
-                        m.removeRole(Snowflake.of(1365377730115403837L), "Reaction-role.").subscribe();
+                        m.removeRole(Snowflake.of(sugpingrole), "Reaction-role.").subscribe();
                         return Mono.empty();
                     }).subscribe();
                     return Mono.empty();

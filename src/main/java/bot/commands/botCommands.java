@@ -124,7 +124,7 @@ public class botCommands {
                         ms.addEmbed(EmbedCreateSpec.builder().image(a.getUrl()).build());
                     }
             }
-                ms.content("<@&1365377730115403837>");
+                ms.content("<@&"+sugpingrole+">");
             gateway.getChannelById(Snowflake.of(sugid))
                     .ofType(GuildMessageChannel.class)
                     .flatMap(channel -> channel.createMessage(ms.build()

@@ -28,6 +28,8 @@ public class ConfigLoader {
             BVars.arrivalsid = value.getLong("arrivals_id");
             BVars.sugid = value.getLong("suggestions_id");
             BVars.debug = value.getBoolean("debug", false);
+            BVars.sugping= value.getLong("suggestions_ping_id");
+            BVars.sugpingrole= value.getLong("suggestions_role_id");
             if(!BVars.prefix.endsWith(".")) BVars.prefix += ".";
             Log.info("Config loaded!");
         } catch (Exception e) {

@@ -25,12 +25,10 @@ public class BVars {
      * forumBannedid-не может писать в форуме заявок на админку
      * arrivalsid-место где идут оповещения о прибытии участников на сервер
      * sugid - канал для предложений участников
+     * sugping - сообщение для получение роли пинга
+     * sugpingrole - роль пинга
      * */
-    public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid;
+    public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid, sugping, sugpingrole;
     public static boolean debug;
-    /**
-     * scheduler.scheduleAtFixedRate(runnable, 0, 7, TimeUnit.SECONDS);
-     * */
-    public static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public static Seq<String> bannedErrs = Seq.with("ui", "TextFormatter", "renderer", "reading entity", "enableEffects", "entity", "mindustry.gen.LogicExplosionCallPacket.handled(LogicExplosionCallPacket.java:54)", "EOFException");
 }
