@@ -61,7 +61,7 @@ import java.net.URLClassLoader;
 
 import main.java.bot.commands.commandHandler;
 import org.reflections.Reflections;
-
+import main.*;
 import static main.java.BVars.*;
 import static mindustry.io.MapIO.colorFor;
 
@@ -256,7 +256,7 @@ public class utils {
                 // ktsEngine.put("utils", utils.class);
                 // ktsEngine.put("BVars", BVars.class);
 
-                Reflections reflections = new Reflections("main");
+                Reflections reflections = new Reflections("");
                 Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
                 for (Class<?> clazz : allClasses) {
                     Log.info(clazz.getSimpleName());
