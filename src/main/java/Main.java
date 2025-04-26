@@ -1,18 +1,15 @@
 package main.java;
 
 import arc.*;
+import arc.mock.MockFiles;
 import arc.struct.Seq;
 import arc.util.Log;
-import arc.util.OS;
-import arc.util.Threads;
-import arc.util.Timer;
 import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import mindustry.Vars;
 import mindustry.core.*;
 import mindustry.game.Rules;
 import mindustry.gen.Groups;
-import mindustry.net.Net;
 import reactor.util.Loggers;
 
 import static main.java.ConfigLoader.loadcfg;
@@ -27,6 +24,8 @@ public class Main {
         loadSettings();
         Vars.platform = new Platform() {};
         Vars.net = new BNet(Vars.platform.getNet());
+        Core.settings = new Settings();
+        Core.files = new MockFiles();
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
         Vars.content.loadColors();
