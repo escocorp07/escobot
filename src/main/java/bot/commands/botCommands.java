@@ -86,6 +86,20 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), out);
             sb.setLength(0);
         });
+        registerCommand("js", "js really", ownerid, (e, args)->{
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            String out = "No output";
+            try {
+                out = Vars.mods.getScripts().runConsole(sb.toString());
+            } catch (Exception er) {
+                out = er.getMessage();
+            }
+            sendMessage(e.getMessage().getChannelId(), out);
+            sb.setLength(0);
+        });
         registerCommand("render", "Render map", ownerid, (e, args)->{
             Message msg = e.getMessage();
             if(msg.getAttachments().size()<1)

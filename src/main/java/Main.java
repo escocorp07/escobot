@@ -10,6 +10,7 @@ import mindustry.Vars;
 import mindustry.core.*;
 import mindustry.game.Rules;
 import mindustry.gen.Groups;
+import mindustry.mod.Mods;
 import reactor.util.Loggers;
 
 import static main.java.ConfigLoader.loadcfg;
@@ -36,6 +37,7 @@ public class Main {
         Vars.logic = new Logic();
         Vars.world = new World();
         Vars.netClient = new NetClient();
+        Vars.mods = new Mods();
         Groups.init();
         loadNet();
         Core.app = new Application() {
