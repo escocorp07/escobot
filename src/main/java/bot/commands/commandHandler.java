@@ -49,6 +49,7 @@ public class commandHandler {
                 return c.getName().equals(args[0]);
             });
             if(command != null) {
+                handledCommands+=1;
                 // Arrays.copyOfRange(args, 1, args.length)
                 if(command.getRoleID() == 0) {
                     command.exec(event, Arrays.copyOfRange(args, 1, args.length));
@@ -63,7 +64,6 @@ public class commandHandler {
                             }
                             return Mono.empty();
                         }).subscribe();
-                        handledCommands+=1;
                     } catch (Exception e) {
                         errorLogger.logErr(e);
                     }
