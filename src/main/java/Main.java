@@ -12,6 +12,7 @@ import mindustry.Vars;
 import reactor.util.Loggers;
 
 import static main.java.ConfigLoader.loadcfg;
+import static main.java.bot.utils.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,6 +20,7 @@ public class Main {
         Loggers.useCustomLoggers(new LoggerProvider());
         Log.info("Loading bot...");
         loadcfg();
+        loadSettings();
         for (String arg : args) {
             if (arg.equals("-d")) {
                 BVars.debug = true;
@@ -36,7 +38,7 @@ public class Main {
         errorLogger.debug("Bot running in debug mode!");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Log.info("Saving settings, please wait.");
-            // TODO
+            saveSettings();
         }));
         botLoader.load();
     }

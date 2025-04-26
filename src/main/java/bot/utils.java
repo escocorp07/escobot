@@ -2,14 +2,17 @@ package main.java.bot;
 
 import arc.files.Fi;
 import arc.graphics.Pixmap;
-import discord4j.core.object.entity.Attachment;
-import discord4j.core.object.entity.Message;
+import arc.util.Log;
+import arc.util.serialization.*;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import mindustry.type.Item;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
 
+import java.io.StringWriter;
+
+import static main.java.BVars.*;
 import static mindustry.io.MapIO.colorFor;
 
 public class utils {
@@ -44,5 +47,49 @@ public class utils {
             errorLogger.logErr(e);
             return null;
         }
+    }
+    public static void saveJson(String name, JsonValue payl) {
+        try {
+            Fi file = new Fi("./data/"+name.replace("/", "")+".json");
+            file.parent().mkdirs();
+            StringWriter writer = new StringWriter();
+            JsonWriter jsonWriter = new JsonWriter(writer);
+            jsonWriter.setOutputType(JsonWriter.OutputType.json);
+            jsonWriter.object();
+            for (JsonValue child : payl) {
+                jsonWriter.name(child.name).value(child.asString());
+            }
+            jsonWriter.pop();
+            file.writeString(writer.toString(), false);
+        } catch (Exception e) {
+            errorLogger.logErr(e);
+        }
+    }
+    public static JsonValue loadJson(String name) {
+        try {
+            Fi file = new Fi("./data/"+name.replace("/", "")+".json");
+            if (!file.exists() || file.isDirectory()) {
+                return null;
+            }
+            return new JsonReader().parse(file);
+        } catch (SerializationException e) {
+            errorLogger.logErr(e);
+            return null;
+        }
+    }
+    public static void loadSettings() {
+        JsonValue settings = loadJson("settings");
+        if(settings != null) {
+            handledCommands=settings.getLong("handledCommands");
+            handledMessages=settings.getLong("handledMessages");
+        } else {
+            Log.warn("No settings file found!");
+        }
+    }
+    public static void saveSettings() {
+        JsonValue data = new JsonValue(JsonValue.ValueType.object);
+        data.addChild("handledMessages", new JsonValue(handledMessages));
+        data.addChild("handledCommands", new JsonValue(handledCommands));
+        saveJson("settings", data);
     }
 }
