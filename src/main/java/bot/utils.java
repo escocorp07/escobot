@@ -78,12 +78,13 @@ public class utils {
         }
     }
     public static void loadSettings() {
+        Log.info("Loading settings.");
         JsonValue settings = loadJson("settings");
         if(settings != null) {
             handledCommands=settings.getLong("handledCommands");
             handledMessages=settings.getLong("handledMessages");
         } else {
-            Log.warn("No settings file found!");
+            Log.warn("No settings file found! First run?");
         }
     }
     public static void saveSettings() {
