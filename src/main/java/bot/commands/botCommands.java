@@ -38,6 +38,7 @@ import static main.java.bot.commands.commandHandler.registerCommand;
 import static main.java.BuildInfo.*;
 import static main.java.BVars.*;
 import static main.java.bot.utils.*;
+import main.kotlin.ScriptEngineHolder;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -77,14 +78,8 @@ public class botCommands {
                 sb.append(arg + " ");
             }
             String out = "No output";
-            if(ktsEngine == null)
-                initKotlinScripting();
-            if(ktsEngine == null){
-                sendMessage(e.getMessage().getChannelId(), "No jar found!");
-                return;
-            }
             try {
-                out = ktsEngine.eval(sb.toString().trim()).toString();
+                out = ScriptEngineHolder.INSTANCE.getKts().eval(sb.toString().trim()).toString();
             } catch (Exception er) {
                 out = er.getMessage();
             }

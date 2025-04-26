@@ -245,28 +245,19 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    public static void initKotlinScripting() {
+    /*public static void initKotlinScripting() {
         try {
             ScriptEngineManager manager = new ScriptEngineManager();
             ktsEngine = manager.getEngineByExtension("kts");
 
             if (ktsEngine != null) {
                 Log.info("Kotlin ScriptEngine initialized successfully.");
-                // ktsEngine.put("commands", commandHandler.class);
-                // ktsEngine.put("utils", utils.class);
-                // ktsEngine.put("BVars", BVars.class);
 
-                Reflections reflections = new Reflections("main", "mindustry", "arc");
-                Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
-                for (Class<?> clazz : allClasses) {
-                    Log.info(clazz.getSimpleName());
-                    ktsEngine.put(clazz.getSimpleName(), clazz);
-                }
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
         } catch (Throwable e) {
             Log.err(e);
         }
-    }
+    }*/
 }
