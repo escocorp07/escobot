@@ -173,7 +173,7 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), "Новое сообщение: "+sb.toString());
             sb.setLength(0);
         });
-        registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
+        /*registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
             try {
                 int port = Integer.parseInt(args[1]);
                 Vars.net.pingHost(args[0], port, host -> {
@@ -204,7 +204,7 @@ public class botCommands {
             } catch (Exception err) {
                 errorLogger.logErr(err);
             }
-        });
+        });*/
         KbotCommands.Companion.KregisterCommands();
     }
 }
