@@ -158,11 +158,9 @@ public class utils {
                     case "timeout" -> Log.warn("disconnect.timeout");
                     default -> Log.warn("disconnect.error");
                 }
-            } else{
-                Log.warn("Connect.closed");
             }
-            Log.warn("Con. closed, re-joining");
-            System.exit(0);
+            Vars.net.setClientLoaded(false);
+            Vars.player=null;
         });
         Vars.net.handleClient(WorldStream.class, data -> {
             Log.info("Received world data: @ bytes.", data.stream.available());
