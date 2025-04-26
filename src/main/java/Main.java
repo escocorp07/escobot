@@ -9,10 +9,9 @@ import arc.util.Timer;
 import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import mindustry.Vars;
-import mindustry.core.ContentLoader;
-import mindustry.core.GameState;
-import mindustry.core.Platform;
+import mindustry.core.*;
 import mindustry.game.Rules;
+import mindustry.gen.Groups;
 import mindustry.net.Net;
 import reactor.util.Loggers;
 
@@ -34,6 +33,9 @@ public class Main {
         Vars.state.set(GameState.State.playing);
         Vars.state.map = null;
         Vars.state.rules = new Rules();
+        Vars.logic = new Logic();
+        Vars.world = new World();
+        Groups.init();
         loadNet();
         Core.app = new Application() {
             @Override

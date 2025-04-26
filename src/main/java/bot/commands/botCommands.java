@@ -2,6 +2,7 @@ package main.java.bot.commands;
 
 import arc.util.Log;
 import arc.util.OS;
+import arc.util.Timer;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.User;
@@ -15,6 +16,8 @@ import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.Vars;
 import mindustry.core.Version;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
@@ -171,12 +174,26 @@ public class botCommands {
         });
         registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
             try {
-                Vars.net.pingHost(args[0], Integer.parseInt(args[1]), host -> {
+                int port = Integer.parseInt(args[1]);
+                Vars.net.pingHost(args[0], port, host -> {
                     sendMessage(e.getMessage().getChannelId(), "Name: " + host.name + "\nPlayers: " + host.players + "/" + host.playerLimit);
                 }, er -> {
                     errorLogger.logErr(er);
                     sendMessage(e.getMessage().getChannelId(), "Ошибка при проверке статуса хоста.");
                 });
+                Vars.net.connect(args[0], port, () -> {
+                    sendMessage(e.getMessage().getChannelId(), "Connectiong to "+args[0]+":"+port);
+                });
+                Timer.schedule(()->{
+                    Call.connectConfirm();
+                    sendMessage(e.getMessage().getChannelId(), "Bot nick: "+Vars.player.name);
+                    Groups.player.each(p->{
+                        sendMessage(e.getMessage().getChannelId(), p.plainName()+" id:"+p.id);
+                    });
+                    Vars.net.setClientLoaded(false);
+                    Vars.net.disconnect();
+                    Vars.player=null;
+                }, 3);
             } catch (Exception err) {
                 errorLogger.logErr(err);
             }
