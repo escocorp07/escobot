@@ -48,6 +48,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 import java.util.zip.InflaterInputStream;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -59,6 +60,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import main.java.bot.commands.commandHandler;
+import org.reflections.Reflections;
+
 import static main.java.BVars.*;
 import static mindustry.io.MapIO.colorFor;
 
@@ -256,7 +259,7 @@ public class utils {
                 Reflections reflections = new Reflections("main.java");
                 Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
                 for (Class<?> clazz : allClasses) {
-                    System.out.println(clazz.getName());
+                    Log.info(clazz.getSimpleName());
                     ktsEngine.put(clazz.getSimpleName(), clazz);
                 }
             } else {
