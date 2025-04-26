@@ -11,14 +11,6 @@ public class botEmoji {
     /**Зарегестрировать эмодзи на опр. сообщении -> код*/
     public static void registerEmojis() {
         Log.info("Time to create emojis!");
-        if(debug) {
-            registerEmojiAdd("\uD83D\uDED0", Snowflake.of(1363081927690686505L), e -> {
-                Log.info("EventA!");
-            });
-            registerEmojiRemove("\uD83D\uDED0", Snowflake.of(1363081927690686505L), e -> {
-                Log.info("EventR!");
-            });
-        }
             registerEmojiAdd("✡\uFE0F", Snowflake.of(1365376732600860713L), e->{
                 e.getUser().flatMap(u->{
                     u.asMember(guild).flatMap(m->{
