@@ -1,6 +1,7 @@
 package main.java;
 
 import arc.util.Log;
+import main.java.bot.errorLogger;
 import mindustry.net.Net;
 
 import static main.java.BVars.*;
@@ -18,7 +19,7 @@ public class BNet extends Net {
         if(e.getMessage() != null){
             String msg = e.getMessage().toLowerCase();
             if(bannedErrs.find(banned -> msg.contains(banned.toLowerCase())) == null){
-                Log.err(e); // TODO.
+                errorLogger.logErr(e);
             }
         }
     }
