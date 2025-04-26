@@ -48,7 +48,7 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("say", "idk.", ownerid, (e, args)->{
+        registerCommand("say", "Сказать от имени бота.", ownerid, (e, args)->{
             StringBuilder sb = new StringBuilder();
             for (String arg : args) {
                 sb.append(arg + " ");
@@ -72,7 +72,7 @@ public class botCommands {
                 ).subscribe();
             });
         });*/
-        registerCommand("suggest", "idk.", (e, args)->{
+        registerCommand("suggest", "Предложить идею", (e, args)->{
             if(args.length < 3) {
                 sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало слов ! (3 - минимум)");
                 return;
@@ -129,7 +129,7 @@ public class botCommands {
                     });
             sb.setLength(0);
         });
-        registerCommand("do", "idk.", grelyid, (e, args) -> {
+        registerCommand("do", "А тебя это не должно волновать", grelyid, (e, args) -> {
             if (args.length == 0) {
                 sendMessage(e.getMessage().getChannelId(), "No command provided.");
                 return;
@@ -151,10 +151,10 @@ public class botCommands {
             }
             sendMessage(e.getMessage().getChannelId(), output.isEmpty() ? "No output." : output);
         });
-        registerCommand("error", "idk.", grelyid, (e, args) -> {
+        registerCommand("error", "Искуственно создать ошибку.", grelyid, (e, args) -> {
             errorLogger.logErr(new RuntimeException("test"));
         });
-        registerCommand("set-join", "idk.", grelyid, (e, args) -> {
+        registerCommand("set-join", "Установить сообщение отправляемое участнику по заходу.", grelyid, (e, args) -> {
             if(args.length == 0) {
                 joinMessage="";
                 sendMessage(e.getMessage().getChannelId(), "Перестал отправлять сообщение при входе.");
