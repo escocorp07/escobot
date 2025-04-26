@@ -158,6 +158,12 @@ importPackage(Packages.mindustry.world.consumers)
 importPackage(Packages.mindustry.world.draw)
 importPackage(Packages.mindustry.world.meta)
 importPackage(Packages.mindustry.world.modules)
+importPackage(Packages.main)
+importPackage(Packages.main.java)
+importPackage(Packages.main.java.bot)
+importPackage(Packages.main.java.bot.commands)
+importPackage(Packages.main.java.bot.emoji)
+importPackage(Packages.main.java.bot.join)
 const SendChatMessageEvent = Packages.mindustry.game.EventType.SendChatMessageEvent
 const AdminRequestEvent = Packages.mindustry.game.EventType.AdminRequestEvent
 const PlayerIpUnbanEvent = Packages.mindustry.game.EventType.PlayerIpUnbanEvent
