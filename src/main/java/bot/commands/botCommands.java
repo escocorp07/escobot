@@ -82,10 +82,10 @@ public class botCommands {
             Map map = getMap(fmap);
             try {
                 Pixmap px = MapIO.generatePreview(map);
-                Fi png = new Fi(".data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
+                Fi png = new Fi("data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
                 PixmapIO.writePng(png, px);
                 px.dispose();
-                File image = new File(".data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
+                File image = new File("data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
                 if (image.exists()) {
                     msg.getChannel()
                             .flatMap(channel -> {
