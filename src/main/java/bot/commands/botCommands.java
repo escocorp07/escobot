@@ -94,6 +94,7 @@ public class botCommands {
                                 try {
                                     return channel.createMessage(MessageCreateSpec.builder()
                                             .addFile("render.png", new FileInputStream(image))
+                                            .content("Name: "+map.name()+"\nAuthor: "+map.plainAuthor()+"\nMVersion: v"+map.version+"\nTiles: "+map.width+"x"+map.height)
                                             .build());
                                 } catch (FileNotFoundException err) {
                                     errorLogger.logErr(err);
