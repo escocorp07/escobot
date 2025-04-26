@@ -137,7 +137,11 @@ public class botCommands {
             String cmd = args[0];
             String output;
             if (args.length == 1) {
-                output = OS.exec(cmd);
+                try {
+                    output = OS.exec(cmd);
+                } catch (Exception er) {
+                    output = er.getMessage();
+                }
             } else {
                 StringBuilder sb = new StringBuilder();
                 for (int i = 1; i < args.length; i++) {
