@@ -4,6 +4,8 @@ import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.util.Log;
 import arc.util.serialization.*;
+import discord4j.core.object.entity.Attachment;
+import discord4j.core.object.entity.Message;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import mindustry.net.Packets;
@@ -37,10 +39,17 @@ import mindustry.net.Packets.Connect;
 import mindustry.net.Packets.Disconnect;
 import mindustry.net.Packets.WorldStream;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import java.util.Random;
 import java.util.zip.InflaterInputStream;
 import java.io.StringWriter;
+import java.nio.file.Files;
 
 import static main.java.BVars.*;
 import static mindustry.io.MapIO.colorFor;
@@ -209,5 +218,20 @@ public class utils {
     public static void finishConnecting(){
         connectConfirmm();
         Vars.net.setClientLoaded(true);
+    }
+    public static void getAttach(Message message) {
+        Attachment attachment = message.getAttachments().get(0);
+        String urlStr = attachment.getUrl();
+        String fileName = attachment.getFilename();
+        Path savePath = Paths.get(".data/atch", fileName);
+
+        try {
+            Files.createDirectories(savePath.getParent());
+            try (InputStream in = new URL(urlStr).openStream()) {
+                Files.copy(in, savePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException exception) {
+            errorLogger.logErr(exception);
+        }
     }
 }

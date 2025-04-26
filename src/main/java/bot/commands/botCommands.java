@@ -1,10 +1,14 @@
 package main.java.bot.commands;
 
+import arc.files.Fi;
+import arc.graphics.Pixmap;
+import arc.graphics.PixmapIO;
 import arc.util.Log;
 import arc.util.OS;
 import arc.util.Timer;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
+import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
@@ -18,8 +22,14 @@ import mindustry.Vars;
 import mindustry.core.Version;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
+import mindustry.io.MapIO;
+import mindustry.maps.Map;
 import reactor.core.publisher.Mono;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 
 import static main.java.BVars.*;
@@ -27,7 +37,7 @@ import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.commands.commandHandler.registerCommand;
 import static main.java.BuildInfo.*;
 import static main.java.BVars.*;
-import static main.java.bot.utils.finishConnecting;
+import static main.java.bot.utils.*;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -60,6 +70,39 @@ public class botCommands {
             }
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
+        });
+        registerCommand("render", "Render map", ownerid, (e, args)->{
+            Message msg = e.getMessage();
+            if(msg.getAttachments().size()<1)
+                return;
+            if(!msg.getAttachments().get(0).getFilename().endsWith(".msav"))
+                return;
+            getAttach(msg);
+            Fi fmap = new Fi("./data/atch/"+msg.getAttachments().get(0).getFilename());
+            Map map = getMap(fmap);
+            try {
+                Pixmap px = MapIO.generatePreview(map);
+                Fi png = new Fi(".data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
+                PixmapIO.writePng(png, px);
+                px.dispose();
+                File image = new File(".data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
+                if (image.exists()) {
+                    msg.getChannel()
+                            .flatMap(channel -> {
+                                try {
+                                    return channel.createMessage(MessageCreateSpec.builder()
+                                            .addFile("render.png", new FileInputStream(image))
+                                            .build());
+                                } catch (FileNotFoundException err) {
+                                    errorLogger.logErr(err);
+                                    return Mono.empty();
+                                }
+                            })
+                            .subscribe();
+                }
+            } catch (Exception ex) {
+                errorLogger.logErr(ex);
+            }
         });
         /*registerCommand("join", "idk.", ownerid, (e, args) -> {
             e.getMessage().getAuthor().ifPresent(author -> {
