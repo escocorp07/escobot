@@ -170,12 +170,16 @@ public class botCommands {
             sb.setLength(0);
         });
         registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
-            Vars.net.pingHost(args[0], Integer.parseInt(args[1]), host->{
-                sendMessage(e.getMessage().getChannelId(), "Name: "+host.name+"\nPlayers: "+host.players+"/"+host.playerLimit);
-            }, er->{
-                errorLogger.logErr(er);
-                sendMessage(e.getMessage().getChannelId(), "Ошибка при проверке статуса хоста.");
-            });
+            try {
+                Vars.net.pingHost(args[0], Integer.parseInt(args[1]), host -> {
+                    sendMessage(e.getMessage().getChannelId(), "Name: " + host.name + "\nPlayers: " + host.players + "/" + host.playerLimit);
+                }, er -> {
+                    errorLogger.logErr(er);
+                    sendMessage(e.getMessage().getChannelId(), "Ошибка при проверке статуса хоста.");
+                });
+            } catch (Exception err) {
+                errorLogger.logErr(err);
+            }
         });
         KbotCommands.Companion.KregisterCommands();
     }

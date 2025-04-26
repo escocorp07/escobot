@@ -1,5 +1,6 @@
 package main.java;
 
+import arc.struct.Seq;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
@@ -31,4 +32,5 @@ public class BVars {
      * scheduler.scheduleAtFixedRate(runnable, 0, 7, TimeUnit.SECONDS);
      * */
     public static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    public static Seq<String> bannedErrs = Seq.with("ui", "TextFormatter", "renderer", "reading entity", "enableEffects", "entity", "mindustry.gen.LogicExplosionCallPacket.handled(LogicExplosionCallPacket.java:54)", "EOFException");
 }

@@ -9,6 +9,7 @@ import arc.util.Timer;
 import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import mindustry.Vars;
+import mindustry.core.ContentLoader;
 import mindustry.core.Platform;
 import mindustry.net.Net;
 import reactor.util.Loggers;
@@ -25,6 +26,48 @@ public class Main {
         loadSettings();
         Vars.platform = new Platform() {};
         Vars.net = new Net(Vars.platform.getNet());
+        Vars.content = new ContentLoader();
+        Vars.content.createBaseContent();
+        Core.app = new Application() {
+            @Override
+            public Seq<ApplicationListener> getListeners(){
+                return new Seq<ApplicationListener>();
+            }
+
+            @Override
+            public ApplicationType getType() {
+                Log.info("GetType used");
+                return null;
+            }
+
+            @Override
+            public String getClipboardText() {
+                Log.info("getCLTestUsed used");
+                return "";
+            }
+
+            @Override
+            public void setClipboardText(String s) {
+                Log.info("setClText used, text @", s);
+            }
+
+            @Override
+            public void post(Runnable runnable){
+                //Threads.daemon(() -> {
+                try {
+                    runnable.run();
+                } catch (Exception e) {
+                    net.showError(e);
+                }
+                //});
+            }
+
+            @Override
+            public void exit() {
+                Log.info("Exit used");
+                System.exit(0);
+            }
+        };
         for (String arg : args) {
             if (arg.equals("-d")) {
                 BVars.debug = true;
