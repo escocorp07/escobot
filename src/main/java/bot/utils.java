@@ -256,7 +256,7 @@ public class utils {
                 // ktsEngine.put("utils", utils.class);
                 // ktsEngine.put("BVars", BVars.class);
 
-                Reflections reflections = new Reflections("main.java");
+                Reflections reflections = new Reflections("main");
                 Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
                 for (Class<?> clazz : allClasses) {
                     Log.info(clazz.getSimpleName());
