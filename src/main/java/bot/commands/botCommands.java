@@ -34,6 +34,7 @@ import java.util.Arrays;
 
 import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
+import static main.java.bot.botUtils.sendMessageP;
 import static main.java.bot.commands.commandHandler.registerCommand;
 import static main.java.BuildInfo.*;
 import static main.java.BVars.*;
@@ -161,7 +162,7 @@ public class botCommands {
         registerCommand("suggest-ban", "Запретить предложку", ownerid, (e, args)->{
             try {
                 bannedInSug.add(Snowflake.of(Long.parseLong(args[0])));
-                sendMessage(e.getMessage().getChannelId(), "Добавлено <@"+args[0]+">");
+                sendMessageP(e.getMessage().getChannelId(), "Добавлено <@"+args[0]+">");
             } catch (Exception err) {
                 sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
             }
@@ -169,7 +170,7 @@ public class botCommands {
         registerCommand("suggest-unban", "Разрешить предложку", ownerid, (e, args)->{
             try {
                 bannedInSug.remove(Snowflake.of(Long.parseLong(args[0])));
-                sendMessage(e.getMessage().getChannelId(), "Удалено <@"+args[0]+">");
+                sendMessageP(e.getMessage().getChannelId(), "Удалено <@"+args[0]+">");
             } catch (Exception err) {
                 sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
             }
@@ -180,7 +181,7 @@ public class botCommands {
                 sb.append("<@" + f.asString() + ">\n");
             }
             sb.setLength(2000);
-            sendMessage(e.getMessage().getChannelId(), sb.toString());
+            sendMessageP(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
         registerCommand("suggest", "Предложить идею", (e, args)->{
