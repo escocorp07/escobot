@@ -254,18 +254,6 @@ public class utils {
 
             if (ktsEngine != null) {
                 Log.info("Kotlin ScriptEngine initialized successfully.");
-                /*
-                Field[] fields = BVars.class.getDeclaredFields();
-                for (Field field : fields) {
-                    if (!field.getName().contains("token")) {
-                        ktsEngine.put("BVars." + field.getName(), field.get(null ));
-                    }
-                }
-                ktsEngine.put("Snowflake.of", Snowflake.class.getDeclaredMethod("of", String.class));
-                ktsEngine.put("Log.info", Log.class.getDeclaredMethod("info", Object.class));
-                */
-                ktsEngine.put("BVars", BVars.class);
-                ktsEngine.eval("import BVars.*");
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
