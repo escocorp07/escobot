@@ -118,20 +118,6 @@ public class botLoader {
                 }
                 return Mono.empty();
             }).subscribe();
-            utils.emojiToName c = emToName.find(cc->{
-                if(event.getMessage().getContent().contains(cc.getEmoji()))
-                    return true;
-                return false;
-            });
-            if(c!=null) {
-                if(c.getContent() instanceof Block b) {
-                    sendMessage(event.getMessage().getChannelId(), "Btw, this block is "+b.name);
-                } else if(c.getContent() instanceof UnitType u) {
-                    sendMessage(event.getMessage().getChannelId(), "Btw, this block is "+u.name);
-                } else if(c.getContent() instanceof  Item i) {
-                    sendMessage(event.getMessage().getChannelId(), "Btw, this item is "+i.name);
-                }
-            }
             handleEvent(event);
             if (event.getMessage().getContent().toLowerCase().contains("здарова")) {
                 File image = new File("images/здарова.png");

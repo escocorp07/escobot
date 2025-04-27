@@ -104,21 +104,6 @@ public class Main {
                     break;
             }
         }
-        for(Item i : Vars.content.items()) {
-            if(!i.emoji().isEmpty())
-                emToName.add(new emojiToName(i.emoji(), i));
-        }
-        for(Block i : Vars.content.blocks()) {
-            if(!i.emoji().isEmpty())
-                emToName.add(new emojiToName(i.emoji(), i));
-        }
-        for(UnitType i : Vars.content.units()) {
-            if(!i.emoji().isEmpty())
-                emToName.add(new emojiToName(i.emoji(), i));
-        }
-        emToName.each(e->{
-            Log.info(e.getContent().getClass().getSimpleName());
-        });
         errorLogger.debug("Bot running in debug mode!");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Log.info("Saving settings, please wait.");

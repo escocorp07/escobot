@@ -271,16 +271,4 @@ public class utils {
             Log.err(e);
         }
     }
-    @Getter
-    @Setter
-    public static class emojiToName {
-        String emoji;
-        Object content;
-        public emojiToName(String emoji, Object content) {
-            if(content instanceof Item || content instanceof Block || content instanceof UnitType) {
-                this.emoji = emoji;
-                this.content = content;
-            }
-        }
-    }
 }
