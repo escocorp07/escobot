@@ -90,6 +90,10 @@ public class Main {
                 case "--debug":
                     BVars.debug = true;
                     break;
+                case "-d4jd":
+                case "-discord4jdebug":
+                    BVars.d4jdebug=true;
+                    break;
                 default:
                     Log.warn("Unkown arg @", arg);
                     break;
