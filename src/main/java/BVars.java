@@ -25,9 +25,9 @@ public class BVars {
      * newsid-роль новостей из реакшенмесадж
      * grelid-роль грелы
      * forumBannedid-не может писать в форуме заявок на админку
-     * arrivalsid-место где идут оповещения о прибытии участников на сервер
+     * arrivalsid-место, где идут оповещения о прибытии участников на сервер
      * sugid - канал для предложений участников
-     * sugping - сообщение для получение роли пинга
+     * sugping - сообщение для получения роли пинга
      * sugpingrole - роль пинга
      * */
     public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid, sugping, sugpingrole;

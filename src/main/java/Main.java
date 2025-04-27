@@ -116,6 +116,9 @@ public class Main {
             if(!i.emoji().isEmpty())
                 emToName.add(new emojiToName(i.emoji(), i));
         }
+        emToName.each(e->{
+            Log.info(e.getContent().getClass().getSimpleName());
+        });
         errorLogger.debug("Bot running in debug mode!");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Log.info("Saving settings, please wait.");
