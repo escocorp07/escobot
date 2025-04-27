@@ -254,14 +254,14 @@ public class utils {
 
             if (ktsEngine != null) {
                 Log.info("Kotlin ScriptEngine initialized successfully.");
-                ktsEngine.put("BVars", BVars.class);
                 Field[] fields = BVars.class.getDeclaredFields();
                 for (Field field : fields) {
-                    if(!field.getName().contains("token"))
-                        ktsEngine.put(field.getName(), field);
+                    if (!field.getName().contains("token")) {
+                        ktsEngine.put("BVars." + field.getName(), field.get(null ));
+                    }
                 }
-                ktsEngine.put("registerCommand", commandHandler.class.getDeclaredMethod("registerCommand", String.class, String.class, BiConsumer.class));
-                ktsEngine.put("Snowflake", Snowflake.class.getDeclaredMethod("of", String.class));
+                ktsEngine.put("Snowflake.of", Snowflake.class.getDeclaredMethod("of", String.class));
+                ktsEngine.put("Log.info", Log.class.getDeclaredMethod("info", Object.class));
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
