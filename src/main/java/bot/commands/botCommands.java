@@ -35,7 +35,8 @@ import java.util.Arrays;
 import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.botUtils.sendMessageP;
-import static main.java.bot.commands.commandHandler.registerCommand;
+import static main.java.bot.commands.commandHandler.commands;
+import static main.java.bot.commands.commandHandler.*;
 import static main.java.BuildInfo.*;
 import static main.java.BVars.*;
 import static main.java.bot.utils.*;
@@ -269,6 +270,19 @@ public class botCommands {
         });
         registerCommand("error", "Искуственно создать ошибку.", grelyid, (e, args) -> {
             errorLogger.logErr(new RuntimeException("test"));
+        });
+        registerCommand("help", "Посмотреть команды и их описания", grelyid, (e, args) -> {
+            EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
+                    .color(Color.GREEN);
+            for(botcommand c : commands) {
+                embed.addField(c.getName(), c.getDescription(), false);
+            }
+            MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
+                    .addEmbed(embed.build());
+            gateway.getChannelById(e.getMessage().getChannelId())
+                    .ofType(GuildMessageChannel.class)
+                    .flatMap(channel -> channel.createMessage(ms.build()
+                    )).subscribe();
         });
         registerCommand("set-join", "Установить сообщение отправляемое участнику по заходу.", grelyid, (e, args) -> {
             if(args.length == 0) {
