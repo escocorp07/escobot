@@ -26,6 +26,8 @@ public class Main {
         Vars.platform = new Platform() {};
         Vars.net = new BNet(Vars.platform.getNet());
         Core.settings = new Settings();
+        Core.settings.put.appName="escobot";
+        Core.settings.load();
         Core.files = new MockFiles();
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
