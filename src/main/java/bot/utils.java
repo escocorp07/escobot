@@ -134,6 +134,11 @@ public class utils {
         handledMessages=Core.settings.getLong("handledMessages", 0);
         handledCommands=Core.settings.getLong("handledCommands", 0);
     }
+    public static void saveSettings() {
+        Core.settings.put("joinMessage", joinMessage);
+        Core.settings.put("handledMessages", handledMessages);
+        Core.settings.put("handledCommands", handledCommands);
+    }
     public static void loadNet() {
         Vars.net.handleClient(Connect.class, packet -> {
             Log.info("Generated packet for: @", packet.addressTCP);

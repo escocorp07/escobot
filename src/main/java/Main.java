@@ -98,6 +98,7 @@ public class Main {
         errorLogger.debug("Bot running in debug mode!");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Log.info("Saving settings, please wait.");
+            saveSettings();
             Core.settings.forceSave();
         }));
         botLoader.load();
