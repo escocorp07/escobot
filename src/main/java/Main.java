@@ -25,10 +25,10 @@ public class Main {
         loadSettings();
         Vars.platform = new Platform() {};
         Vars.net = new BNet(Vars.platform.getNet());
+        Core.files = new MockFiles();
         Core.settings = new Settings();
         Core.settings.setAppName("escobot");
         Core.settings.load();
-        Core.files = new MockFiles();
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
         Vars.content.loadColors();
