@@ -22,7 +22,6 @@ public class Main {
         Loggers.useCustomLoggers(new LoggerProvider());
         Log.info("Loading bot...");
         loadcfg();
-        loadSettings();
         Vars.platform = new Platform() {};
         Vars.net = new BNet(Vars.platform.getNet());
         Core.files = new MockFiles();
@@ -30,6 +29,7 @@ public class Main {
         Core.settings.setAppName("escobot");
         Core.settings.setDataDirectory(Core.files.local("config"));
         Core.settings.load();
+        loadSettings();
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
         Vars.content.loadColors();
@@ -98,7 +98,6 @@ public class Main {
         errorLogger.debug("Bot running in debug mode!");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Log.info("Saving settings, please wait.");
-            saveSettings();
             Core.settings.forceSave();
         }));
         botLoader.load();

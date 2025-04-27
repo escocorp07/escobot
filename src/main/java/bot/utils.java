@@ -130,22 +130,9 @@ public class utils {
         }
     }
     public static void loadSettings() {
-        Log.info("Loading settings.");
-        JsonValue settings = loadJson("settings");
-        if(settings != null) {
-            handledCommands=settings.getLong("handledCommands");
-            handledMessages=settings.getLong("handledMessages");
-            joinMessage=settings.getString("joinMessage");
-        } else {
-            Log.warn("No settings file found! First run?");
-        }
-    }
-    public static void saveSettings() {
-        JsonValue data = new JsonValue(JsonValue.ValueType.object);
-        data.addChild("handledMessages", new JsonValue(handledMessages));
-        data.addChild("handledCommands", new JsonValue(handledCommands));
-        data.addChild("joinMessage", new JsonValue(joinMessage));
-        saveJson("settings", data);
+        joinMessage=Core.settings.getString("joinMessage", "");
+        handledMessages=Core.settings.getLong("handledMessages", 0);
+        handledCommands=Core.settings.getLong("handledCommands", 0);
     }
     public static void loadNet() {
         Vars.net.handleClient(Connect.class, packet -> {
