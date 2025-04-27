@@ -4,7 +4,12 @@ import arc.struct.Seq;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
+import main.java.bot.utils;
+import mindustry.type.Item;
+
 import javax.script.ScriptEngine;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BVars {
     public static DiscordClient client;
@@ -29,5 +34,6 @@ public class BVars {
     public static boolean debug, d4jdebug;
     public static String DB_USER;
     public static String DB_PASSWORD;
+    public static Seq<utils.emojiToName> emToName = new Seq<utils.emojiToName>();
     public static Seq<String> bannedErrs = Seq.with("ui", "TextFormatter", "renderer", "reading entity", "enableEffects", "entity", "mindustry.gen.LogicExplosionCallPacket.handled(LogicExplosionCallPacket.java:54)", "EOFException");
 }

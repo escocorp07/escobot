@@ -8,11 +8,16 @@ import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import mindustry.Vars;
 import mindustry.core.*;
+import mindustry.ctype.Content;
 import mindustry.game.Rules;
 import mindustry.gen.Groups;
 import mindustry.mod.Mods;
+import mindustry.type.Item;
+import mindustry.type.UnitType;
+import mindustry.world.Block;
 import reactor.util.Loggers;
 
+import static main.java.BVars.*;
 import static main.java.ConfigLoader.loadcfg;
 import static main.java.bot.utils.*;
 
@@ -98,6 +103,18 @@ public class Main {
                     Log.warn("Unkown arg @", arg);
                     break;
             }
+        }
+        for(Item i : Vars.content.items()) {
+            if(!i.emoji().isEmpty())
+                emToName.add(new emojiToName(i.emoji(), i));
+        }
+        for(Block i : Vars.content.blocks()) {
+            if(!i.emoji().isEmpty())
+                emToName.add(new emojiToName(i.emoji(), i));
+        }
+        for(UnitType i : Vars.content.units()) {
+            if(!i.emoji().isEmpty())
+                emToName.add(new emojiToName(i.emoji(), i));
         }
         errorLogger.debug("Bot running in debug mode!");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

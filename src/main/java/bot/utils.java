@@ -7,11 +7,15 @@ import arc.util.serialization.*;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;
+import lombok.Getter;
+import lombok.Setter;
 import main.java.BVars;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import mindustry.net.Packets;
 import mindustry.type.Item;
+import mindustry.type.UnitType;
+import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
 import arc.*;
@@ -265,6 +269,18 @@ public class utils {
             }
         } catch (Throwable e) {
             Log.err(e);
+        }
+    }
+    @Getter
+    @Setter
+    public static class emojiToName {
+        String emoji;
+        Object content;
+        public emojiToName(String emoji, Object content) {
+            if(content instanceof Item || content instanceof Block || content instanceof UnitType) {
+                this.emoji = emoji;
+                this.content = content;
+            }
         }
     }
 }

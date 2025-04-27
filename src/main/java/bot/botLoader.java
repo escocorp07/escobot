@@ -6,6 +6,7 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.*;
 import discord4j.core.event.domain.guild.*;
+import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.ThreadChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.core.shard.GatewayBootstrap;
@@ -15,12 +16,16 @@ import discord4j.gateway.intent.IntentSet;
 import main.java.BVars;
 import main.java.bot.commands.botCommands;
 import main.java.bot.emoji.botEmoji;
+import mindustry.type.Item;
+import mindustry.type.UnitType;
+import mindustry.world.Block;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.join.event.handleJEvent;
 
 import static main.java.bot.emoji.emojiHandler.*;
@@ -101,6 +106,11 @@ public class botLoader {
             return Mono.empty();
         }).subscribe();
         gateway.on(MessageCreateEvent.class, event -> {
+            User us = event.getMessage().getAuthor().orElse(null);
+            if(us == null)
+                return Mono.empty();
+            if(us.isBot())
+                return Mono.empty();
             handledMessages+=1;
             event.getMessage().getChannel().flatMap(ch->{
                 if (ch instanceof ThreadChannel threadChannel) {
@@ -108,6 +118,20 @@ public class botLoader {
                 }
                 return Mono.empty();
             }).subscribe();
+            utils.emojiToName c = emToName.find(cc->{
+                if(event.getMessage().getContent().contains(cc.getEmoji()))
+                    return true;
+                return false;
+            });
+            if(c!=null) {
+                if(c.getContent() instanceof Block b) {
+                    sendMessage(event.getMessage().getChannelId(), "Btw, this block is "+b.name);
+                } else if(c.getContent() instanceof UnitType u) {
+                    sendMessage(event.getMessage().getChannelId(), "Btw, this block is "+u.name);
+                } else if(c.getContent() instanceof  Item i) {
+                    sendMessage(event.getMessage().getChannelId(), "Btw, this item is "+i.name);
+                }
+            }
             handleEvent(event);
             if (event.getMessage().getContent().toLowerCase().contains("здарова")) {
                 File image = new File("images/здарова.png");
