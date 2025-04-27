@@ -75,25 +75,27 @@ public class botCommands {
             sb.setLength(0);
         });
         registerCommand("kt", "kt really", ownerid, (e, args)->{
-            StringBuilder sb = new StringBuilder();
-            for (String arg : args) {
-                sb.append(arg + " ");
-            }
-            String out = "No output";
-            try {
-                if(ktsEngine == null)
-                    initKotlinScripting();
-                if(ktsEngine == null) {
-                    sendMessage(e.getMessage().getChannelId(), "Не могу инициализировать движок!");
-                    return;
+            Core.app.post(()->{
+                StringBuilder sb = new StringBuilder();
+                for (String arg : args) {
+                    sb.append(arg + " ");
                 }
-                out = ktsEngine.eval(sb.toString().trim()).toString();
-                // out = ScriptEngineHolder.INSTANCE.getKts().eval(sb.toString().trim()).toString();
-            } catch (Exception er) {
-                out = er.getMessage();
-            }
-            sendMessage(e.getMessage().getChannelId(), out);
-            sb.setLength(0);
+                String out = "No output";
+                try {
+                    if(ktsEngine == null)
+                        initKotlinScripting();
+                    if(ktsEngine == null) {
+                        sendMessage(e.getMessage().getChannelId(), "Не могу инициализировать движок!");
+                        return;
+                    }
+                    out = ktsEngine.eval(sb.toString().trim()).toString();
+                    // out = ScriptEngineHolder.INSTANCE.getKts().eval(sb.toString().trim()).toString();
+                } catch (Exception er) {
+                    out = er.getMessage();
+                }
+                sendMessage(e.getMessage().getChannelId(), out);
+                sb.setLength(0);
+            });
         });
         registerCommand("js", "js really", ownerid, (e, args)->{
             Core.app.post(()->{
