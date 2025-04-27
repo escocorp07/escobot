@@ -27,5 +27,7 @@ public class BVars {
      * */
     public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid, sugping, sugpingrole;
     public static boolean debug;
+    public static String DB_USER;
+    public static String DB_PASSWORD;
     public static Seq<String> bannedErrs = Seq.with("ui", "TextFormatter", "renderer", "reading entity", "enableEffects", "entity", "mindustry.gen.LogicExplosionCallPacket.handled(LogicExplosionCallPacket.java:54)", "EOFException");
 }
