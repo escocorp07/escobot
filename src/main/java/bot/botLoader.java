@@ -6,6 +6,7 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.*;
 import discord4j.core.event.domain.guild.*;
+import discord4j.core.object.entity.channel.ThreadChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.core.shard.GatewayBootstrap;
 import discord4j.core.spec.MessageCreateSpec;
@@ -101,6 +102,12 @@ public class botLoader {
         }).subscribe();
         gateway.on(MessageCreateEvent.class, event -> {
             handledMessages+=1;
+            event.getMessage().getChannel().flatMap(ch->{
+                if (ch instanceof ThreadChannel threadChannel) {
+                    threadChannel.join().subscribe();
+                }
+                return Mono.empty();
+            }).subscribe();
             handleEvent(event);
             if (event.getMessage().getContent().toLowerCase().contains("здарова")) {
                 File image = new File("images/здарова.png");
