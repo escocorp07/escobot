@@ -12,6 +12,7 @@ import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
+import discord4j.core.object.entity.channel.TopLevelGuildMessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
@@ -248,6 +249,7 @@ public class botCommands {
                     )).subscribe(m->{
                         m.addReaction(ReactionEmoji.unicode("✅")).subscribe();
                         m.addReaction(ReactionEmoji.unicode("❌")).subscribe();
+                        //m.
                     });
             sb.setLength(0);
         });

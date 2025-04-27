@@ -13,10 +13,10 @@ compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 repositories{
-    mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven{ url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
     maven{ url 'https://www.jitpack.io' }
+    mavenCentral()
 }
 
 ext{
@@ -35,7 +35,7 @@ dependencies{
     implementation "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
-    implementation 'com.discord4j:discord4j-core:3.2.8'
+    implementation 'com.discord4j:discord4j-core:3.2.7-SNAPSHOT'
     //implementation 'org.postgresql:postgresql:42.7.5'
     compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
