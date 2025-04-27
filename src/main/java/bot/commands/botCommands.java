@@ -104,7 +104,7 @@ public class botCommands {
                 }
                 String out = "No output";
                 try {
-                    out = Vars.mods.getScripts().runConsole(args);
+                    out = Vars.mods.getScripts().runConsole(sb.toString());
                 } catch (Exception er) {
                     out = er.getMessage();
                 }
@@ -271,7 +271,7 @@ public class botCommands {
                 for (int i = 1; i < args.length; i++) {
                     sb.append(args[i]).append(" ");
                 }
-                output = OS.exec(cmd, sb.toString().trim());
+                output = OS.exec(args);
             }
             sendMessage(e.getMessage().getChannelId(), output.isEmpty() ? "No output." : output);
         });
