@@ -161,7 +161,7 @@ public class botCommands {
         registerCommand("suggest-ban", "Запретить предложку", ownerid, (e, args)->{
             try {
                 bannedInSug.add(Snowflake.of(Long.parseLong(args[0])));
-                sendMessage(e.getMessage().getChannelId(), "Добавлено.");
+                sendMessage(e.getMessage().getChannelId(), "Добавлено <@"+args[0]+">");
             } catch (Exception err) {
                 sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
             }
@@ -169,7 +169,7 @@ public class botCommands {
         registerCommand("suggest-unban", "Разрешить предложку", ownerid, (e, args)->{
             try {
                 bannedInSug.remove(Snowflake.of(Long.parseLong(args[0])));
-                sendMessage(e.getMessage().getChannelId(), "Удалено!");
+                sendMessage(e.getMessage().getChannelId(), "Удалено <@"+args[0]+">");
             } catch (Exception err) {
                 sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
             }
