@@ -77,7 +77,6 @@ public class botCommands {
             sb.setLength(0);
         });
         registerCommand("kt", "kt really", ownerid, (e, args)->{
-            Core.app.post(()->{
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {
                     sb.append(arg + " ");
@@ -97,10 +96,8 @@ public class botCommands {
                 }
                 sendMessage(e.getMessage().getChannelId(), out);
                 sb.setLength(0);
-            });
         });
         registerCommand("js", "js really", ownerid, (e, args)->{
-            Core.app.post(()->{
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {
                     sb.append(arg + " ");
@@ -113,7 +110,6 @@ public class botCommands {
                 }
                 sendMessage(e.getMessage().getChannelId(), out);
                 sb.setLength(0);
-            });
         });
         registerCommand("render", "Render map", ownerid, (e, args)->{
             Message msg = e.getMessage();
