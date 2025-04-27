@@ -16,7 +16,8 @@ import discord4j.core.object.entity.channel.TopLevelGuildMessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
-import discord4j.core.spec.VoiceChannelJoinSpec;
+import discord4j.core.spec.StartThreadFromMessageSpec;
+import discord4j.core.spec.StartThreadFromMessageSpecGenerator;
 import discord4j.rest.util.Color;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
@@ -249,7 +250,7 @@ public class botCommands {
                     )).subscribe(m->{
                         m.addReaction(ReactionEmoji.unicode("✅")).subscribe();
                         m.addReaction(ReactionEmoji.unicode("❌")).subscribe();
-                        //m.
+                        m.startThread(StartThreadFromMessageSpec.builder().name("Обсуждение").reason("Suggest created").build()).subscribe();
                     });
             sb.setLength(0);
         });
