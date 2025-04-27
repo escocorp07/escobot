@@ -13,7 +13,7 @@ public class BVars {
     public static Snowflake guild; // сервер бота
     public static long handledCommands, handledMessages;
     public static ScriptEngine ktsEngine = null;
-    public static Seq<Long> bannedInSug = new Seq<>();
+    public static Seq<Snowflake> bannedInSug = new Seq<>();
     /**
      * ownerid-айди роли-владельца сервера
      * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей

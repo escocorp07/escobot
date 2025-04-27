@@ -158,9 +158,38 @@ public class botCommands {
                 ).subscribe();
             });
         });*/
+        registerCommand("suggest-ban", "Запретить предложку", ownerid, (e, args)->{
+            try {
+                bannedInSug.add(Snowflake.of(Long.parseLong(args[0])));
+                sendMessage(e.getMessage().getChannelId(), "Добавлено.");
+            } catch (Exception err) {
+                sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
+            }
+        });
+        registerCommand("suggest-unban", "Разрешить предложку", ownerid, (e, args)->{
+            try {
+                bannedInSug.remove(Snowflake.of(Long.parseLong(args[0])));
+                sendMessage(e.getMessage().getChannelId(), "Удалено!");
+            } catch (Exception err) {
+                sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
+            }
+        });
+        registerCommand("suggest-banned", "Список людей с запретом предложки", ownerid, (e, args)->{
+            StringBuilder sb = new StringBuilder();
+            for(Snowflake f : bannedInSug) {
+                sb.append("<@" + f.asString() + ">\n");
+            }
+            sb.setLength(2000);
+            sendMessage(e.getMessage().getChannelId(), sb.toString());
+            sb.setLength(0);
+        });
         registerCommand("suggest", "Предложить идею", (e, args)->{
-            if(args.length < 3) {
-                sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало слов ! (3 - минимум)");
+            if(args.length < 2) {
+                sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало слов! (2 - минимум)");
+                return;
+            }
+            if(bannedInSug.contains(e.getMessage().getAuthor().orElse(null).getId())) {
+                sendMessage(e.getMessage().getChannelId(), "Вам запрещено отправлять предложения!");
                 return;
             }
             EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()

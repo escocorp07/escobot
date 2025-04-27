@@ -133,11 +133,21 @@ public class utils {
         joinMessage=Core.settings.getString("joinMessage", "");
         handledMessages=Core.settings.getLong("handledMessages", 0);
         handledCommands=Core.settings.getLong("handledCommands", 0);
+        String[] bannedSug = Core.settings.getString("bannedInSug", "").split(";");
+        for(String a : bannedSug) {
+            bannedInSug.add(Snowflake.of(a));
+        }
     }
     public static void saveSettings() {
         Core.settings.put("joinMessage", joinMessage);
         Core.settings.put("handledMessages", handledMessages);
         Core.settings.put("handledCommands", handledCommands);
+        StringBuilder sb = new StringBuilder();
+        for(Snowflake f : bannedInSug) {
+            sb.append(f.asString()+";");
+        }
+        Core.settings.put("bannedInSug", sb.toString());
+        sb.setLength(0);
     }
     public static void loadNet() {
         Vars.net.handleClient(Connect.class, packet -> {
