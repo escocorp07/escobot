@@ -20,12 +20,10 @@ repositories{
 }
 
 ext{
-    //the build number that this plugin is made for
     mindustryVersion = 'v147.1'
     jabelVersion = "93fde537c7"
 }
 
-//java 8 backwards compatibility flag
 allprojects{
     tasks.withType(JavaCompile){
         options.compilerArgs.addAll(['--release', '8'])
