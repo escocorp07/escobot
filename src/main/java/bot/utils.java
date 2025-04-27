@@ -4,6 +4,7 @@ import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.util.Log;
 import arc.util.serialization.*;
+import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;
 import main.java.BVars;
@@ -260,6 +261,7 @@ public class utils {
                         ktsEngine.put(field.getName(), field);
                 }
                 ktsEngine.put("registerCommand", commandHandler.class.getDeclaredMethod("registerCommand", String.class, String.class, BiConsumer.class));
+                ktsEngine.put("Snowflake", Snowflake.class.getDeclaredMethod("Snowflake", String.class));
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
