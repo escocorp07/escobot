@@ -49,6 +49,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.zip.InflaterInputStream;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -61,7 +62,7 @@ import java.net.URLClassLoader;
 
 import main.java.bot.commands.commandHandler;
 import org.reflections.Reflections;
-import main.*;
+import java.lang.reflect.Field;
 import static main.java.BVars.*;
 import static mindustry.io.MapIO.colorFor;
 
@@ -245,19 +246,25 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    /*public static void initKotlinScripting() {
+    public static void initKotlinScripting() {
         try {
             ScriptEngineManager manager = new ScriptEngineManager();
             ktsEngine = manager.getEngineByExtension("kts");
 
             if (ktsEngine != null) {
                 Log.info("Kotlin ScriptEngine initialized successfully.");
-
+                ktsEngine.put("BVars", BVars.class);
+                Field[] fields = BVars.class.getDeclaredFields();
+                for (Field field : fields) {
+                    if(!field.getName().contains("token"))
+                        ktsEngine.put(field.getName(), field);
+                }
+                ktsEngine.put("registerCommand", commandHandler.class.getDeclaredMethod("registerCommand", String.class, String.class, BiConsumer.class));
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
         } catch (Throwable e) {
             Log.err(e);
         }
-    }*/
+    }
 }
