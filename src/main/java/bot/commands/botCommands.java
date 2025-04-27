@@ -250,7 +250,10 @@ public class botCommands {
                     )).subscribe(m->{
                         m.addReaction(ReactionEmoji.unicode("✅")).subscribe();
                         m.addReaction(ReactionEmoji.unicode("❌")).subscribe();
-                        m.startThread(StartThreadFromMessageSpec.builder().name("Обсуждение").reason("Suggest created").build()).subscribe();
+                        m.startThread(StartThreadFromMessageSpec.builder().name("Обсуждение").reason("Suggest created").build()).subscribe(t->{
+                            t.createMessage("Ветка создана.");
+                            return;
+                        });
                     });
             sb.setLength(0);
         });
