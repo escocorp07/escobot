@@ -104,7 +104,7 @@ public class botCommands {
                 }
                 String out = "No output";
                 try {
-                    out = Vars.mods.getScripts().runConsole(sb.toString());
+                    out = Vars.mods.getScripts().runConsole(args);
                 } catch (Exception er) {
                     out = er.getMessage();
                 }
