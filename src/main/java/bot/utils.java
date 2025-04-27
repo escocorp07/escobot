@@ -261,7 +261,7 @@ public class utils {
                         ktsEngine.put(field.getName(), field);
                 }
                 ktsEngine.put("registerCommand", commandHandler.class.getDeclaredMethod("registerCommand", String.class, String.class, BiConsumer.class));
-                ktsEngine.put("Snowflake", Snowflake.class.getDeclaredMethod("Snowflake", String.class));
+                ktsEngine.put("Snowflake", Snowflake.class.getDeclaredMethod("of", String.class));
             } else {
                 Log.warn("Failed to initialize Kotlin ScriptEngine.");
             }
