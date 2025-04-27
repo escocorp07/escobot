@@ -28,6 +28,7 @@ public class ConfigLoader {
             BVars.arrivalsid = value.getLong("arrivals_id");
             BVars.sugid = value.getLong("suggestions_id");
             BVars.debug = value.getBoolean("debug", false);
+            BVars.d4jdebug = value.getBoolean("d4jdebug", false);
             BVars.sugping= value.getLong("suggestions_ping_id");
             BVars.sugpingrole= value.getLong("suggestions_role_id");
             BVars.DB_USER=value.getString("DB_USER", "");

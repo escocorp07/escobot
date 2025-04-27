@@ -1,5 +1,6 @@
 package main.java.bot.commands;
 
+import arc.Core;
 import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
@@ -95,18 +96,20 @@ public class botCommands {
             sb.setLength(0);
         });
         registerCommand("js", "js really", ownerid, (e, args)->{
-            StringBuilder sb = new StringBuilder();
-            for (String arg : args) {
-                sb.append(arg + " ");
-            }
-            String out = "No output";
-            try {
-                out = Vars.mods.getScripts().runConsole(sb.toString());
-            } catch (Exception er) {
-                out = er.getMessage();
-            }
-            sendMessage(e.getMessage().getChannelId(), out);
-            sb.setLength(0);
+            Core.app.post(()->{
+                StringBuilder sb = new StringBuilder();
+                for (String arg : args) {
+                    sb.append(arg + " ");
+                }
+                String out = "No output";
+                try {
+                    out = Vars.mods.getScripts().runConsole(sb.toString());
+                } catch (Exception er) {
+                    out = er.getMessage();
+                }
+                sendMessage(e.getMessage().getChannelId(), out);
+                sb.setLength(0);
+            });
         });
         registerCommand("render", "Render map", ownerid, (e, args)->{
             Message msg = e.getMessage();

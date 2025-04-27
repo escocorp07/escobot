@@ -32,22 +32,25 @@ public class CustomLogger implements Logger {
 
     @Override
     public boolean isDebugEnabled() {
-        return debug;
+        return d4jdebug;
     }
 
     @Override
     public void debug(String s) {
-        errorLogger.debug(s);
+        if(d4jdebug)
+            errorLogger.debug(s);
     }
 
     @Override
     public void debug(String s, Object... objects) {
-        errorLogger.debug(s.replace("{}", "@"), objects);
+        if(d4jdebug)
+            errorLogger.debug(s.replace("{}", "@"), objects);
     }
 
     @Override
     public void debug(String s, Throwable throwable) {
-        errorLogger.debug(s.replace("{}", "@")+"\n"+throwable);
+        if(d4jdebug)
+            errorLogger.debug(s.replace("{}", "@")+"\n"+throwable);
     }
 
     @Override
