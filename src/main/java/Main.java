@@ -28,6 +28,7 @@ public class Main {
         Core.files = new MockFiles();
         Core.settings = new Settings();
         Core.settings.setAppName("escobot");
+        Core.settings.setDataDirectory(Core.files.local("config"));
         Core.settings.load();
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
@@ -98,6 +99,7 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Log.info("Saving settings, please wait.");
             saveSettings();
+            Core.settings.forceSave();
         }));
         botLoader.load();
     }
