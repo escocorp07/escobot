@@ -161,7 +161,7 @@ public class botCommands {
                 errorLogger.logErr(ex);
             }
         });*/
-        registerCommand("render", "Render map", ownerid, (e, args) -> {
+        registerCommand("render", "Render map", (e, args) -> {
             Message msg = e.getMessage();
             if (msg.getAttachments().isEmpty())
                 return;
@@ -216,6 +216,7 @@ public class botCommands {
                                 errorLogger.logErr(io);
                                 continue;
                             }
+                            zis.closeEntry();
                             Fi fmap = new Fi(outFile.getPath());
                             Map map = getMap(fmap);
                             if (map == null)
