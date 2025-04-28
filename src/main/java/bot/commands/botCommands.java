@@ -161,7 +161,7 @@ public class botCommands {
                 errorLogger.logErr(ex);
             }
         });*/
-        registerCommand("render", "Render map", (e, args) -> {
+        registerCommand("render", "Render map\nYou can use .zip files to do mass render", (e, args) -> {
             Message msg = e.getMessage();
             if (msg.getAttachments().isEmpty())
                 return;
