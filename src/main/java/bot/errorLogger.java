@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static main.java.BVars.*;
+import static main.java.bot.utils.randomString;
 
 /**Логер ошибок и не только.*/
 public class errorLogger {
@@ -19,7 +20,7 @@ public class errorLogger {
     public static void logErr(Throwable error) {
         try {
             String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            Path logPath = Paths.get("logs/errors/log-" + date + ".txt");
+            Path logPath = Paths.get("logs/errors/log-"+date.replace(" ", "-")+randomString(16)+".txt");
             Log.warn("New error, path: logs/errors/log-@.txt", date);
             Files.createDirectories(logPath.getParent());
             if (!Files.exists(logPath)) {

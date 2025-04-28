@@ -185,7 +185,8 @@ public class botCommands {
                                     try {
                                         return channel.createMessage(MessageCreateSpec.builder()
                                                 .addFile("render.png", new FileInputStream(image))
-                                                .content("Name: " + map.name() + "\nAuthor: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height)
+                                                /*.content("Name: " + map.name() + "\nAuthor: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height)*/
+                                                .addEmbed(EmbedCreateSpec.builder().addField(map.name(), "Author: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height, false).build())
                                                 .build());
                                     } catch (FileNotFoundException err) {
                                         errorLogger.logErr(err);
@@ -233,7 +234,8 @@ public class botCommands {
                                                 try {
                                                     return channel.createMessage(MessageCreateSpec.builder()
                                                             .addFile("render.png", new FileInputStream(image))
-                                                            .content("Name: " + map.name() + "\nAuthor: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height)
+                                                            /*.content("Name: " + map.name() + "\nAuthor: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height)*/
+                                                            .addEmbed(EmbedCreateSpec.builder().addField(map.name(), "Author: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height, false).build())
                                                             .build());
                                                 } catch (FileNotFoundException err) {
                                                     errorLogger.logErr(err);
