@@ -399,7 +399,7 @@ public class botCommands {
         registerCommand("error", "Искуственно создать ошибку.", grelyid, (e, args) -> {
             errorLogger.logErr(new RuntimeException("test"));
         });
-        registerCommand("help", "Посмотреть команды и их описания", grelyid, (e, args) -> {
+        registerCommand("help", "Посмотреть команды и их описания", (e, args) -> {
             EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
                     .color(Color.GREEN);
             for(botcommand c : commands) {
