@@ -6,9 +6,11 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.*;
 import discord4j.core.event.domain.guild.*;
+import discord4j.core.object.emoji.UnicodeEmoji;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.ThreadChannel;
-import discord4j.core.object.reaction.ReactionEmoji;
+// import discord4j.core.object.reaction.ReactionEmoji; // deprecated
+import discord4j.core.object.emoji.Emoji;
 import discord4j.core.shard.GatewayBootstrap;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.gateway.GatewayOptions;
@@ -48,7 +50,7 @@ public class botLoader {
             handleEmojiEvent(event);
             event.getMessage().flatMap(m->{
                 if(m.getId().asLong() == reactionMessage) {
-                    ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
+                    UnicodeEmoji s = event.getEmoji().asUnicodeEmoji().orElse(null);
                     if(s != null) {
                         if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
                             event.getUser().flatMap(a -> {
@@ -76,7 +78,7 @@ public class botLoader {
             handleEmojiEvent(event);
             event.getMessage().flatMap(m->{
                 if(m.getId().asLong() == reactionMessage) {
-                    ReactionEmoji.Unicode s = event.getEmoji().asUnicodeEmoji().orElse(null);
+                    UnicodeEmoji s = event.getEmoji().asUnicodeEmoji().orElse(null);
                     if(s != null) {
                         if (s.getRaw().equals("\uD83D\uDDDE\uFE0F")) {
                             event.getUser().flatMap(a -> {
