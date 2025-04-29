@@ -199,61 +199,74 @@ public class botCommands {
                     errorLogger.logErr(ex);
                 }
             } else if (fileName.endsWith(".zip")) {
-                getAttach(attachment);
-                try (ZipInputStream zis = new ZipInputStream(new FileInputStream(new File("data/atch/" + fileName)))) {
-                    ZipEntry entry;
-                    while ((entry = zis.getNextEntry()) != null) {
-                        String entryName = entry.getName();
-                        if (entryName.endsWith(".msav")) {
-                            File outFile = new File("data/atch/" + entryName);
-                            outFile.getParentFile().mkdirs();
-                            try (FileOutputStream fos = new FileOutputStream(outFile)) {
-                                byte[] buffer = new byte[4096];
-                                int len;
-                                while ((len = zis.read(buffer)) > 0) {
-                                    fos.write(buffer, 0, len);
-                                }
-                            } catch (IOException io) {
-                                errorLogger.logErr(io);
-                                continue;
-                            }
-                            zis.closeEntry();
-                            Fi fmap = new Fi(outFile.getPath());
-                            Map map = getMap(fmap);
-                            if (map == null)
-                                continue;
-                            try {
-                                Pixmap px = MapIO.generatePreview(map);
-                                Fi png = new Fi("data/gen/" + entryName + ".png");
-                                PixmapIO.writePng(png, px);
-                                px.dispose();
-                                File image = new File("data/gen/" + entryName + ".png");
-                                if (image.exists()) {
-                                    msg.getChannel()
-                                            .flatMap(channel -> {
-                                                try {
-                                                    return channel.createMessage(MessageCreateSpec.builder()
-                                                            .addFile("render.png", new FileInputStream(image))
-                                                            /*.content("Name: " + map.name() + "\nAuthor: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height)*/
-                                                            .addEmbed(EmbedCreateSpec.builder().addField(map.name(), "Author: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height, false).color(Color.GREEN).build())
-                                                            .build());
-                                                } catch (FileNotFoundException err) {
-                                                    errorLogger.logErr(err);
-                                                    return Mono.empty();
-                                                }
-                                            })
-                                            .subscribe();
-                                }
-                            } catch (Exception ex) {
-                                errorLogger.logErr(ex);
-                            }
-                        }
-                        zis.closeEntry();
+    getAttach(attachment);
+    String destDir = "data/atch/";
+    try (ZipInputStream zis = new ZipInputStream(new FileInputStream(new File(destDir + fileName)))) {
+        ZipEntry entry;
+        while ((entry = zis.getNextEntry()) != null) {
+            String entryName = entry.getName();
+
+            if (entryName.endsWith(".msav")) {
+                Path normalizedPath = Paths.get(destDir).resolve(entryName).normalize();
+                if (!normalizedPath.startsWith(Paths.get(destDir))) {
+                    System.out.println("Blocked Zip Slip attempt: " + entryName);
+                    continue;
+                }
+
+                File outFile = normalizedPath.toFile();
+                outFile.getParentFile().mkdirs();
+
+                try (FileOutputStream fos = new FileOutputStream(outFile)) {
+                    byte[] buffer = new byte[4096];
+                    int len;
+                    while ((len = zis.read(buffer)) > 0) {
+                        fos.write(buffer, 0, len);
                     }
-                } catch (IOException ex) {
+                } catch (IOException io) {
+                    errorLogger.logErr(io);
+                    continue;
+                }
+
+                zis.closeEntry();
+                Fi fmap = new Fi(outFile.getPath());
+                Map map = getMap(fmap);
+                if (map == null) continue;
+
+                try {
+                    Pixmap px = MapIO.generatePreview(map);
+                    Fi png = new Fi("data/gen/" + entryName + ".png");
+                    PixmapIO.writePng(png, px);
+                    px.dispose();
+                    File image = new File("data/gen/" + entryName + ".png");
+                    if (image.exists()) {
+                        msg.getChannel()
+                            .flatMap(channel -> {
+                                try {
+                                    return channel.createMessage(MessageCreateSpec.builder()
+                                            .addFile("render.png", new FileInputStream(image))
+                                            .addEmbed(EmbedCreateSpec.builder()
+                                                .addField(map.name(), "Author: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height, false)
+                                                .color(Color.GREEN)
+                                                .build())
+                                            .build());
+                                } catch (FileNotFoundException err) {
+                                    errorLogger.logErr(err);
+                                    return Mono.empty();
+                                }
+                            })
+                            .subscribe();
+                    }
+                } catch (Exception ex) {
                     errorLogger.logErr(ex);
                 }
             }
+
+            zis.closeEntry();
+        }
+    } catch (IOException ex) {
+        errorLogger.logErr(ex);
+    }
+}
         });
         /*registerCommand("join", "idk.", ownerid, (e, args) -> {
             e.getMessage().getAuthor().ifPresent(author -> {
