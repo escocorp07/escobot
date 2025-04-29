@@ -5,7 +5,8 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
-import discord4j.core.object.reaction.ReactionEmoji;
+//import discord4j.core.object.reaction.ReactionEmoji; // deprecated
+import discord4j.core.object.emoji.Emoji;
 import lombok.Getter;
 import lombok.Setter;
 import main.java.BVars;
@@ -60,7 +61,7 @@ public class commandHandler {
                                 command.exec(event, Arrays.copyOfRange(args, 1, args.length));
                             } else {
                                 sendMessage(message.getChannelId(), "No access.");
-                                message.addReaction(ReactionEmoji.unicode("❌")).subscribe();
+                                message.addReaction(Emoji.unicode("❌")).subscribe();
                             }
                             return Mono.empty();
                         }).subscribe();

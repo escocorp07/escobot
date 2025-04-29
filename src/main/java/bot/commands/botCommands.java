@@ -13,8 +13,9 @@ import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.object.entity.channel.TopLevelGuildMessageChannel;
-import discord4j.core.object.reaction.ReactionEmoji;
+//import discord4j.core.object.reaction.ReactionEmoji; // deprecated
 import discord4j.core.spec.EmbedCreateSpec;
+import discord4j.core.object.emoji.Emoji;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.core.spec.StartThreadFromMessageSpec;
 import discord4j.core.spec.StartThreadFromMessageSpecGenerator;
@@ -365,8 +366,8 @@ public class botCommands {
                     .ofType(GuildMessageChannel.class)
                     .flatMap(channel -> channel.createMessage(ms.build()
                     )).subscribe(m->{
-                        m.addReaction(ReactionEmoji.unicode("✅")).subscribe();
-                        m.addReaction(ReactionEmoji.unicode("❌")).subscribe();
+                        m.addReaction(Emoji.unicode("✅")).subscribe();
+                        m.addReaction(Emoji.unicode("❌")).subscribe();
                         m.startThread(StartThreadFromMessageSpec.builder().name("Обсуждение").reason("Suggest created").build()).subscribe(t->{
                             t.createMessage("Ветка создана.");
                             return;
