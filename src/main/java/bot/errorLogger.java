@@ -20,8 +20,7 @@ public class errorLogger {
     public static void logErr(Throwable error) {
         try {
             String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            Path logPath = Paths.get("logs/errors/log-"+date.replace(" ", "-")+randomString(16)+".txt");
-            Log.warn("New error, path: logs/errors/log-@.txt", date);
+            Path logPath = Paths.get("logs/errors/log-"+date.replace(" ", "-")+"-"+randomString(3)+".txt");
             Files.createDirectories(logPath.getParent());
             if (!Files.exists(logPath)) {
                 Files.createFile(logPath);
