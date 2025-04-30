@@ -7,6 +7,8 @@ import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 //import discord4j.core.object.reaction.ReactionEmoji; // deprecated
 import discord4j.core.object.emoji.Emoji;
+import discord4j.core.spec.MessageCreateSpec;
+import discord4j.discordjson.json.MessageReferenceData;
 import lombok.Getter;
 import lombok.Setter;
 import main.java.BVars;
@@ -60,7 +62,8 @@ public class commandHandler {
                             if (m.getRoleIds().contains(Snowflake.of(command.getRoleID())) || command.getRoleID() == 0) {
                                 command.exec(event, Arrays.copyOfRange(args, 1, args.length));
                             } else {
-                                sendMessage(message.getChannelId(), "No access.");
+                                //sendMessage(message.getChannelId(), "No access.");
+                                sendMessage(message.getChannelId(), MessageCreateSpec.builder().messageReference(MessageReferenceData.builder().channelId(message.getChannelId().asLong()).messageId(message.getId().asLong()).build()).content("No access").build());
                                 message.addReaction(Emoji.unicode("❌")).subscribe();
                             }
                             return Mono.empty();
