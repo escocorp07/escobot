@@ -16,8 +16,10 @@ public class botUtils {
         if(content.isEmpty())
             return;
         gateway.getChannelById(cha)
-                .flatMap(ch -> ch.getRestChannel().createMessage(content.replace("@", "")))
-                .subscribe();
+                .flatMap(ch -> {
+                    ch.getRestChannel().createMessage(content.replace("@", "")).doOnError(errorLogger::logErr).subscribe();
+                    return Mono.empty();
+                }).doOnError(errorLogger::logErr).subscribe();
     }
     public static void sendMessage(String cha, String content) {
         sendMessage(Snowflake.of(cha), content);
@@ -29,7 +31,11 @@ public class botUtils {
         if(content.isEmpty())
             return;
         gateway.getChannelById(cha)
-                .flatMap(ch -> ch.getRestChannel().createMessage(content))
+                .flatMap(ch ->{
+                    ch.getRestChannel().createMessage(content).doOnError(errorLogger::logErr).subscribe();
+                    return Mono.empty();
+                })
+                .doOnError(errorLogger::logErr)
                 .subscribe();
     }
     public static void sendMessageP(String cha, String content) {
@@ -43,9 +49,11 @@ public class botUtils {
         gateway.getChannelById(cha)
                 .ofType(MessageChannel.class)
                 .flatMap(ch->{
-                    ch.createMessage(m).subscribe();
+                    ch.createMessage(m)
+                            .doOnError(errorLogger::logErr).
+                            subscribe();
                     return Mono.empty();
-        }).subscribe();
+        }).doOnError(errorLogger::logErr).subscribe();
     }
     public static void sendMessage(String cha, MessageCreateSpec m){
         sendMessage(Snowflake.of(cha), m);
@@ -58,9 +66,9 @@ public class botUtils {
         gateway.getChannelById(cha)
                 .ofType(MessageChannel.class)
                 .flatMap(ch->{
-                    ch.createMessage(MessageCreateSpec.builder().addEmbed(e).build()).subscribe();
+                    ch.createMessage(MessageCreateSpec.builder().addEmbed(e).build()).doOnError(errorLogger::logErr).subscribe();
                     return Mono.empty();
-                }).subscribe();
+                }).doOnError(errorLogger::logErr).subscribe();
     }
     public static void sendEmbed(String cha, EmbedCreateSpec e){
         sendEmbed(Snowflake.of(cha), e);
@@ -78,8 +86,8 @@ public class botUtils {
     public static void sendEmbedReply(EmbedCreateSpec e, Message msg) {
         msg.getChannel()
                 .flatMap(ch -> {
-                    ch.createMessage(MessageCreateSpec.builder().addEmbed(e).messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).build()).subscribe();
+                    ch.createMessage(MessageCreateSpec.builder().addEmbed(e).messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).build()).doOnError(errorLogger::logErr).subscribe();
                     return Mono.empty();
-                }).subscribe();
+                }).doOnError(errorLogger::logErr).subscribe();
     }
 }
