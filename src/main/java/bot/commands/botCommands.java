@@ -125,13 +125,29 @@ public class botCommands {
                 sb.setLength(0);
         });
         registerCommand("ball", "Погонять шары", (e, args)->{
-            String reply = switch (random.nextInt(3) + 1) {
-                case 1 -> yesDialogs.get(random.nextInt(yesDialogs.size) + 1);
-                case 2 -> noDialogs.get(random.nextInt(noDialogs.size) + 1);
-                case 3 -> idkDialogs.get(random.nextInt(idkDialogs.size) + 1);
+            Color color = Color.GRAY;
+            String reply = "";
+            switch (random.nextInt(3) + 1) {
+                case 1:
+                    reply = yesDialogs.get(random.nextInt(yesDialogs.size) + 1);
+                    color=Color.GREEN;
+                    break;
+                case 2:
+                    reply = noDialogs.get(random.nextInt(noDialogs.size) + 1);
+                    color=Color.RED;
+                    break;
+                case 3:
+                    reply = idkDialogs.get(random.nextInt(idkDialogs.size) + 1);
+                    color=Color.BLACK;
+                    break;
                 default -> "";
             };
-            sendEmbedReply(EmbedCreateSpec.builder().title(e.getMessage().getContent()).addField("", reply, false).build(), e.getMessage());
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            sendEmbedReply(EmbedCreateSpec.builder().title(sb.toString()).addField("", reply, false).build(), e.getMessage());
+            sb.setLength(0);
         });
         /*
         registerCommand("render", "Render map", ownerid, (e, args)->{
