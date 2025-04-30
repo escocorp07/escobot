@@ -153,6 +153,12 @@ public class botCommands {
             for (String arg : args) {
                 sb.append(arg + " ");
             }
+            /*
+            * [E] Operator called default onErrorDropped: reactor.core.Exceptions$ErrorCallbackNotImplemented: discord4j.rest.http.client.ClientException: POST /channels/1352760046215499776/
+messages returned 400 Bad Request with response {code=50035, message=Invalid Form Body, errors={embeds={0={title={_errors=[{code=BASE_TYPE_MAX_LENGTH, message=Must be 256 or fe
+wer in length.}]}}}}}
+            * */
+            sb.setLength(255);
             sendEmbedReply(EmbedCreateSpec.builder().title(sb.toString()).addField("", reply, false).color(color).build(), e.getMessage());
             sb.setLength(0);
         });
