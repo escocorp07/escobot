@@ -138,9 +138,12 @@ public class botCommands {
                     break;
                 case 3:
                     reply = idkDialogs.get(random.nextInt(idkDialogs.size) + 1);
-                    color=Color.BLACK;
+                    color=Color.BISMARK;
                     break;
-                default -> "";
+                default:
+                    reply = "";
+                    color=Color.BISMARK;
+                    break;
             };
             StringBuilder sb = new StringBuilder();
             for (String arg : args) {
