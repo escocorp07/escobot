@@ -65,7 +65,7 @@ public class botUtils {
         sendEmbed(Snowflake.of(cha), e);
     }
     /*Ответить на сообщение*/
-    public static void sendReply(Message msg, String content, boolean ping) {
+    public static void sendReply(Message msg, String content) {
         sendMessage(msg.getChannelId(), MessageCreateSpec.builder().messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).content(content).build());
     }
     /*Ответ с эмбедом*/

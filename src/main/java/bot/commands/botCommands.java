@@ -125,6 +125,10 @@ public class botCommands {
                 sb.setLength(0);
         });
         registerCommand("ball", "Погонять шары", (e, args)->{
+            if(args.length < 1) {
+                sendReply(e.getMessage(), "Сообщение не содержит аргсов.");
+                return;
+            }
             Color color = Color.GRAY;
             String reply = "";
             switch (random.nextInt(3) + 1) {
