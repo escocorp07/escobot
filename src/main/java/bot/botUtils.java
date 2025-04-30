@@ -13,6 +13,8 @@ import static main.java.BVars.gateway;
 public class botUtils {
     /*Разновидности отправки сообщений*/
     public static void sendMessage(Snowflake cha, String content) {
+        if(content.isEmpty())
+            return;
         gateway.getChannelById(cha)
                 .flatMap(ch -> ch.getRestChannel().createMessage(content.replace("@", "")))
                 .subscribe();
@@ -24,6 +26,8 @@ public class botUtils {
         sendMessage(Snowflake.of(cha), content);
     }
     public static void sendMessageP(Snowflake cha, String content) {
+        if(content.isEmpty())
+            return;
         gateway.getChannelById(cha)
                 .flatMap(ch -> ch.getRestChannel().createMessage(content))
                 .subscribe();
@@ -66,10 +70,11 @@ public class botUtils {
     }
     /*Ответить на сообщение*/
     public static void sendReply(Message msg, String content) {
+        if(content.isEmpty())
+            return;
         sendMessage(msg.getChannelId(), MessageCreateSpec.builder().messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).content(content).build());
     }
     /*Ответ с эмбедом*/
-
     public static void sendEmbedReply(EmbedCreateSpec e, Message msg) {
         msg.getChannel()
                 .flatMap(ch -> {
