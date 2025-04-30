@@ -39,7 +39,8 @@ public class botUtils {
         gateway.getChannelById(cha)
                 .ofType(MessageChannel.class)
                 .flatMap(ch->{
-                    return ch.createMessage(m);
+                    ch.createMessage(m).subscribe();
+                    return Mono.empty();
         }).subscribe();
     }
     public static void sendMessage(String cha, MessageCreateSpec m){
@@ -53,7 +54,8 @@ public class botUtils {
         gateway.getChannelById(cha)
                 .ofType(MessageChannel.class)
                 .flatMap(ch->{
-                    return ch.createMessage(MessageCreateSpec.builder().addEmbed(e).build());
+                    ch.createMessage(MessageCreateSpec.builder().addEmbed(e).build()).subscribe();
+                    return Mono.empty();
                 }).subscribe();
     }
     public static void sendEmbed(String cha, EmbedCreateSpec e){
@@ -71,7 +73,8 @@ public class botUtils {
     public static void sendEmbedReply(EmbedCreateSpec e, Message msg) {
         msg.getChannel()
                 .flatMap(ch -> {
-                    return ch.createMessage(MessageCreateSpec.builder().addEmbed(e).messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).build());
+                    ch.createMessage(MessageCreateSpec.builder().addEmbed(e).messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).build()).subscribe();
+                    return Mono.empty();
                 }).subscribe();
     }
 }
