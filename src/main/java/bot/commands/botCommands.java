@@ -133,15 +133,15 @@ public class botCommands {
             String reply = "";
             switch (random.nextInt(3) + 1) {
                 case 1:
-                    reply = yesDialogs.get(random.nextInt(yesDialogs.size) + 1);
+                    reply = yesDialogs.get(random.nextInt(yesDialogs.size));
                     color=Color.GREEN;
                     break;
                 case 2:
-                    reply = noDialogs.get(random.nextInt(noDialogs.size) + 1);
+                    reply = noDialogs.get(random.nextInt(noDialogs.size));
                     color=Color.RED;
                     break;
                 case 3:
-                    reply = idkDialogs.get(random.nextInt(idkDialogs.size) + 1);
+                    reply = idkDialogs.get(random.nextInt(idkDialogs.size));
                     color=Color.BLUE;
                     break;
                 default:
