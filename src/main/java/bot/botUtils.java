@@ -18,14 +18,10 @@ public class botUtils {
                 .subscribe();
     }
     public static void sendMessage(String cha, String content) {
-        gateway.getChannelById(Snowflake.of(cha))
-                .flatMap(ch -> ch.getRestChannel().createMessage(content.replace("@", "")))
-                .subscribe();
+        sendMessage(Snowflake.of(cha), content);
     }
     public static void sendMessage(long cha, String content) {
-        gateway.getChannelById(Snowflake.of(cha))
-                .flatMap(ch -> ch.getRestChannel().createMessage(content.replace("@", "")))
-                .subscribe();
+        sendMessage(Snowflake.of(cha), content);
     }
     public static void sendMessageP(Snowflake cha, String content) {
         gateway.getChannelById(cha)
@@ -33,14 +29,10 @@ public class botUtils {
                 .subscribe();
     }
     public static void sendMessageP(String cha, String content) {
-        gateway.getChannelById(Snowflake.of(cha))
-                .flatMap(ch -> ch.getRestChannel().createMessage(content))
-                .subscribe();
+        sendMessageP(Snowflake.of(cha), content);
     }
     public static void sendMessageP(long cha, String content) {
-        gateway.getChannelById(Snowflake.of(cha))
-                .flatMap(ch -> ch.getRestChannel().createMessage(content))
-                .subscribe();
+        sendMessageP(Snowflake.of(cha), content);
     }
     /*Отправка с MessageCreateSpec*/
     public static void sendMessage(Snowflake cha, MessageCreateSpec m) {
@@ -71,7 +63,15 @@ public class botUtils {
         sendEmbed(Snowflake.of(cha), e);
     }
     /*Ответить на сообщение*/
-    public static void sendReply(Message msg, String content) {
+    public static void sendReply(Message msg, String content, boolean ping) {
         sendMessage(msg.getChannelId(), MessageCreateSpec.builder().messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).content(content).build());
+    }
+    /*Ответ с эмбедом*/
+
+    public static void sendEmbedReply(EmbedCreateSpec e, Message msg) {
+        msg.getChannel()
+                .flatMap(ch -> {
+                    return ch.createMessage(MessageCreateSpec.builder().addEmbed(e).messageReference(MessageReferenceData.builder().channelId(msg.getChannelId().asLong()).messageId(msg.getId().asLong()).build()).build());
+                }).subscribe();
     }
 }

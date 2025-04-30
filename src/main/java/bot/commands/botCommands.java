@@ -50,8 +50,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import static main.java.BVars.*;
-import static main.java.bot.botUtils.sendMessage;
-import static main.java.bot.botUtils.sendMessageP;
+import static main.java.bot.botUtils.*;
 import static main.java.bot.commands.commandHandler.commands;
 import static main.java.bot.commands.commandHandler.*;
 import static main.java.BuildInfo.*;
@@ -124,6 +123,21 @@ public class botCommands {
                 }
                 sendMessage(e.getMessage().getChannelId(), out);
                 sb.setLength(0);
+        });
+        registerCommand("ball", "Погонять шары", (e, args)->{
+            String reply = "";
+            switch (random.nextInt(3) + 1) {
+                case 1:
+                    reply = yesDialogs.get(random.nextInt(yesDialogs.size)+1);
+                    break;
+                case 2:
+                    reply = noDialogs.get(random.nextInt(noDialogs.size)+1);
+                    break;
+                case 3:
+                    reply = idkDialogs.get(random.nextInt(idkDialogs.size)+1);
+                    break;
+            }
+            sendEmbedReply(EmbedCreateSpec.builder().title(e.getMessage().getContent()).addField("", reply, false).build(), e.getMessage());
         });
         /*
         registerCommand("render", "Render map", ownerid, (e, args)->{

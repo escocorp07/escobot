@@ -10,6 +10,7 @@ import mindustry.type.Item;
 import javax.script.ScriptEngine;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class BVars {
     public static DiscordClient client;
@@ -35,4 +36,10 @@ public class BVars {
     public static String DB_USER;
     public static String DB_PASSWORD;
     public static Seq<String> bannedErrs = Seq.with("ui", "TextFormatter", "renderer", "reading entity", "enableEffects", "entity", "mindustry.gen.LogicExplosionCallPacket.handled(LogicExplosionCallPacket.java:54)", "EOFException");
+
+    public static Random random = new Random();
+
+    public static Seq<String> yesDialogs = Seq.with("✅ Уверен в этом!", "\uD83D\uDC4D Отличная идея!", "\uD83D\uDC4C Звучит хорошо.");
+    public static Seq<String> noDialogs = Seq.with("❌ Плохая идея", "\uD83D\uDE35 Даже не думай об этом!", "\uD83D\uDC4E Не думаю, что это кончится хорошо.");
+    public static Seq<String> idkDialogs = Seq.with("❓ Я не знаю!", "☁ Я не уверен.", "\uD83D\uDD2E Спроси позже.");
 }
