@@ -139,7 +139,9 @@ public class botLoader {
                 }
             }
             return Mono.empty();
-        }).subscribe();
+        })
+                .doOnError(errorLogger::logErr)
+                .subscribe();
         gateway.onDisconnect().doFinally(t->{
             Log.info("Bot disconnected!");
         }).block();
