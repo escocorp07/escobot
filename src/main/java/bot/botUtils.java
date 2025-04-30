@@ -48,7 +48,7 @@ public class botUtils {
                 .ofType(MessageChannel.class)
                 .flatMap(ch->{
                     return ch.createMessage(m);
-        });
+        }).subscribe();
     }
     public static void sendMessage(String cha, MessageCreateSpec m){
         sendMessage(Snowflake.of(cha), m);
@@ -62,7 +62,7 @@ public class botUtils {
                 .ofType(MessageChannel.class)
                 .flatMap(ch->{
                     return ch.createMessage(MessageCreateSpec.builder().addEmbed(e).build());
-                });
+                }).subscribe();
     }
     public static void sendEmbed(String cha, EmbedCreateSpec e){
         sendEmbed(Snowflake.of(cha), e);
