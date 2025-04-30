@@ -125,18 +125,12 @@ public class botCommands {
                 sb.setLength(0);
         });
         registerCommand("ball", "Погонять шары", (e, args)->{
-            String reply = "";
-            switch (random.nextInt(3) + 1) {
-                case 1:
-                    reply = yesDialogs.get(random.nextInt(yesDialogs.size)+1);
-                    break;
-                case 2:
-                    reply = noDialogs.get(random.nextInt(noDialogs.size)+1);
-                    break;
-                case 3:
-                    reply = idkDialogs.get(random.nextInt(idkDialogs.size)+1);
-                    break;
-            }
+            String reply = switch (random.nextInt(3) + 1) {
+                case 1 -> yesDialogs.get(random.nextInt(yesDialogs.size) + 1);
+                case 2 -> noDialogs.get(random.nextInt(noDialogs.size) + 1);
+                case 3 -> idkDialogs.get(random.nextInt(idkDialogs.size) + 1);
+                default -> "";
+            };
             sendEmbedReply(EmbedCreateSpec.builder().title(e.getMessage().getContent()).addField("", reply, false).build(), e.getMessage());
         });
         /*
