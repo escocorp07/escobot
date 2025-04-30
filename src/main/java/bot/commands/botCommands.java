@@ -149,7 +149,7 @@ public class botCommands {
             for (String arg : args) {
                 sb.append(arg + " ");
             }
-            sendEmbedReply(EmbedCreateSpec.builder().title(sb.toString()).addField("", reply, false).build(), e.getMessage());
+            sendEmbedReply(EmbedCreateSpec.builder().title(sb.toString()).addField("", reply, false).color(color).build(), e.getMessage());
             sb.setLength(0);
         });
         /*
