@@ -94,7 +94,7 @@ public class botCommands {
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
            sendMessage(e.getMessage().getChannelId(), testSeq.toString());
-        });
+        }).setVisible(false);
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {
@@ -360,13 +360,14 @@ public class botCommands {
                 output = OS.exec(args);
             }
             sendMessage(e.getMessage().getChannelId(), output.isEmpty() ? "No output." : output);
-        });
+        }).setVisible(false);
         registerCommand("help", "Посмотреть команды и их описания", "[command]", (e, args) -> {
             if(args.length<1) {
                 EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
                         .color(Color.GREEN);
                 for (botcommand c : commands) {
-                    embed.addField(c.getName()+" "+c.getArgsN(), c.getDescription(), false);
+                    if(c.isVisible())
+                        embed.addField(c.getName()+" "+c.getArgsN(), c.getDescription(), false);
                 }
                 MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
                         .addEmbed(embed.build());
@@ -376,7 +377,7 @@ public class botCommands {
                         )).subscribe();
             } else {
                 botcommand command = commands.find(c->{
-                    return c.getName().equals(args[0]);
+                        return c.getName().equals(args[0]) && c.isVisible();
                 });
                 if(command==null){
                     sendReply(e.getMessage(), "Команда не найдена!");
@@ -401,7 +402,7 @@ public class botCommands {
             joinMessage=sb.toString();
             sendMessage(e.getMessage().getChannelId(), "Новое сообщение: "+sb.toString());
             sb.setLength(0);
-        });
+        }).setVisible(false);
         registerCommand("set-status", "Установить статус бота", "<text...>", grelyid, (e, args) -> {
             if(args.length == 0) {
                 sendMessage(e.getMessage().getChannelId(), "Статус убран.");
@@ -418,7 +419,7 @@ public class botCommands {
             gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing(sb.toString()))).subscribe();
             sendReply(e.getMessage(), "Ok.");
             sb.setLength(0);
-        });
+        }).setVisible(false);
         KbotCommands.Companion.KregisterCommands();
         generateCommands();
     }

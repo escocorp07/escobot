@@ -79,9 +79,10 @@ public class commandHandler {
                             if (m.getRoleIds().contains(Snowflake.of(command.getRoleID())) || command.getRoleID() == 0) {
                                 command.exec(event, Arrays.copyOfRange(args, 1, args.length));
                             } else {
-                                //sendMessage(message.getChannelId(), "No access.");
-                                sendMessage(message.getChannelId(), MessageCreateSpec.builder().messageReference(MessageReferenceData.builder().channelId(message.getChannelId().asLong()).messageId(message.getId().asLong()).build()).content("No access").build());
-                                message.addReaction(Emoji.unicode("❌")).subscribe();
+                                if(command.isVisible()) {
+                                    sendMessage(message.getChannelId(), MessageCreateSpec.builder().messageReference(MessageReferenceData.builder().channelId(message.getChannelId().asLong()).messageId(message.getId().asLong()).build()).content("No access").build());
+                                    message.addReaction(Emoji.unicode("❌")).subscribe();
+                                }
                             }
                             return Mono.empty();
                         }).subscribe();
@@ -100,7 +101,7 @@ public class commandHandler {
         public String description;
         public BiConsumer<MessageCreateEvent, String[]> executor;
         public long roleID;
-        public boolean active = true;
+        public boolean visible, active = true;
         public String argsN = "";
 
         botcommand(String name, String description, BiConsumer<MessageCreateEvent, String[]> executor) {

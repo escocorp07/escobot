@@ -97,7 +97,7 @@ public class botUtils {
                     } catch (Exception ex) {
                         sendMessage(e.getMessage().getChannelId(), ex.getMessage());
                     }
-                });
+                }).setVisible(false);
             }
         }
     }
