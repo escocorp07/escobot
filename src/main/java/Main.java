@@ -36,6 +36,7 @@ public class Main {
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
         Vars.content.loadColors();
+        Vars.mods = new Mods();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
