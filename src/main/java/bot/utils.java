@@ -49,6 +49,8 @@ import mindustry.net.Packets.WorldStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -166,7 +168,6 @@ public class utils {
             if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(SettingsL.class)) {
                 field.setAccessible(true);
                 SettingsL annotation = field.getAnnotation(SettingsL.class);
-                assert annotation != null;
                 String key = annotation.key().isEmpty() ? field.getName() : annotation.key();
 
                 try {
@@ -177,16 +178,31 @@ public class utils {
                         field.set(null, Core.settings.getLong(key, field.getLong(null)));
                     } else if (type == int.class || type == Integer.class) {
                         field.set(null, Core.settings.getInt(key, field.getInt(null)));
+                    } else if (Seq.class.isAssignableFrom(type)) {
+                        Type genericType = field.getGenericType();
+                        if (genericType instanceof ParameterizedType parameterizedType) {
+                            Type arg = parameterizedType.getActualTypeArguments()[0];
+                            String raw = Core.settings.getString(key, "");
+                            Seq<Object> list = new Seq<>();
+                            if (!raw.isEmpty()) {
+                                for (String entry : raw.split(";")) {
+                                    if (arg == Snowflake.class) {
+                                        list.add(Snowflake.of(entry));
+                                    } else if (arg == String.class) {
+                                        list.add(entry);
+                                    } else if (arg == Long.class || arg == long.class) {
+                                        list.add(Long.parseLong(entry));
+                                    } else if (arg == Integer.class || arg == int.class) {
+                                        list.add(Integer.parseInt(entry));
+                                    } // можно добавить другие типы при необходимости
+                                }
+                            }
+                            field.set(null, list);
+                        }
                     }
                 } catch (Exception e) {
                     Log.err(e);
                 }
-            }
-        }
-        String bannedRaw = Core.settings.getString("bannedInSug", "");
-        if (!bannedRaw.isEmpty()) {
-            for (String id : bannedRaw.split(";")) {
-                bannedInSug.add(Snowflake.of(id));
             }
         }
     }
@@ -195,32 +211,37 @@ public class utils {
             if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(SettingsL.class)) {
                 field.setAccessible(true);
                 SettingsL annotation = field.getAnnotation(SettingsL.class);
-                assert annotation != null;
                 String key = annotation.key().isEmpty() ? field.getName() : annotation.key();
 
                 try {
                     Object value = field.get(null);
-                    if (value instanceof String) {
-                        Core.settings.put(key, (String) value);
-                    } else if (value instanceof Long) {
-                        Core.settings.put(key, (Long) value);
-                    } else if (value instanceof Integer) {
-                        Core.settings.put(key, (Integer) value);
+                    if (value instanceof String str) {
+                        Core.settings.put(key, str);
+                    } else if (value instanceof Long l) {
+                        Core.settings.put(key, l);
+                    } else if (value instanceof Integer i) {
+                        Core.settings.put(key, i);
+                    } else if (value instanceof Seq<?> seq) {
+                        if (!seq.isEmpty()) {
+                            Object first = seq.first();
+                            StringBuilder sb = new StringBuilder();
+                            for (Object obj : seq) {
+                                if (obj instanceof Snowflake s) {
+                                    sb.append(s.asString());
+                                } else {
+                                    sb.append(obj.toString());
+                                }
+                                sb.append(';');
+                            }
+                            Core.settings.put(key, sb.toString());
+                        }
                     }
                 } catch (Exception e) {
                     Log.err(e);
                 }
             }
         }
-        if (!bannedInSug.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (Snowflake f : bannedInSug) {
-                sb.append(f.asString()).append(';');
-            }
-            Core.settings.put("bannedInSug", sb.toString());
-        }
     }
-
     public static void loadNet() {
         Vars.net.handleClient(Connect.class, packet -> {
             Log.info("Generated packet for: @", packet.addressTCP);
