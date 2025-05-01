@@ -265,7 +265,7 @@ public class botCommands {
             }
             if(sb.length() > 1024)
                 sb.setLength(1024);
-            sendEmbedReply(EmbedCreateSpec.builder().addField("", sb.toString(), false).title("").build(), e.getMessage());
+            sendEmbedReply(EmbedCreateSpec.builder().addField("", sb.toString(), false).color(Color.BISMARK).title("").build(), e.getMessage());
             sb.setLength(0);
         });
         registerCommand("suggest", "Предложить идею", "<text...>", (e, args)->{
