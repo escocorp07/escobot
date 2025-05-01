@@ -437,7 +437,7 @@ public class botCommands {
                 EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
                         .color(Color.GREEN);
                 for (botcommand c : commands) {
-                    embed.addField(c.getName(), c.getDescription(), false);
+                    embed.addField(c.getName()+" "+c.getArgsN(), c.getDescription(), false);
                 }
                 MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
                         .addEmbed(embed.build());
