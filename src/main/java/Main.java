@@ -27,8 +27,6 @@ public class Main {
         Loggers.useCustomLoggers(new LoggerProvider());
         Log.info("Loading bot...");
         loadcfg();
-        Vars.platform = new Platform() {};
-        Vars.net = new BNet(Vars.platform.getNet());
         Core.files = new MockFiles();
         Core.settings = new Settings();
         Core.settings.setAppName("escobot");
@@ -38,16 +36,6 @@ public class Main {
         Vars.content = new ContentLoader();
         Vars.content.createBaseContent();
         Vars.content.loadColors();
-        Vars.state = new GameState();
-        Vars.state.set(GameState.State.playing);
-        Vars.state.map = null;
-        Vars.state.rules = new Rules();
-        Vars.logic = new Logic();
-        Vars.world = new World();
-        Vars.netClient = new NetClient();
-        Vars.mods = new Mods();
-        Groups.init();
-        loadNet();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){

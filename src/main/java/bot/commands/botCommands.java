@@ -135,43 +135,6 @@ public class botCommands {
             sendEmbedReply(EmbedCreateSpec.builder().title(sb.toString()).addField("", reply, false).color(color).build(), e.getMessage());
             sb.setLength(0);
         });
-        /*
-        registerCommand("render", "Render map", ownerid, (e, args)->{
-            Message msg = e.getMessage();
-            if(msg.getAttachments().size()<1)
-                return;
-            if(!msg.getAttachments().get(0).getFilename().endsWith(".msav"))
-                return;
-            getAttach(msg);
-            Fi fmap = new Fi("./data/atch/"+msg.getAttachments().get(0).getFilename());
-            Map map = getMap(fmap);
-            try {
-                if(map == null)
-                    return;
-                Pixmap px = MapIO.generatePreview(map);
-                Fi png = new Fi("data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
-                PixmapIO.writePng(png, px);
-                px.dispose();
-                File image = new File("data/gen/"+msg.getAttachments().get(0).getFilename()+".png");
-                if (image.exists()) {
-                    msg.getChannel()
-                            .flatMap(channel -> {
-                                try {
-                                    return channel.createMessage(MessageCreateSpec.builder()
-                                            .addFile("render.png", new FileInputStream(image))
-                                            .content("Name: "+map.name()+"\nAuthor: "+map.plainAuthor()+"\nMVersion: v"+map.version+"\nTiles: "+map.width+"x"+map.height)
-                                            .build());
-                                } catch (FileNotFoundException err) {
-                                    errorLogger.logErr(err);
-                                    return Mono.empty();
-                                }
-                            })
-                            .subscribe();
-                }
-            } catch (Exception ex) {
-                errorLogger.logErr(ex);
-            }
-        });*/
         registerCommand("render", "Render map\nYou can use .zip files to do mass render", (e, args) -> {
             Message msg = e.getMessage();
             if (msg.getAttachments().isEmpty())
@@ -210,91 +173,75 @@ public class botCommands {
                     errorLogger.logErr(ex);
                 }
             } else if (fileName.endsWith(".zip")) {
-    getAttach(attachment);
-    String destDir = "data/atch/";
-    try (ZipInputStream zis = new ZipInputStream(new FileInputStream(new File(destDir + fileName)))) {
-        ZipEntry entry;
-        while ((entry = zis.getNextEntry()) != null) {
-            String entryName = entry.getName();
+                getAttach(attachment);
+                String destDir = "data/atch/";
+                try (ZipInputStream zis = new ZipInputStream(new FileInputStream(new File(destDir + fileName)))) {
+                    ZipEntry entry;
+                    while ((entry = zis.getNextEntry()) != null) {
+                        String entryName = entry.getName();
 
-            if (entryName.endsWith(".msav")) {
-                Path normalizedPath = Paths.get(destDir).resolve(entryName).normalize();
-                if (!normalizedPath.startsWith(Paths.get(destDir))) {
-                    System.out.println("Blocked Zip Slip attempt: " + entryName);
-                    continue;
-                }
+                        if (entryName.endsWith(".msav")) {
+                            Path normalizedPath = Paths.get(destDir).resolve(entryName).normalize();
+                            if (!normalizedPath.startsWith(Paths.get(destDir))) {
+                                System.out.println("Blocked Zip Slip attempt: " + entryName);
+                                continue;
+                            }
 
-                File outFile = normalizedPath.toFile();
-                outFile.getParentFile().mkdirs();
+                            File outFile = normalizedPath.toFile();
+                            outFile.getParentFile().mkdirs();
 
-                try (FileOutputStream fos = new FileOutputStream(outFile)) {
-                    byte[] buffer = new byte[4096];
-                    int len;
-                    while ((len = zis.read(buffer)) > 0) {
-                        fos.write(buffer, 0, len);
-                    }
-                } catch (IOException io) {
-                    errorLogger.logErr(io);
-                    continue;
-                }
-
-                zis.closeEntry();
-                Fi fmap = new Fi(outFile.getPath());
-                Map map = getMap(fmap);
-                if (map == null) continue;
-
-                try {
-                    Pixmap px = MapIO.generatePreview(map);
-                    Fi png = new Fi("data/gen/" + entryName + ".png");
-                    PixmapIO.writePng(png, px);
-                    px.dispose();
-                    File image = new File("data/gen/" + entryName + ".png");
-                    if (image.exists()) {
-                        msg.getChannel()
-                            .flatMap(channel -> {
-                                try {
-                                    return channel.createMessage(MessageCreateSpec.builder()
-                                            .addFile("render.png", new FileInputStream(image))
-                                            .addEmbed(EmbedCreateSpec.builder()
-                                                .addField(map.name(), "Author: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height, false)
-                                                .color(Color.GREEN)
-                                                .build())
-                                            .build());
-                                } catch (FileNotFoundException err) {
-                                    errorLogger.logErr(err);
-                                    return Mono.empty();
+                            try (FileOutputStream fos = new FileOutputStream(outFile)) {
+                                byte[] buffer = new byte[4096];
+                                int len;
+                                while ((len = zis.read(buffer)) > 0) {
+                                    fos.write(buffer, 0, len);
                                 }
-                            })
-                            .subscribe();
+                            } catch (IOException io) {
+                                errorLogger.logErr(io);
+                                continue;
+                            }
+
+                            zis.closeEntry();
+                            Fi fmap = new Fi(outFile.getPath());
+                            Map map = getMap(fmap);
+                            if (map == null) continue;
+
+                            try {
+                                Pixmap px = MapIO.generatePreview(map);
+                                Fi png = new Fi("data/gen/" + entryName + ".png");
+                                PixmapIO.writePng(png, px);
+                                px.dispose();
+                                File image = new File("data/gen/" + entryName + ".png");
+                                if (image.exists()) {
+                                    msg.getChannel()
+                                            .flatMap(channel -> {
+                                                try {
+                                                    return channel.createMessage(MessageCreateSpec.builder()
+                                                            .addFile("render.png", new FileInputStream(image))
+                                                            .addEmbed(EmbedCreateSpec.builder()
+                                                                    .addField(map.name(), "Author: " + map.plainAuthor() + "\nMVersion: v" + map.version + "\nTiles: " + map.width + "x" + map.height, false)
+                                                                    .color(Color.GREEN)
+                                                                    .build())
+                                                            .build());
+                                                } catch (FileNotFoundException err) {
+                                                    errorLogger.logErr(err);
+                                                    return Mono.empty();
+                                                }
+                                            })
+                                            .subscribe();
+                                }
+                            } catch (Exception ex) {
+                                errorLogger.logErr(ex);
+                            }
+                        }
+
+                        zis.closeEntry();
                     }
-                } catch (Exception ex) {
+                } catch (IOException ex) {
                     errorLogger.logErr(ex);
                 }
             }
-
-            zis.closeEntry();
-        }
-    } catch (IOException ex) {
-        errorLogger.logErr(ex);
-    }
-}
         });
-        /*registerCommand("join", "idk.", ownerid, (e, args) -> {
-            e.getMessage().getAuthor().ifPresent(author -> {
-                author.asMember(guild).flatMap(member ->
-                        member.getVoiceState().flatMap(state ->
-                                state.getChannel().flatMap(channel -> {
-                                    VoiceChannelJoinSpec joinSpec = VoiceChannelJoinSpec.builder()
-                                            .selfDeaf(true)
-                                            .selfMute(false)
-                                            .build();
-
-                                    return channel.join(joinSpec);
-                                })
-                        )
-                ).subscribe();
-            });
-        });*/
         registerCommand("suggest-ban", "Запретить предложку", "<snowflakeid>", ownerid, (e, args)->{
             try {
                 bannedInSug.add(Snowflake.of(Long.parseLong(args[0])));
@@ -317,7 +264,7 @@ public class botCommands {
                 sb.append("<@" + f.asString() + ">\n");
             }
             sb.setLength(2000);
-            sendMessageP(e.getMessage().getChannelId(), sb.toString());
+            sendEmbedReply(EmbedCreateSpec.builder().addField("", sb.toString(), false).title().build(), e.getMessage());
             sb.setLength(0);
         });
         registerCommand("suggest", "Предложить идею", "<text...>", (e, args)->{
@@ -407,9 +354,6 @@ public class botCommands {
             }
             sendMessage(e.getMessage().getChannelId(), output.isEmpty() ? "No output." : output);
         });
-        registerCommand("error", "Искуственно создать ошибку.", grelyid, (e, args) -> {
-            errorLogger.logErr(new RuntimeException("test"));
-        });
         registerCommand("help", "Посмотреть команды и их описания", "[command]", (e, args) -> {
             if(args.length<1) {
                 EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
@@ -468,38 +412,6 @@ public class botCommands {
             sendReply(e.getMessage(), "Ok.");
             sb.setLength(0);
         });
-        /*registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
-            try {
-                int port = Integer.parseInt(args[1]);
-                Vars.net.pingHost(args[0], port, host -> {
-                    sendMessage(e.getMessage().getChannelId(), "Name: " + host.name + "\nPlayers: " + host.players + "/" + host.playerLimit);
-                }, er -> {
-                    errorLogger.logErr(er);
-                    sendMessage(e.getMessage().getChannelId(), "Ошибка при проверке статуса хоста.");
-                });
-                Vars.net.connect(args[0], port, () -> {
-                    sendMessage(e.getMessage().getChannelId(), "Connectiong to "+args[0]+":"+port);
-                });
-                Timer.schedule(() -> {
-                    Log.info("finishing connect manually.");
-                    finishConnecting();
-                }, 2);
-                Timer.schedule(()->{
-                    sendMessage(e.getMessage().getChannelId(), "Bot nick: "+Vars.player.name);
-                    Groups.player.each(p->{
-                        sendMessage(e.getMessage().getChannelId(), p.plainName()+" id:"+p.id);
-                    });
-                    Timer.schedule(()->{
-                        Vars.net.setClientLoaded(false);
-                        Vars.net.disconnect();
-                        Vars.player=null;
-                        Groups.clear();
-                    }, 3);
-                }, 5);
-            } catch (Exception err) {
-                errorLogger.logErr(err);
-            }
-        });*/
         KbotCommands.Companion.KregisterCommands();
     }
 }

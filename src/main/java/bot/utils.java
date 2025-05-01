@@ -194,7 +194,7 @@ public class utils {
                                         list.add(Long.parseLong(entry));
                                     } else if (arg == Integer.class || arg == int.class) {
                                         list.add(Integer.parseInt(entry));
-                                    } // можно добавить другие типы при необходимости, не но я не думаю, что она будет.
+                                    } // можно добавить другие типы при необходимости, но я не думаю, что она будет.
                                 }
                             }
                             field.set(null, list);
@@ -223,7 +223,6 @@ public class utils {
                         Core.settings.put(key, i);
                     } else if (value instanceof Seq<?> seq) {
                         if (!seq.isEmpty()) {
-                            Object first = seq.first();
                             StringBuilder sb = new StringBuilder();
                             for (Object obj : seq) {
                                 if (obj instanceof Snowflake s) {
@@ -235,73 +234,15 @@ public class utils {
                             }
                             Core.settings.put(key, sb.toString());
                         }
+                    } else if(value instanceof Boolean) {
+                        boolean b = (Boolean) value;
+                        Core.settings.put(key, b);
                     }
                 } catch (Exception e) {
                     Log.err(e);
                 }
             }
         }
-    }
-    public static void loadNet() {
-        Vars.net.handleClient(Connect.class, packet -> {
-            Log.info("Generated packet for: @", packet.addressTCP);
-            var c = new Packets.ConnectPacket();
-
-            String uuid = randomString();
-            String usid = randomString();
-            int color = new Random().nextInt(999999);;
-            String name = "EscoBot "+randomString(6);
-
-            c.name = name;
-            c.locale = Locale.getDefault().toString();
-            c.mods = new Seq<>();
-            c.mobile = Math.random() < 0.5;
-            c.versionType = "official";
-            c.color = color;
-            c.usid = usid;
-            c.uuid = uuid;
-            Vars.net.send(c, true);
-
-            Player zz = Player.create();
-            zz.name = name;
-            zz.locale = Locale.getDefault().toString();
-            zz.color.set(color);
-            Vars.player = zz;
-        });
-        Vars.net.handleClient(Disconnect.class, packet -> {
-            if(packet.reason != null){
-                switch(packet.reason) {
-                    case "closed" -> Log.warn("disconnect.closed");
-                    case "timeout" -> Log.warn("disconnect.timeout");
-                    default -> Log.warn("disconnect.error");
-                }
-            }
-            Vars.net.setClientLoaded(false);
-            Vars.net.disconnect();
-            Vars.player=null;
-            Groups.clear();
-        });
-        Vars.net.handleClient(WorldStream.class, data -> {
-            Log.info("Received world data: @ bytes.", data.stream.available());
-            NetworkIO.loadWorld(new InflaterInputStream(data.stream));
-
-            finishConnecting();
-        });
-        Vars.net.handleClient(SendMessageCallPacket.class, data -> {
-            Log.info("Message packet!");
-            Log.info(data.message);
-        });
-        Vars.net.handleClient(SendChatMessageCallPacket.class, data -> {
-            Log.info("Chat packet!");
-        });
-        Vars.net.handleClient(SendMessageCallPacket2.class, data -> {
-            Log.info("Message packet2!");
-            if(data.playersender != null) {
-                Log.info(data.playersender.name + ": " + data.message + "(" + data.unformatted + ")");
-            } else {
-                Log.info(data.message + "(" + data.unformatted + ")");
-            }
-        });
     }
     public static String randomString() {
         byte[] bytes = new byte[8];
@@ -313,19 +254,6 @@ public class utils {
         byte[] bytes = new byte[b];
         new Rand().nextBytes(bytes);
         return new String(Base64Coder.encode(bytes));
-    }
-
-    public static void connectConfirmm() {
-        /*
-         * Call.connectConfirm()
-         * */
-        ConnectConfirmCallPacket packet = new ConnectConfirmCallPacket();
-        Vars.net.send(packet, true);
-    }
-
-    public static void finishConnecting(){
-        connectConfirmm();
-        Vars.net.setClientLoaded(true);
     }
     public static void getAttach(Message message) {
         Attachment attachment = message.getAttachments().get(0);
