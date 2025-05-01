@@ -135,7 +135,7 @@ public class utils {
             return null;
         }
     }
-    public static void loadSettings() {
+    /*public static void loadSettings() {
         joinMessage=Core.settings.getString("joinMessage", "Думай.");
         presence=Core.settings.getString("presence", "");
         handledMessages=Core.settings.getLong("handledMessages", 0);
@@ -146,7 +146,6 @@ public class utils {
                 bannedInSug.add(Snowflake.of(a));
             }
         }
-        loadSettingsAnnotated();
     }
     public static void saveSettings() {
         Core.settings.put("joinMessage", joinMessage);
@@ -161,9 +160,8 @@ public class utils {
             Core.settings.put("bannedInSug", sb.toString());
             sb.setLength(0);
         }
-        saveSettingsAnnotated();
-    }
-    public static void loadSettingsAnnotated() {
+    }*/
+    public static void loadSettings() {
         for (Field field : BVars.class.getDeclaredFields()) {
             if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(SettingsL.class)) {
                 field.setAccessible(true);
@@ -185,14 +183,14 @@ public class utils {
                 }
             }
         }
-        /*String bannedRaw = Core.settings.getString("bannedInSug", "");
+        String bannedRaw = Core.settings.getString("bannedInSug", "");
         if (!bannedRaw.isEmpty()) {
             for (String id : bannedRaw.split(";")) {
                 bannedInSug.add(Snowflake.of(id));
             }
-        }*/
+        }
     }
-    public static void saveSettingsAnnotated() {
+    public static void saveSettings() {
         for (Field field : BVars.class.getDeclaredFields()) {
             if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(SettingsL.class)) {
                 field.setAccessible(true);
@@ -214,13 +212,13 @@ public class utils {
                 }
             }
         }
-        /*if (!bannedInSug.isEmpty()) {
+        if (!bannedInSug.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for (Snowflake f : bannedInSug) {
                 sb.append(f.asString()).append(';');
             }
             Core.settings.put("bannedInSug", sb.toString());
-        }*/
+        }
     }
 
     public static void loadNet() {

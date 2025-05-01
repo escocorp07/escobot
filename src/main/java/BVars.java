@@ -16,11 +16,12 @@ import java.util.Random;
 public class BVars {
     public static DiscordClient client;
     public static GatewayDiscordClient gateway;
-    public static String btoken, prefix, joinMessage, presence;
+    public static String btoken, prefix;
+    @SettingsL public static String joinMessage, presence;
     public static Snowflake guild; // сервер бота
     public static long handledCommands, handledMessages;
     public static ScriptEngine ktsEngine = null;
-    public static Seq<Snowflake> bannedInSug = new Seq<>();
+    @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
     /**
      * ownerid-айди роли-владельца сервера
      * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей

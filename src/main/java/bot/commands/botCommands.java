@@ -91,39 +91,6 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("anot", "Проверить аннотации", "<text...>", grelyid, (e, args)->{
-            if(args.length < 1)
-                return;
-            StringBuilder sb = new StringBuilder();
-            for (String arg : args) {
-                sb.append(arg + " ");
-            }
-            testA = sb.toString();
-        });
-        registerCommand("anotg", "Проверить аннотации", grelyid, (e, args)->{
-            sendReply(e.getMessage(), testA);
-        });
-        registerCommand("kt", "kt really", "<code...>", ownerid, (e, args)->{
-                StringBuilder sb = new StringBuilder();
-                for (String arg : args) {
-                    sb.append(arg + " ");
-                }
-                String out = "No output";
-                try {
-                    if(ktsEngine == null)
-                        initKotlinScripting();
-                    if(ktsEngine == null) {
-                        sendMessage(e.getMessage().getChannelId(), "Не могу инициализировать движок!");
-                        return;
-                    }
-                    out = ktsEngine.eval(sb.toString().trim()).toString();
-                    // out = ScriptEngineHolder.INSTANCE.getKts().eval(sb.toString().trim()).toString();
-                } catch (Exception er) {
-                    out = er.getMessage();
-                }
-                sendMessage(e.getMessage().getChannelId(), out);
-                sb.setLength(0);
-        });
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {
