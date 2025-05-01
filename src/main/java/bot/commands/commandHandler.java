@@ -11,6 +11,7 @@ import discord4j.core.spec.MessageCreateSpec;
 import discord4j.discordjson.json.MessageReferenceData;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import main.java.BVars;
 import main.java.bot.errorLogger;
 import reactor.core.publisher.Mono;
@@ -93,6 +94,7 @@ public class commandHandler {
     }
     @Getter
     @Setter
+    @ToString
     public static class botcommand {
         public String name;
         public String description;
