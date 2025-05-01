@@ -449,6 +449,9 @@ public class botCommands {
                 botcommand command = commands.find(c->{
                     return c.getName().equals(args[0]);
                 });
+                if(command==null){
+                    sendReply(e.getMessage(), "Команда не найдена!");
+                }
                 EmbedCreateSpec.Builder b = EmbedCreateSpec.builder().title(command.getName()).addField("", command.getDescription(), false)
                                 .color(Color.GREEN);
                 if(!command.getArgsN().isEmpty())
