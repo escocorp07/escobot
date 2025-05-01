@@ -452,7 +452,7 @@ public class botCommands {
                 EmbedCreateSpec.Builder b = EmbedCreateSpec.builder().title(command.getName()).addField("", command.getDescription(), false)
                                 .color(Color.GREEN);
                 if(!command.getArgsN().isEmpty())
-                    b.description(command.getArgsN());
+                    b.description(prefix+command.getName()+" "+command.getArgsN());
                 sendEmbedReply(b.build(), e.getMessage());
             }
         });
