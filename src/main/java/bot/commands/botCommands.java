@@ -258,13 +258,13 @@ public class botCommands {
                 sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
             }
         });
-        registerCommand("suggest-banned", "Список людей с запретом предложки", ownerid, (e, args)->{
+        registerCommand("suggest-banned", "Список людей с запретом предложки", (e, args)->{
             StringBuilder sb = new StringBuilder();
             for(Snowflake f : bannedInSug) {
                 sb.append("<@" + f.asString() + ">\n");
             }
             sb.setLength(2000);
-            sendEmbedReply(EmbedCreateSpec.builder().addField("", sb.toString(), false).title().build(), e.getMessage());
+            sendEmbedReply(EmbedCreateSpec.builder().addField("", sb.toString(), false).title("").build(), e.getMessage());
             sb.setLength(0);
         });
         registerCommand("suggest", "Предложить идею", "<text...>", (e, args)->{
