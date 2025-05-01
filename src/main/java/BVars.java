@@ -20,7 +20,6 @@ public class BVars {
     @SettingsL public static String joinMessage, presence;
     public static Snowflake guild; // сервер бота
     @SettingsL public static long handledCommands, handledMessages;
-    public static ScriptEngine ktsEngine = null;
     @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
     @SettingsL public static Seq<String> testSeq = Seq.with("hello", "world", "!");
     /**

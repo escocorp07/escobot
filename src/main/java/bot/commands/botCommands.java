@@ -248,8 +248,10 @@ public class botCommands {
         });
         registerCommand("suggest-ban", "Запретить предложку", "<snowflakeid>", ownerid, (e, args)->{
             try {
-                bannedInSug.add(Snowflake.of(Long.parseLong(args[0])));
-                sendMessageP(e.getMessage().getChannelId(), "Добавлено <@"+args[0]+">");
+                for(String arg : args) {
+                    bannedInSug.add(Snowflake.of(Long.parseLong(arg.replace("@", "").replace("<", "").replace(">", "").trim())));
+                    sendMessageP(e.getMessage().getChannelId(), "Добавлено <@" + args[0] + ">");
+                }
             } catch (Exception err) {
                 sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
             }
