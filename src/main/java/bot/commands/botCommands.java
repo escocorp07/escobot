@@ -488,7 +488,8 @@ public class botCommands {
             }
             sb.setLength(128);
             presence=sb.toString();
-            gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing(sb.toString())));
+            gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing(sb.toString()))).subscribe();
+            sendReply(e.getMessage(), "Ok.");
             sb.setLength(0);
         });
         /*registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
