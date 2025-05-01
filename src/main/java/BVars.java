@@ -15,7 +15,7 @@ import java.util.Random;
 public class BVars {
     public static DiscordClient client;
     public static GatewayDiscordClient gateway;
-    public static String btoken, prefix, joinMessage;
+    public static String btoken, prefix, joinMessage, presence;
     public static Snowflake guild; // сервер бота
     public static long handledCommands, handledMessages;
     public static ScriptEngine ktsEngine = null;

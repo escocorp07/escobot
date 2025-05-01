@@ -135,6 +135,7 @@ public class utils {
     }
     public static void loadSettings() {
         joinMessage=Core.settings.getString("joinMessage", "");
+        presence=Core.settings.getString("presence", "");
         handledMessages=Core.settings.getLong("handledMessages", 0);
         handledCommands=Core.settings.getLong("handledCommands", 0);
         if(Core.settings.getString("bannedInSug") != null) {
@@ -146,6 +147,7 @@ public class utils {
     }
     public static void saveSettings() {
         Core.settings.put("joinMessage", joinMessage);
+        Core.settings.put("presence", presence);
         Core.settings.put("handledMessages", handledMessages);
         Core.settings.put("handledCommands", handledCommands);
         if(!bannedInSug.isEmpty()) {

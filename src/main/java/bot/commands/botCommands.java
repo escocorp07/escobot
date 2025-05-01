@@ -14,6 +14,8 @@ import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.object.entity.channel.TopLevelGuildMessageChannel;
 //import discord4j.core.object.reaction.ReactionEmoji; // deprecated
+import discord4j.core.object.presence.ClientActivity;
+import discord4j.core.object.presence.ClientPresence;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.object.emoji.Emoji;
 import discord4j.core.spec.MessageCreateSpec;
@@ -471,6 +473,22 @@ public class botCommands {
             }
             joinMessage=sb.toString();
             sendMessage(e.getMessage().getChannelId(), "Новое сообщение: "+sb.toString());
+            sb.setLength(0);
+        });
+        registerCommand("set-status", "Установить статус бота", "<text...>", grelyid, (e, args) -> {
+            if(args.length == 0) {
+                sendMessage(e.getMessage().getChannelId(), "Статус убран.");
+                presence="";
+                gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing("Думай.")));
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            sb.setLength(128);
+            presence=sb.toString();
+            gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing(sb.toString())));
             sb.setLength(0);
         });
         /*registerCommand("status", "~~Заддосить~~ Проверить статус сервера.", (e, args) -> {
