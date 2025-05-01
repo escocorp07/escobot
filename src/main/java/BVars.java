@@ -19,7 +19,7 @@ public class BVars {
     public static String btoken, prefix;
     @SettingsL public static String joinMessage, presence;
     public static Snowflake guild; // сервер бота
-    public static long handledCommands, handledMessages;
+    @SettingsL public static long handledCommands, handledMessages;
     public static ScriptEngine ktsEngine = null;
     @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
     /**
