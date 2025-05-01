@@ -263,7 +263,8 @@ public class botCommands {
             for(Snowflake f : bannedInSug) {
                 sb.append("<@" + f.asString() + ">\n");
             }
-            sb.setLength(2000);
+            if(sb.length() > 1024)
+                sb.setLength(1024);
             sendEmbedReply(EmbedCreateSpec.builder().addField("", sb.toString(), false).title("").build(), e.getMessage());
             sb.setLength(0);
         });
