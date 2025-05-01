@@ -267,8 +267,8 @@ public class botCommands {
             for(Snowflake f : bannedInSug) {
                 sb.append("<@" + f.asString() + ">\n");
             }
-            if(sb.length() > 1024)
-                sb.setLength(1024);
+            if(sb.length() > 1023)
+                sb.setLength(1023);
             sendEmbedReply(EmbedCreateSpec.builder().addField("Плохиши.", sb.toString(), false).color(Color.BISMARK).build(), e.getMessage());
             sb.setLength(0);
         });

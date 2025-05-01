@@ -187,7 +187,7 @@ public class utils {
                             if (!raw.isEmpty()) {
                                 for (String entry : raw.split(";")) {
                                     if (arg == Snowflake.class) {
-                                        list.add(entry);
+                                        list.add(Snowflake.of(entry));
                                     } else if (arg == String.class) {
                                         list.add(Base64Coder.decodeString(entry));
                                     } else if (arg == Long.class || arg == long.class) {
