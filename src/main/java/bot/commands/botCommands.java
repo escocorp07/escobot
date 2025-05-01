@@ -93,7 +93,7 @@ public class botCommands {
             sb.setLength(0);
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-           sendMessage(e.getMessage().getChannelId(), testSeq)
+           sendMessage(e.getMessage().getChannelId(), testSeq.toString());
         });
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
