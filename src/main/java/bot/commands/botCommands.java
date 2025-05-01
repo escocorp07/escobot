@@ -479,7 +479,7 @@ public class botCommands {
             if(args.length == 0) {
                 sendMessage(e.getMessage().getChannelId(), "Статус убран.");
                 presence="";
-                gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing("Думай.")));
+                gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing("Думай."))).subscribe();
                 return;
             }
             StringBuilder sb = new StringBuilder();

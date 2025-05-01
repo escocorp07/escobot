@@ -134,7 +134,7 @@ public class utils {
         }
     }
     public static void loadSettings() {
-        joinMessage=Core.settings.getString("joinMessage", "");
+        joinMessage=Core.settings.getString("joinMessage", "Думай.");
         presence=Core.settings.getString("presence", "");
         handledMessages=Core.settings.getLong("handledMessages", 0);
         handledCommands=Core.settings.getLong("handledCommands", 0);
