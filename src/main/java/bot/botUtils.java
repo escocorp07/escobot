@@ -42,6 +42,8 @@ public class botUtils {
                                 field.set(null, 0L);
                             } else if (Seq.class.isAssignableFrom(type)) {
                                 field.set(null, new Seq<>());
+                            } else if(type == Snowflake.class) {
+                                field.set(null, Snowflake.of(0));
                             }
                             sendMessage(e.getMessage().getChannelId(), "Удалено " + field.getName());
                         } catch (Exception ex) {
@@ -81,11 +83,15 @@ public class botUtils {
                                         list.add(Double.parseDouble(arg));
                                     } else if (elementType == Boolean.class || elementType == boolean.class) {
                                         list.add(Boolean.parseBoolean(arg));
+                                    } else if(type == Snowflake.class) {
+                                        field.set(null, Snowflake.of(arg));
                                     }
                                 }
 
                                 field.set(null, list);
                             }
+                        } else if(type == Snowflake.class) {
+                            field.set(null, Snowflake.of(sb.toString().trim()));
                         }
                         sendMessage(e.getMessage().getChannelId(), "Назначено " + field.getName() + ": " + sb.toString().trim());
                     } catch (Exception ex) {
