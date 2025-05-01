@@ -38,6 +38,19 @@ public class commandHandler {
         commands.add(c);
         return c;
     }
+    /*обычная+аргсы*/
+    public static botcommand registerCommand(String name, String description, String argsN, BiConsumer<MessageCreateEvent, String[]> executor) {
+        botcommand c = new botcommand(name, description, executor);
+        commands.add(c);
+        return c;
+    }
+    /**доступ+аргсы*/
+    public static botcommand registerCommand(String name, String description, String argsN, long role, BiConsumer<MessageCreateEvent, String[]> executor) {
+        botcommand c = new botcommand(name, description, executor);
+        c.setRoleID(role);
+        commands.add(c);
+        return c;
+    }
     public static void handleEvent(MessageCreateEvent event) {
         Message message = event.getMessage();
         Optional<User> authorOpt = message.getAuthor();
@@ -82,6 +95,7 @@ public class commandHandler {
         public String description;
         public BiConsumer<MessageCreateEvent, String[]> executor;
         public long roleID;
+        public String argsN = "";
 
         botcommand(String name, String description, BiConsumer<MessageCreateEvent, String[]> executor) {
             this.name = name;

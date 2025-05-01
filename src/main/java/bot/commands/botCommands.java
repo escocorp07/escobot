@@ -81,7 +81,7 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("say", "Сказать от имени бота.", ownerid, (e, args)->{
+        registerCommand("say", "Сказать от имени бота.", "<text...>", ownerid, (e, args)->{
             StringBuilder sb = new StringBuilder();
             for (String arg : args) {
                 sb.append(arg + " ");
@@ -89,7 +89,7 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("kt", "kt really", ownerid, (e, args)->{
+        registerCommand("kt", "kt really", "<code...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {
                     sb.append(arg + " ");
@@ -110,7 +110,7 @@ public class botCommands {
                 sendMessage(e.getMessage().getChannelId(), out);
                 sb.setLength(0);
         });
-        registerCommand("js", "js really", ownerid, (e, args)->{
+        registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {
                     sb.append(arg + " ");
@@ -124,13 +124,17 @@ public class botCommands {
                 sendMessage(e.getMessage().getChannelId(), out);
                 sb.setLength(0);
         });
-        registerCommand("ball", "Погонять шары", (e, args)->{
+        registerCommand("ball", "Погонять шары", "<text...>", (e, args)->{
             if(args.length < 1) {
                 sendReply(e.getMessage(), "Сообщение не содержит аргсов.");
                 return;
             }
             Color color = Color.GRAY;
             String reply = "";
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
             switch (random.nextInt(3) + 1) {
                 case 1:
                     reply = yesDialogs.get(random.nextInt(yesDialogs.size));
@@ -149,15 +153,6 @@ public class botCommands {
                     color=Color.BLACK;
                     break;
             };
-            StringBuilder sb = new StringBuilder();
-            for (String arg : args) {
-                sb.append(arg + " ");
-            }
-            /*
-            * [E] Operator called default onErrorDropped: reactor.core.Exceptions$ErrorCallbackNotImplemented: discord4j.rest.http.client.ClientException: POST /channels/1352760046215499776/
-messages returned 400 Bad Request with response {code=50035, message=Invalid Form Body, errors={embeds={0={title={_errors=[{code=BASE_TYPE_MAX_LENGTH, message=Must be 256 or fe
-wer in length.}]}}}}}
-            * */
             sb.setLength(255);
             sendEmbedReply(EmbedCreateSpec.builder().title(sb.toString()).addField("", reply, false).color(color).build(), e.getMessage());
             sb.setLength(0);
@@ -322,7 +317,7 @@ wer in length.}]}}}}}
                 ).subscribe();
             });
         });*/
-        registerCommand("suggest-ban", "Запретить предложку", ownerid, (e, args)->{
+        registerCommand("suggest-ban", "Запретить предложку", "<snowflakeid>", ownerid, (e, args)->{
             try {
                 bannedInSug.add(Snowflake.of(Long.parseLong(args[0])));
                 sendMessageP(e.getMessage().getChannelId(), "Добавлено <@"+args[0]+">");
@@ -330,7 +325,7 @@ wer in length.}]}}}}}
                 sendMessage(e.getMessage().getChannelId(), "Не Snowflake!");
             }
         });
-        registerCommand("suggest-unban", "Разрешить предложку", ownerid, (e, args)->{
+        registerCommand("suggest-unban", "Разрешить предложку", "<snowflakeid>", ownerid, (e, args)->{
             try {
                 bannedInSug.remove(Snowflake.of(Long.parseLong(args[0])));
                 sendMessageP(e.getMessage().getChannelId(), "Удалено <@"+args[0]+">");
@@ -347,7 +342,7 @@ wer in length.}]}}}}}
             sendMessageP(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
-        registerCommand("suggest", "Предложить идею", (e, args)->{
+        registerCommand("suggest", "Предложить идею", "<text...>", (e, args)->{
             if(args.length < 2) {
                 sendMessage(e.getMessage().getChannelId(), "Ваше сообщение содержит слишком мало слов! (2 - минимум)");
                 return;
@@ -412,7 +407,7 @@ wer in length.}]}}}}}
                     });
             sb.setLength(0);
         });
-        registerCommand("do", "А тебя это не должно волновать", grelyid, (e, args) -> {
+        registerCommand("do", "А тебя это не должно волновать", "<code...>", grelyid, (e, args) -> {
             if (args.length == 0) {
                 sendMessage(e.getMessage().getChannelId(), "No command provided.");
                 return;
@@ -437,20 +432,31 @@ wer in length.}]}}}}}
         registerCommand("error", "Искуственно создать ошибку.", grelyid, (e, args) -> {
             errorLogger.logErr(new RuntimeException("test"));
         });
-        registerCommand("help", "Посмотреть команды и их описания", (e, args) -> {
-            EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
-                    .color(Color.GREEN);
-            for(botcommand c : commands) {
-                embed.addField(c.getName(), c.getDescription(), false);
+        registerCommand("help", "Посмотреть команды и их описания", "[command]", (e, args) -> {
+            if(args.length<1) {
+                EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder()
+                        .color(Color.GREEN);
+                for (botcommand c : commands) {
+                    embed.addField(c.getName(), c.getDescription(), false);
+                }
+                MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
+                        .addEmbed(embed.build());
+                gateway.getChannelById(e.getMessage().getChannelId())
+                        .ofType(GuildMessageChannel.class)
+                        .flatMap(channel -> channel.createMessage(ms.build()
+                        )).subscribe();
+            } else {
+                botcommand command = commands.find(c->{
+                    return c.getName().equals(args[0]);
+                });
+                EmbedCreateSpec.Builder b = EmbedCreateSpec.builder().title(command.getName()).addField("", command.getDescription(), false)
+                                .color(Color.GREEN);
+                if(!command.getArgsN().isEmpty())
+                    b.description(command.getArgsN());
+                sendEmbedReply(b.build(), e.getMessage());
             }
-            MessageCreateSpec.Builder ms = MessageCreateSpec.builder()
-                    .addEmbed(embed.build());
-            gateway.getChannelById(e.getMessage().getChannelId())
-                    .ofType(GuildMessageChannel.class)
-                    .flatMap(channel -> channel.createMessage(ms.build()
-                    )).subscribe();
         });
-        registerCommand("set-join", "Установить сообщение отправляемое участнику по заходу.", grelyid, (e, args) -> {
+        registerCommand("set-join", "Установить сообщение отправляемое участнику по заходу.", "<text...>", grelyid, (e, args) -> {
             if(args.length == 0) {
                 joinMessage="";
                 sendMessage(e.getMessage().getChannelId(), "Перестал отправлять сообщение при входе.");
