@@ -194,7 +194,7 @@ public class utils {
                                         list.add(Long.parseLong(entry));
                                     } else if (arg == Integer.class || arg == int.class) {
                                         list.add(Integer.parseInt(entry));
-                                    } // можно добавить другие типы при необходимости
+                                    } // можно добавить другие типы при необходимости, не но я не думаю, что она будет.
                                 }
                             }
                             field.set(null, list);
