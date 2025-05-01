@@ -284,18 +284,4 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    public static void initKotlinScripting() {
-        try {
-            ScriptEngineManager manager = new ScriptEngineManager();
-            ktsEngine = manager.getEngineByExtension("kts");
-
-            if (ktsEngine != null) {
-                Log.info("Kotlin ScriptEngine initialized successfully.");
-            } else {
-                Log.warn("Failed to initialize Kotlin ScriptEngine.");
-            }
-        } catch (Throwable e) {
-            Log.err(e);
-        }
-    }
 }

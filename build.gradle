@@ -39,12 +39,6 @@ dependencies{
     //implementation 'org.postgresql:postgresql:42.7.5'
     compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.1.20"
-    implementation "org.jetbrains.kotlin:kotlin-scripting-common:2.1.20"
-    implementation "org.jetbrains.kotlin:kotlin-scripting-jvm:2.1.20"
-    implementation "org.jetbrains.kotlin:kotlin-scripting-jsr223:2.1.20"
-    implementation "org.jetbrains.kotlin:kotlin-compiler-embeddable:2.1.20"
     implementation 'org.reflections:reflections:0.10.2'
 }
 
