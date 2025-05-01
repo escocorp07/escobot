@@ -62,10 +62,10 @@ public class commandHandler {
         }
         User author = authorOpt.get();
         String content = message.getContent();
-        if(content.startsWith(BVars.prefix)) {
+        if(content.toLowerCase().startsWith(BVars.prefix)) {
             String[] args = content.replace(BVars.prefix, "").trim().split(" ");
             botcommand command = commands.find(c->{
-                return c.getName().equals(args[0]);
+                return c.getName().equals(args[0]) && c.isActive();
             });
             if(command != null) {
                 handledCommands+=1;
@@ -98,6 +98,7 @@ public class commandHandler {
         public String description;
         public BiConsumer<MessageCreateEvent, String[]> executor;
         public long roleID;
+        public boolean active = true;
         public String argsN = "";
 
         botcommand(String name, String description, BiConsumer<MessageCreateEvent, String[]> executor) {
