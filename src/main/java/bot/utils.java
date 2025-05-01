@@ -146,6 +146,7 @@ public class utils {
                 bannedInSug.add(Snowflake.of(a));
             }
         }
+        loadSettingsAnnotated();
     }
     public static void saveSettings() {
         Core.settings.put("joinMessage", joinMessage);
@@ -160,6 +161,7 @@ public class utils {
             Core.settings.put("bannedInSug", sb.toString());
             sb.setLength(0);
         }
+        saveSettingsAnnotated();
     }
     public static void loadSettingsAnnotated() {
         for (Field field : BVars.class.getDeclaredFields()) {
