@@ -101,7 +101,7 @@ public class commandHandler {
         public String description;
         public BiConsumer<MessageCreateEvent, String[]> executor;
         public long roleID;
-        public boolean visible, active = true;
+        public boolean visible = true, active = true;
         public String argsN = "";
 
         botcommand(String name, String description, BiConsumer<MessageCreateEvent, String[]> executor) {
