@@ -93,7 +93,7 @@ public class botCommands {
             sb.setLength(0);
         });
         Log.info(registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-            sendReply(e.getMessage(), bannedInSug.toString());
+            // some test code.
         }).toString());
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
