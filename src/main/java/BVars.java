@@ -21,7 +21,7 @@ public class BVars {
     public static Snowflake guild; // сервер бота
     @SettingsL public static long handledCommands, handledMessages;
     @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
-    @SettingsL public static Seq<String> testSeq = Seq.with("hello", "world", "!");
+    @SettingsL public static Seq<String> testSeq = new Seq<>();
     /**
      * ownerid-айди роли-владельца сервера
      * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей

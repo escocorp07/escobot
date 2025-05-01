@@ -420,5 +420,6 @@ public class botCommands {
             sb.setLength(0);
         });
         KbotCommands.Companion.KregisterCommands();
+        generateCommands();
     }
 }
