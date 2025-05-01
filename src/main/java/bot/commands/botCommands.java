@@ -126,35 +126,32 @@ public class botCommands {
                 sendMessage(e.getMessage().getChannelId(), out);
                 sb.setLength(0);
         });
-        registerCommand("ball", "Погонять шары", "<text...>", (e, args)->{
-            if(args.length < 1) {
+        registerCommand("ball", "Погонять шары", "<text...>", (e, args) -> {
+            if (args.length < 1) {
                 sendReply(e.getMessage(), "Сообщение не содержит аргсов.");
                 return;
             }
+
             Color color = Color.GRAY;
             String reply = "";
             StringBuilder sb = new StringBuilder();
             for (String arg : args) {
                 sb.append(arg + " ");
             }
-            switch (random.nextInt(3) + 1) {
-                case 1:
-                    reply = yesDialogs.get(random.nextInt(yesDialogs.size));
-                    color=Color.GREEN;
-                    break;
-                case 2:
-                    reply = noDialogs.get(random.nextInt(noDialogs.size));
-                    color=Color.RED;
-                    break;
-                case 3:
-                    reply = idkDialogs.get(random.nextInt(idkDialogs.size));
-                    color=Color.BLUE;
-                    break;
-                default:
-                    reply = "";
-                    color=Color.BLACK;
-                    break;
-            };
+
+            int rand = random.nextInt(100);
+
+            if (rand < 45) {
+                reply = yesDialogs.get(random.nextInt(yesDialogs.size));
+                color = Color.GREEN;
+            } else if (rand < 90) {
+                reply = noDialogs.get(random.nextInt(noDialogs.size));
+                color = Color.RED;
+            } else {
+                reply = idkDialogs.get(random.nextInt(idkDialogs.size));
+                color = Color.BLUE;
+            }
+
             sb.setLength(255);
             sendEmbedReply(EmbedCreateSpec.builder().title(sb.toString()).addField("", reply, false).color(color).build(), e.getMessage());
             sb.setLength(0);
