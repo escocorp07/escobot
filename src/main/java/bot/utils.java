@@ -187,9 +187,9 @@ public class utils {
                             if (!raw.isEmpty()) {
                                 for (String entry : raw.split(";")) {
                                     if (arg == Snowflake.class) {
-                                        list.add(Snowflake.of(entry));
+                                        list.add(Snowflake.of(Base64Coder.decodeString(entry)));
                                     } else if (arg == String.class) {
-                                        list.add(entry);
+                                        list.add(Base64Coder.decodeString(entry));
                                     } else if (arg == Long.class || arg == long.class) {
                                         list.add(Long.parseLong(entry));
                                     } else if (arg == Integer.class || arg == int.class) {
@@ -228,7 +228,7 @@ public class utils {
                                 if (obj instanceof Snowflake s) {
                                     sb.append(s.asString());
                                 } else {
-                                    sb.append(obj.toString());
+                                    sb.append(Base64Coder.encodeString(obj.toString()));
                                 }
                                 sb.append(';');
                             }
