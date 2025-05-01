@@ -4,6 +4,7 @@ import arc.Core;
 import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.OS;
 import arc.util.Timer;
@@ -89,6 +90,15 @@ public class botCommands {
                 sb.append(arg + " ");
             }
             sendMessage(e.getMessage().getChannelId(), sb.toString());
+            sb.setLength(0);
+        });
+        registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            sendMessage(e.getMessage().getChannelId(), sb.toString());
+            testSeq = Seq.with(args);
             sb.setLength(0);
         });
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
