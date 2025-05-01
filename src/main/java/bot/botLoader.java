@@ -11,6 +11,8 @@ import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.ThreadChannel;
 // import discord4j.core.object.reaction.ReactionEmoji; // deprecated
 import discord4j.core.object.emoji.Emoji;
+import discord4j.core.object.presence.ClientActivity;
+import discord4j.core.object.presence.ClientPresence;
 import discord4j.core.shard.GatewayBootstrap;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.gateway.GatewayOptions;
@@ -43,6 +45,7 @@ public class botLoader {
         GatewayBootstrap<GatewayOptions> gp = client.gateway()
                 .setEnabledIntents(IntentSet.all());
         gateway = gp.login().block();
+        gateway.updatePresence(ClientPresence.doNotDisturb(ClientActivity.playing(presence))).subscribe();
         Log.info("Gateway connected!");
         botCommands.registerCommands();
         botEmoji.registerEmojis();
