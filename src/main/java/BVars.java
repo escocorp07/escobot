@@ -4,6 +4,7 @@ import arc.struct.Seq;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
+import main.java.annotations.GenerateSet;
 import main.java.annotations.SettingsL;
 import main.java.bot.utils;
 import mindustry.type.Item;
@@ -21,7 +22,8 @@ public class BVars {
     public static Snowflake guild; // сервер бота
     @SettingsL public static long handledCommands, handledMessages;
     @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
-    @SettingsL public static Seq<String> testSeq = new Seq<>();
+    @SettingsL @GenerateSet
+    public static Seq<String> testSeq = new Seq<>();
     /**
      * ownerid-айди роли-владельца сервера
      * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей
