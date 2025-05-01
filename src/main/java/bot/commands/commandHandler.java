@@ -41,6 +41,7 @@ public class commandHandler {
     /*обычная+аргсы*/
     public static botcommand registerCommand(String name, String description, String argsN, BiConsumer<MessageCreateEvent, String[]> executor) {
         botcommand c = new botcommand(name, description, executor);
+        c.setArgsN(argsN);
         commands.add(c);
         return c;
     }
@@ -48,6 +49,7 @@ public class commandHandler {
     public static botcommand registerCommand(String name, String description, String argsN, long role, BiConsumer<MessageCreateEvent, String[]> executor) {
         botcommand c = new botcommand(name, description, executor);
         c.setRoleID(role);
+        c.setArgsN(argsN);
         commands.add(c);
         return c;
     }
