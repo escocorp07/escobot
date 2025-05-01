@@ -91,6 +91,18 @@ public class botCommands {
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });
+        registerCommand("anot", "Проверить аннотации", "<text...>", grelyid, (e, args)->{
+            if(args.length < 1)
+                return;
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg + " ");
+            }
+            testA = sb.toString();
+        });
+        registerCommand("anotg", "Проверить аннотации", grelyid, (e, args)->{
+            sendReply(e.getMessage(), testA);
+        });
         registerCommand("kt", "kt really", "<code...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
                 for (String arg : args) {

@@ -21,7 +21,7 @@ public class emojiHandler {
     public static void registerEmojiRemove(String raw, Snowflake messageId, Consumer<ReactionRemoveEvent> code) {
         emojir.add(new emojiRemove(raw, messageId, code));
     }
-    /**Зарегестрировать хендлер эмодзи на опр. сообщении -> код*/
+    /**Зарегестрировать хендлер эмодзи на опр сообщении -> код*/
     public static void handleEmojiEvent(Object o) {
         errorLogger.debug(o.getClass().getSimpleName());
         if (o instanceof ReactionAddEvent event) {

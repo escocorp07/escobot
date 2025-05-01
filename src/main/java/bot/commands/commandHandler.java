@@ -53,6 +53,7 @@ public class commandHandler {
         commands.add(c);
         return c;
     }
+    /**Обработать эвент получения сообщения.*/
     public static void handleEvent(MessageCreateEvent event) {
         Message message = event.getMessage();
         Optional<User> authorOpt = message.getAuthor();

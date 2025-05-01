@@ -10,6 +10,7 @@ import discord4j.core.object.entity.Message;
 import lombok.Getter;
 import lombok.Setter;
 import main.java.BVars;
+import main.java.annotations.SettingsL;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import mindustry.net.Packets;
@@ -47,6 +48,7 @@ import mindustry.net.Packets.WorldStream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -159,6 +161,66 @@ public class utils {
             sb.setLength(0);
         }
     }
+    public static void loadSettingsAnnotated() {
+        for (Field field : BVars.class.getDeclaredFields()) {
+            if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(SettingsL.class)) {
+                field.setAccessible(true);
+                SettingsL annotation = field.getAnnotation(SettingsL.class);
+                assert annotation != null;
+                String key = annotation.key().isEmpty() ? field.getName() : annotation.key();
+
+                try {
+                    Class<?> type = field.getType();
+                    if (type == String.class) {
+                        field.set(null, Core.settings.getString(key, (String) field.get(null)));
+                    } else if (type == long.class || type == Long.class) {
+                        field.set(null, Core.settings.getLong(key, field.getLong(null)));
+                    } else if (type == int.class || type == Integer.class) {
+                        field.set(null, Core.settings.getInt(key, field.getInt(null)));
+                    }
+                } catch (Exception e) {
+                    Log.err(e);
+                }
+            }
+        }
+        /*String bannedRaw = Core.settings.getString("bannedInSug", "");
+        if (!bannedRaw.isEmpty()) {
+            for (String id : bannedRaw.split(";")) {
+                bannedInSug.add(Snowflake.of(id));
+            }
+        }*/
+    }
+    public static void saveSettingsAnnotated() {
+        for (Field field : BVars.class.getDeclaredFields()) {
+            if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(SettingsL.class)) {
+                field.setAccessible(true);
+                SettingsL annotation = field.getAnnotation(SettingsL.class);
+                assert annotation != null;
+                String key = annotation.key().isEmpty() ? field.getName() : annotation.key();
+
+                try {
+                    Object value = field.get(null);
+                    if (value instanceof String) {
+                        Core.settings.put(key, (String) value);
+                    } else if (value instanceof Long) {
+                        Core.settings.put(key, (Long) value);
+                    } else if (value instanceof Integer) {
+                        Core.settings.put(key, (Integer) value);
+                    }
+                } catch (Exception e) {
+                    Log.err(e);
+                }
+            }
+        }
+        /*if (!bannedInSug.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (Snowflake f : bannedInSug) {
+                sb.append(f.asString()).append(';');
+            }
+            Core.settings.put("bannedInSug", sb.toString());
+        }*/
+    }
+
     public static void loadNet() {
         Vars.net.handleClient(Connect.class, packet -> {
             Log.info("Generated packet for: @", packet.addressTCP);
