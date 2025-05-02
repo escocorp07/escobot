@@ -59,8 +59,7 @@ public class Routes {
                 String headers = ctx.headerMap().entrySet().stream()
                         .map(e -> e.getKey() + ": " + e.getValue())
                         .collect(Collectors.joining("\n"));
-
-                String body = ctx.body();
+                String body = "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("```");
                 sb.append("URL: "+ctx.fullUrl());
