@@ -4,6 +4,7 @@ import arc.struct.Seq;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
+import io.javalin.Javalin;
 import main.java.annotations.GenerateSet;
 import main.java.annotations.SettingsL;
 import main.java.bot.utils;
@@ -17,10 +18,13 @@ import java.util.Random;
 public class BVars {
     public static DiscordClient client;
     public static GatewayDiscordClient gateway;
+    public static Javalin site;
+    public static final int port = 80;
+
     public static String btoken, prefix;
     @SettingsL public static String joinMessage, presence;
     public static Snowflake guild; // сервер бота
-    @SettingsL public static long handledCommands, handledMessages;
+    @SettingsL public static long handledCommands, handledMessages, handledRequests;
     @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
     @SettingsL @GenerateSet
     public static Seq<String> testSeq = new Seq<>();

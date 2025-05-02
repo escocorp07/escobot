@@ -6,6 +6,7 @@ import arc.struct.Seq;
 import arc.util.Log;
 import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
+import main.java.site.SiteLoader;
 import mindustry.Vars;
 import mindustry.core.*;
 import mindustry.ctype.Content;
@@ -99,6 +100,7 @@ public class Main {
             saveSettings();
             Core.settings.forceSave();
         }));
+        SiteLoader.load();
         botLoader.load();
     }
 }
