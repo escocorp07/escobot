@@ -80,21 +80,21 @@ public class Routes {
             try {
                 ctx.html(readFileFromJar("public/index/index.html"));
             } catch (IOException e) {
-                ctx.status(521).result("");
+                ctx.status(500).result("");
             }
         });
         get("/mindustry_guide", ctx->{
             try {
                 ctx.html(readFileFromJar("public/mindustry_guide/index.html"));
             } catch (IOException e) {
-                ctx.status(521).result("");
+                ctx.status(500).result("");
             }
         });
         get("/appeal", ctx->{
             try {
-                ctx.html(readFileFromJar("public/appeal/index.html"));
+                ctx.html(readFileFromJar("public/appeals/index.html"));
             } catch (IOException e) {
-                ctx.status(521).result("");
+                ctx.status(500).result("");
             }
         });
 
