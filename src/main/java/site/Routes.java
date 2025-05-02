@@ -27,6 +27,13 @@ public class Routes {
                 ctx.status(521).result("");
             }
         });
+        get("/mindustry_guide", ctx->{
+            try {
+                ctx.html(readFileFromJar("public/mindustry_guide/index.html"));
+            } catch (IOException e) {
+                ctx.status(521).result("");
+            }
+        });
 
         site.get("/favicon.ico", ctx->{
             File localFile = new File("cdn/favicon.gif");
