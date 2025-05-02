@@ -3,10 +3,7 @@ package main.java.site;
 import arc.struct.Seq;
 import io.javalin.http.Context;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
@@ -21,7 +18,7 @@ public class Routes {
         });
 
         get("/", ctx->{
-            ctx.status(200).result("It works!");
+
         });
 
         site.get("/favicon.ico", ctx->{
@@ -73,6 +70,13 @@ public class Routes {
             ctx.status(200).result(is);
         } catch (Exception e) {
             ctx.status(404).result("File not found.");
+        }
+    }
+    public static String read(String fileName) {
+        try {
+            return new String(Files.readAllBytes(Paths.get(fileName)));
+        } catch (IOException e) {
+            return null;
         }
     }
 }
