@@ -3,6 +3,9 @@ package main.java.site;
 import arc.struct.Seq;
 import io.javalin.http.Context;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,8 +25,12 @@ public class Routes {
         });
 
         site.get("/favicon.ico", ctx->{
-            InputStream is = Files.newInputStream(Paths.get("cdn/favicon.gif"));
-            ctx.contentType("image/gif");
+            File localFile = new File("cdn/favicon.gif");
+            //ctx.contentType("image/gif");
+            // code stolen from github issue
+            InputStream is = new BufferedInputStream(new FileInputStream(localFile));
+            ctx.header("Content-Dispotion", "attachment; filename=\""+localFile.getName()+"\"");
+            ctx.header("Content-Length", String.valueOf(localFile.length()));
             ctx.result(is);
         });
 
