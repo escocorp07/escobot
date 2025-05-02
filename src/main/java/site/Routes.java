@@ -2,6 +2,8 @@ package main.java.site;
 
 import arc.struct.Seq;
 import discord4j.core.spec.MessageCreateSpec;
+import inet.ipaddr.IPAddress;
+import inet.ipaddr.IPAddressString;
 import io.javalin.http.Context;
 import main.java.Main;
 import main.java.bot.errorLogger;
@@ -11,6 +13,7 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -19,9 +22,42 @@ import static main.java.bot.botUtils.sendMessage;
 
 public class Routes {
     public static Seq<String> sitemapRoutes = new Seq<>();
+    static List<String> cloudflareCIDRs = List.of(
+            "173.245.48.0/20",
+            "103.21.244.0/22",
+            "103.22.200.0/22",
+            "103.31.4.0/22",
+            "141.101.64.0/18",
+            "108.162.192.0/18",
+            "190.93.240.0/20",
+            "188.114.96.0/20",
+            "197.234.240.0/22",
+            "198.41.128.0/17",
+            "162.158.0.0/15",
+            "104.16.0.0/13",
+            "104.24.0.0/14",
+            "172.64.0.0/13",
+            "131.0.72.0/22"
+    );
     public static void loadRoutes() {
         site.before(ctx->{
             try {
+                String ip = ctx.header("X-Forwarded-For");
+                if (ip == null) {
+                    ctx.status(403).result("");
+                    return;
+                }
+                IPAddressString ipStr = new IPAddressString(ip);
+                IPAddress addr = ipStr.getAddress();
+                boolean allowed = cloudflareCIDRs.stream().anyMatch(cidr -> {
+                    IPAddressString rangeStr = new IPAddressString(cidr);
+                    return rangeStr.getAddress().contains(addr);
+                });
+
+                if (!allowed) {
+                    ctx.status(403).result("Access denied: IP not in Cloudflare range");
+                    return;
+                }
                 incrementReqHandled();
                 String headers = ctx.headerMap().entrySet().stream()
                         .map(e -> e.getKey() + ": " + e.getValue())
