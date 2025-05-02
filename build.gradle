@@ -88,13 +88,17 @@ task generateBuildInfo {
     }
 }
 tasks.withType(ProcessResources) {
-    from('sprites') {
+    from("src/main/resources/public") {
         include '**/*'
-        into 'sprites'
+        into 'public'
     }
-    from("scripts") {
+    from("src/main/resources/scripts") {
         include '**/*'
         into 'scripts'
+    }
+    from("src/main/resources/sprties") {
+        include '**/*'
+        into 'sprites'
     }
 }
 compileJava.dependsOn(generateBuildInfo)
