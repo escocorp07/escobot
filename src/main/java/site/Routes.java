@@ -18,11 +18,11 @@ public class Routes {
             ctx.status(200).result("It works!");
         });
 
-        site.get("favicon.ico", ctx->{
+        site.get("/favicon.ico", ctx->{
             ctx.uploadedFile("public/favicon.gif");
         });
 
-        site.get("sitemap.xml", ctx->{
+        site.get("/sitemap.xml", ctx->{
             ctx.contentType("application/xml");
             StringBuilder sitemap = new StringBuilder();
             sitemap.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
