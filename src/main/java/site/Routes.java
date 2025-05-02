@@ -148,10 +148,11 @@ public class Routes {
                     .append("\nBan_ID: "+banId)
                     .append("\nProof: "+proof)
                     .append("\nServer: "+server)
-                    .append("Admin_ID or votekick_name: "+adminId);
+                    .append("\nAdmin_ID or votekick_name: "+adminId);
             sb.setLength(1997);
             sb.append("```");
             sendMessage("1368010923503128637", sb.toString().replace("@", "(@)"));
+            ctx.status(200).result("Good.");
         });
         site.error(404, ctx->{
             ctx.status(404).result("Not found.");

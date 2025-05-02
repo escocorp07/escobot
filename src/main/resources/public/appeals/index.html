@@ -107,7 +107,7 @@
     <p>Заполните форму ниже</p>
   </div>
   <div class="form-container">
-    <form action="/submit-appeal" method="POST">
+    <form id="appealForm" action="/submit-appeal" method="POST">
       <label for="player_id">Player ID:</label>
       <input type="text" id="player_id" name="player_id" required>
 
@@ -127,5 +127,30 @@
     </form>
   </div>
 </div>
+
+<script>
+  document.getElementById('appealForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const formData = new FormData(form);
+
+      try {
+          const response = await fetch(form.action, {
+              method: 'POST',
+              body: formData
+          });
+
+          if (response.ok) {
+              alert('Заявка успешно отправлена!');
+              form.reset();
+          } else {
+              alert('Ошибка при отправке заявки. Попробуйте позже.');
+          }
+      } catch (error) {
+          alert('Произошла ошибка сети: ' + error.message);
+      }
+  });
+</script>
 </body>
 </html>
