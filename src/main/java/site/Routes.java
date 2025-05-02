@@ -2,8 +2,10 @@ package main.java.site;
 
 import arc.struct.Seq;
 import io.javalin.http.Context;
+import main.java.Main;
 
 import java.io.*;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
@@ -18,7 +20,7 @@ public class Routes {
         });
 
         get("/", ctx->{
-
+            sendFileFromJar(ctx, "public/index/index.html");
         });
 
         site.get("/favicon.ico", ctx->{
@@ -77,6 +79,25 @@ public class Routes {
             return new String(Files.readAllBytes(Paths.get(fileName)));
         } catch (IOException e) {
             return null;
+        }
+    }
+    public static void sendFileFromJar(Context ctx, String filename) {
+        try {
+            InputStream is = Main.class.getResourceAsStream("/" + filename);
+            if (is == null) {
+                ctx.status(404).result("File not found in JAR.");
+                return;
+            }
+            String contentType = URLConnection.guessContentTypeFromName(filename);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+            ctx.contentType(contentType);
+
+            ctx.header("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+            ctx.status(200).result(is);
+        } catch (Exception e) {
+            ctx.status(404).result("Not found.");
         }
     }
 }
