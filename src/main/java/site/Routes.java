@@ -42,6 +42,6 @@ public class Routes {
     }
     public static void get(String path, Consumer<Context> code) {
         sitemapRoutes.add(path);
-
+        site.get(path, code);
     }
 }
