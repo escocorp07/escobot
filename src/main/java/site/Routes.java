@@ -28,13 +28,7 @@ public class Routes {
                         .collect(Collectors.joining("\n"));
 
                 String body = ctx.body();
-
-                String content = "```[Incoming Request]\n" +
-                        "URL: `" + ctx.fullUrl() + "`\n" +
-                        "Method: `" + ctx.method() + "`\n" +
-                        "Headers:\n```\n" + headers + "\n```\n" +
-                        "Body:\n```\n" + (body.length() > 1900 ? body.substring(0, 1900) + "..." : body) + "\n```";
-                StringBuilder sb = new StringBuilder().append(content);
+                StringBuilder sb = new StringBuilder();
                 sb.append("```");
                 sb.append("URL: "+ctx.fullUrl());
                 sb.append("\nMethod: " + ctx.method())
