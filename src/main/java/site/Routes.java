@@ -4,6 +4,7 @@ import arc.struct.Seq;
 import arc.util.Log;
 import discord4j.core.spec.MessageCreateSpec;
 import io.javalin.http.Context;
+import io.javalin.http.UnauthorizedResponse;
 import main.java.Main;
 import main.java.bot.errorLogger;
 import org.apache.commons.net.util.SubnetUtils;
@@ -49,10 +50,7 @@ public class Routes {
                     return;
                 }
                 if(!isCloudflareIP(ip)) {
-                    ctx.status(403).result("Unathorized.");
-                    // ctx.res().getWriter().close();
-                    ctx.res().sendError(403, "Unathorized.");
-                    return;
+                    throw new UnauthorizedResponse();
                 }
                 incrementReqHandled();
                 String headers = ctx.headerMap().entrySet().stream()
