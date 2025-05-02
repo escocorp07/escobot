@@ -3,6 +3,7 @@ package main.java.site;
 import arc.util.Log;
 import arc.util.Threads;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 
 import static main.java.BVars.*;
 import static main.java.site.Routes.*;
@@ -11,7 +12,6 @@ public class SiteLoader {
     public static void load() {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{
-                    staticf.directory = "cdn";
                     staticf.hostedPath = "cdn";
                     /*
                     * если браузер поддерживает сжатие и у тебя в cdn есть
@@ -23,6 +23,8 @@ public class SiteLoader {
                     * */
                     staticf.precompress=true;
                 });
+                config.staticFiles.add("cdn", Location.EXTERNAL);
+                config.staticFiles.add("static");
             });
             loadRoutes();
             Threads.daemon(()->{
