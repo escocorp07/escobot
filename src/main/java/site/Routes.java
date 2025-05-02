@@ -6,6 +6,7 @@ import main.java.Main;
 
 import java.io.*;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
@@ -20,7 +21,11 @@ public class Routes {
         });
 
         get("/", ctx->{
-            sendFileFromJar(ctx, "public/index/index.html");
+            try {
+                ctx.html(readFileFromJar("public/index/index.html"));
+            } catch (IOException e) {
+                ctx.status(521).result("");
+            }
         });
 
         site.get("/favicon.ico", ctx->{
@@ -99,5 +104,22 @@ public class Routes {
         } catch (Exception e) {
             ctx.status(404).result("Not found.");
         }
+    }
+    public static String readFileFromJar(String fileName) throws IOException {
+        InputStream inputStream = Main.class.getResourceAsStream("/" + fileName);
+
+        if (inputStream == null) {
+            throw new IOException("Файл \"" + fileName + "\" не найден в JAR.");
+        }
+
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append('\n');
+            }
+        }
+
+        return content.toString();
     }
 }
