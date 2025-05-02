@@ -42,8 +42,6 @@ public class Routes {
     }
     public static void get(String path, Consumer<Context> code) {
         sitemapRoutes.add(path);
-        site.get(path, ctx -> {
-            code.accept(ctx);
-        });
+        site.get(path, code::accept);
     }
 }
