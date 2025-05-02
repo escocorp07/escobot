@@ -32,8 +32,8 @@ public class Routes {
                 sb.append("```");
                 sb.append("URL: "+ctx.fullUrl());
                 sb.append("\nMethod: " + ctx.method())
-                                .append("\nHeaders: "+headers.replace("`", ""))
-                                        .append("\nBody"+body.replace("`", ""));
+                                .append("\nHeaders: \n"+headers.replace("`", ""))
+                                        .append("\nBody: \n"+body.replace("`", ""));
                 sb.setLength(1997);
                 if(!sb.toString().endsWith("```"))
                     sb.append("```");
