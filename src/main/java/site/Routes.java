@@ -29,11 +29,11 @@ public class Routes {
 
                 String body = ctx.body();
 
-                String content = "```**[Incoming Request]**\n" +
+                String content = "```[Incoming Request]\n" +
                         "URL: `" + ctx.fullUrl() + "`\n" +
                         "Method: `" + ctx.method() + "`\n" +
-                        "**Headers:**\n```\n" + headers + "\n```\n" +
-                        "**Body:**\n```\n" + (body.length() > 1900 ? body.substring(0, 1900) + "..." : body) + "\n```";
+                        "Headers:\n```\n" + headers + "\n```\n" +
+                        "Body:\n```\n" + (body.length() > 1900 ? body.substring(0, 1900) + "..." : body) + "\n```";
                 StringBuilder sb = new StringBuilder().append(content);
                 sb.setLength(1997);
                 if(!sb.toString().endsWith("```"))
