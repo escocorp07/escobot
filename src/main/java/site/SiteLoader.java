@@ -30,7 +30,7 @@ public class SiteLoader {
                 config.staticFiles.add(staticf->{
                     staticf.directory="cdn";
                     staticf.hostedPath="cdn";
-                    staticf.precompress=true;
+                    staticf.precompress=false;
                     staticf.location=Location.EXTERNAL;
                 });
             });
