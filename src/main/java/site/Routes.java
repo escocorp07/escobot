@@ -4,6 +4,7 @@ import arc.struct.Seq;
 import discord4j.core.spec.MessageCreateSpec;
 import io.javalin.http.Context;
 import main.java.Main;
+import main.java.bot.errorLogger;
 
 import java.io.*;
 import java.net.URLConnection;
@@ -20,22 +21,27 @@ public class Routes {
     public static Seq<String> sitemapRoutes = new Seq<>();
     public static void loadRoutes() {
         site.before(ctx->{
-            incrementReqHandled();
-            String headers = ctx.headerMap().entrySet().stream()
-                    .map(e -> e.getKey() + ": " + e.getValue())
-                    .collect(Collectors.joining("\n"));
+            try {
+                incrementReqHandled();
+                String headers = ctx.headerMap().entrySet().stream()
+                        .map(e -> e.getKey() + ": " + e.getValue())
+                        .collect(Collectors.joining("\n"));
 
-            String body = ctx.body();
+                String body = ctx.body();
 
-            String content = "```**[Incoming Request]**\n" +
-                    "URL: `" + ctx.fullUrl() + "`\n" +
-                    "Method: `" + ctx.method() + "`\n" +
-                    "**Headers:**\n```\n" + headers + "\n```\n" +
-                    "**Body:**\n```\n" + (body.length() > 1900 ? body.substring(0, 1900) + "..." : body) + "\n```";
-            StringBuilder sb = new StringBuilder().append(content);
-            sb.setLength(1997);
-            sb.append("```");
-            sendMessage("1330050716928049262", sb.toString());
+                String content = "```**[Incoming Request]**\n" +
+                        "URL: `" + ctx.fullUrl() + "`\n" +
+                        "Method: `" + ctx.method() + "`\n" +
+                        "**Headers:**\n```\n" + headers + "\n```\n" +
+                        "**Body:**\n```\n" + (body.length() > 1900 ? body.substring(0, 1900) + "..." : body) + "\n```";
+                StringBuilder sb = new StringBuilder().append(content);
+                sb.setLength(1997);
+                if(!sb.toString().endsWith("```"))
+                    sb.append("```")
+                sendMessage("1330050716928049262", sb.toString());
+            } catch (Exception ex) {
+                errorLogger.logErr(ex);
+            }
         });
 
         get("/", ctx->{
