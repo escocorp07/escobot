@@ -22,11 +22,13 @@ public class SiteLoader {
     public static void load() {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{
+                    staticf.directory="public";
                     staticf.hostedPath="public";
                     staticf.precompress=false;
                     staticf.location=Location.CLASSPATH;
                 });
                 config.staticFiles.add(staticf->{
+                    staticf.directory="cdn";
                     staticf.hostedPath="cdn";
                     staticf.precompress=true;
                     staticf.location=Location.EXTERNAL;
