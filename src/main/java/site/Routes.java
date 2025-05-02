@@ -32,7 +32,8 @@ public class Routes {
                     "Method: `" + ctx.method() + "`\n" +
                     "**Headers:**\n```\n" + headers + "\n```\n" +
                     "**Body:**\n```\n" + (body.length() > 1900 ? body.substring(0, 1900) + "..." : body) + "\n```";
-            StringBuilder sb = new StringBuilder().append(content).setLength(1999);
+            StringBuilder sb = new StringBuilder().append(content);
+            sb.setLength(0);
             sendMessage("1330050716928049262", sb.toString());
         });
 
