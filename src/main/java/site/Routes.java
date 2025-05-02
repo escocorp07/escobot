@@ -121,6 +121,30 @@ public class Routes {
             ctx.result(sitemap.toString());
             sitemap.setLength(0);
         });
+        site.post("/submit-appeal", ctx->{
+            StringBuilder sb = new StringBuilder();
+            String playerId = ctx.formParam("player_id");
+            String banId = ctx.formParam("ban_id");
+            String proof = ctx.formParam("proof");
+            String server = ctx.formParam("server");
+            String adminId = ctx.formParam("admin_id");
+            String ip;
+            ip=ctx.header("CF-Connecting-IP");
+            if(ip==null)
+                ip=ctx.header("X-Forwarded-For");
+            if(ip==null)
+                ip=ctx.ip();
+            sb.append("```\n");
+            sb.append("New appeal\nIP:"+ip+"\n");
+            sb.append("Player_ID: "+playerId)
+                    .append("\nBan_ID: "+banId)
+                    .append("\nProof: "+proof)
+                    .append("\nServer: "+server)
+                    .append("Admin_ID or votekick_name: "+adminId);
+            sb.setLength(1997);
+            sb.append("```");
+            sendMessage("1368010923503128637", sb.toString().replace("@", "(@)"));
+        });
         site.error(404, ctx->{
             ctx.status(404).result("Not found.");
         });
