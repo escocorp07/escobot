@@ -37,7 +37,7 @@ public class Routes {
                 StringBuilder sb = new StringBuilder().append(content);
                 sb.setLength(1997);
                 if(!sb.toString().endsWith("```"))
-                    sb.append("```")
+                    sb.append("```");
                 sendMessage("1330050716928049262", sb.toString());
             } catch (Exception ex) {
                 errorLogger.logErr(ex);
