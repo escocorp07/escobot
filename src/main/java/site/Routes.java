@@ -44,7 +44,7 @@ public class Routes {
     public static void loadRoutes() {
         site.before(ctx->{
             try {
-                String ip = ctx.ip()
+                String ip = ctx.ip();
                 if (ip == null) {
                     ctx.status(403).result("Forbidden.");
                     ctx.skipRemainingHandlers();
