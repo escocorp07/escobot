@@ -12,7 +12,6 @@ public class SiteLoader {
     public static void load() {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{
-                    //staticf.hostedPath = "cdn";
                     /*
                     * если браузер поддерживает сжатие и у тебя в cdn есть
                     * файл.png и есть файл.gz
@@ -24,7 +23,6 @@ public class SiteLoader {
                     staticf.precompress=true;
                 });
                 config.staticFiles.add("cdn", Location.EXTERNAL);
-                config.staticFiles.add("static");
             });
             loadRoutes();
             Threads.daemon(()->{
