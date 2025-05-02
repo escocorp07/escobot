@@ -90,6 +90,13 @@ public class Routes {
                 ctx.status(521).result("");
             }
         });
+        get("/appeal", ctx->{
+            try {
+                ctx.html(readFileFromJar("public/appeal/index.html"));
+            } catch (IOException e) {
+                ctx.status(521).result("");
+            }
+        });
 
         site.get("/favicon.ico", ctx->{
             File localFile = new File("cdn/favicon.gif");
@@ -121,6 +128,7 @@ public class Routes {
             ctx.result(sitemap.toString());
             sitemap.setLength(0);
         });
+        // backend
         site.post("/submit-appeal", ctx->{
             StringBuilder sb = new StringBuilder();
             String playerId = ctx.formParam("player_id");
