@@ -50,7 +50,9 @@ public class Routes {
                 }
                 if(!isCloudflareIP(ip)) {
                     ctx.status(403).result("Unathorized.");
-                    ctx.res().getWriter().close();
+                    // ctx.res().getWriter().close();
+                    ctx.res().sendError(403, "Unathorized.");
+                    ctx.res().
                     return;
                 }
                 incrementReqHandled();
