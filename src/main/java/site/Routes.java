@@ -26,10 +26,10 @@ public class Routes {
 
         site.get("/favicon.ico", ctx->{
             File localFile = new File("cdn/favicon.gif");
-            //ctx.contentType("image/gif");
-            // code stolen from github issue
+            ctx.contentType("image/gif");
+            // code stolen from GitHub issue
             InputStream is = new BufferedInputStream(new FileInputStream(localFile));
-            ctx.header("Content-Dispotion", "attachment; filename=\""+localFile.getName()+"\"");
+            ctx.header("Content-Disposition", "attachment; filename=\""+localFile.getName()+"\"");
             ctx.header("Content-Length", String.valueOf(localFile.length()));
             ctx.result(is);
         });
