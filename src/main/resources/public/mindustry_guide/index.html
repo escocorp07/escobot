@@ -2,11 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Гайд на установку игры</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
@@ -14,7 +17,6 @@
             color: #f0f0f0;
             font-family: 'Roboto', sans-serif;
             font-size: 18px;
-            margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
@@ -84,6 +86,40 @@
         .nav a:hover {
             color: #aac8ff;
         }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .method h3 {
+                font-size: 22px;
+            }
+
+            .method p {
+                font-size: 16px;
+            }
+
+            .nav a {
+                font-size: 16px;
+                margin: 0 5px;
+            }
+
+            .nav {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -104,7 +140,7 @@
     </div>
 
     <div class="method" id="method3">
-        <h3>Способ 3: Установка с GutHub</h3>
+        <h3>Способ 3: Установка с GitHub</h3>
         <p>Перейдите на <a href="https://github.com/Anuken/Mindustry/releases">сайт</a> и скачайте нужную вам версию.</p>
     </div>
 
