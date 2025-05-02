@@ -23,7 +23,7 @@ public class SiteLoader {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{
                     staticf.directory="public";
-                    staticf.hostedPath="public";
+                    staticf.hostedPath="/public";
                     staticf.precompress=false;
                     staticf.location=Location.CLASSPATH;
                 });
