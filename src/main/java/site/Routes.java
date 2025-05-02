@@ -10,5 +10,8 @@ public class Routes {
         site.get("/", ctx->{
             ctx.status(200).result("It works!");
         });
+        site.error(404, ctx->{
+            ctx.status(404).result("Not found.");
+        });
     }
 }
