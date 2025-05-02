@@ -28,7 +28,7 @@ public class SiteLoader {
                     staticf.location=Location.CLASSPATH;
                 });
                 config.staticFiles.add(staticf->{
-                    staticf.directory="./cdn";
+                    staticf.directory="cdn";
                     staticf.hostedPath="cdn";
                     staticf.precompress=false;
                     staticf.location=Location.EXTERNAL;
