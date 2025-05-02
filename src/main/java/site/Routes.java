@@ -1,14 +1,15 @@
 package main.java.site;
 
 import arc.struct.Seq;
+import arc.util.Log;
 import discord4j.core.spec.MessageCreateSpec;
-import inet.ipaddr.IPAddress;
-import inet.ipaddr.IPAddressString;
 import io.javalin.http.Context;
 import main.java.Main;
 import main.java.bot.errorLogger;
+import org.apache.commons.net.util.SubnetUtils;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -22,7 +23,7 @@ import static main.java.bot.botUtils.sendMessage;
 
 public class Routes {
     public static Seq<String> sitemapRoutes = new Seq<>();
-    static List<String> cloudflareCIDRs = List.of(
+    static Seq<String> cloudflareCIDRs = Seq.with(
             "173.245.48.0/20",
             "103.21.244.0/22",
             "103.22.200.0/22",
@@ -47,17 +48,8 @@ public class Routes {
                     ctx.status(403).result("");
                     return;
                 }
-                IPAddressString ipStr = new IPAddressString(ip);
-                IPAddress addr = ipStr.getAddress();
-                boolean allowed = cloudflareCIDRs.stream().anyMatch(cidr -> {
-                    IPAddressString rangeStr = new IPAddressString(cidr);
-                    return rangeStr.getAddress().contains(addr);
-                });
-
-                if (!allowed) {
-                    ctx.status(403).result("Access denied: IP not in Cloudflare range");
-                    return;
-                }
+                if(!isCloudflareIP(ip))
+                    ctx.status(403).result("Unathorized.");
                 incrementReqHandled();
                 String headers = ctx.headerMap().entrySet().stream()
                         .map(e -> e.getKey() + ": " + e.getValue())
@@ -187,5 +179,20 @@ public class Routes {
         }
 
         return content.toString();
+    }
+    public static boolean isCloudflareIP(String ip) {
+        try {
+            InetAddress inetAddress = InetAddress.getByName(ip);
+            for (String cidr : cloudflareCIDRs) {
+                SubnetUtils subnetUtils = new SubnetUtils(cidr);
+                subnetUtils.setInclusiveHostCount(true);
+                if (subnetUtils.getInfo().isInRange(inetAddress.getHostAddress())) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            Log.err(e);
+        }
+        return false;
     }
 }
