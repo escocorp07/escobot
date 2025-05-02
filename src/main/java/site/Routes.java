@@ -46,11 +46,14 @@ public class Routes {
             try {
                 String ip = ctx.header("X-Forwarded-For");
                 if (ip == null) {
-                    ctx.status(403).result("");
+                    ctx.status(403).result("Unathorized.");
+                    ctx.skipRemainingHandlers();
                     return;
                 }
                 if(!isCloudflareIP(ip)) {
-                    throw new UnauthorizedResponse();
+                    ctx.status(403).result("Unathorized.");
+                    ctx.skipRemainingHandlers();
+                    return;
                 }
                 incrementReqHandled();
                 String headers = ctx.headerMap().entrySet().stream()
