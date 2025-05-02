@@ -31,7 +31,7 @@ public class Routes {
             InputStream is = new BufferedInputStream(new FileInputStream(localFile));
             ctx.header("Content-Disposition", "attachment; filename=\""+localFile.getName()+"\"");
             ctx.header("Content-Length", String.valueOf(localFile.length()));
-            ctx.result(is);
+            ctx.status(200).result(is);
         });
 
         site.get("/sitemap.xml", ctx->{
@@ -61,5 +61,18 @@ public class Routes {
     public static void get(String path, Consumer<Context> code) {
         sitemapRoutes.add(path);
         site.get(path, code::accept);
+    }
+    public static void sendFile(Context ctx, String filename) {
+        try {
+            File localFile = new File(filename);
+            ctx.contentType("image/gif");
+            // code stolen from GitHub issue
+            InputStream is = new BufferedInputStream(new FileInputStream(localFile));
+            ctx.header("Content-Disposition", "attachment; filename=\"" + localFile.getName() + "\"");
+            ctx.header("Content-Length", String.valueOf(localFile.length()));
+            ctx.status(200).result(is);
+        } catch (Exception e) {
+            ctx.status(404).result("File not found.");
+        }
     }
 }
