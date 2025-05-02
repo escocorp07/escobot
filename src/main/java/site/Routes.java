@@ -48,8 +48,10 @@ public class Routes {
                     ctx.status(403).result("");
                     return;
                 }
-                if(!isCloudflareIP(ip))
+                if(!isCloudflareIP(ip)) {
                     ctx.status(403).result("Unathorized.");
+                    return;
+                }
                 incrementReqHandled();
                 String headers = ctx.headerMap().entrySet().stream()
                         .map(e -> e.getKey() + ": " + e.getValue())
