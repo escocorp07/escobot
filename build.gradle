@@ -45,7 +45,6 @@ dependencies{
 }
 
 jar{
-    jvm.target = "1.8"
     archiveFileName = "${project.archivesBaseName}.jar"
     from{
         configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
@@ -63,7 +62,6 @@ javadoc {
     destinationDir = file("$buildDir/javadoc")
 }
 compileKotlin {
-    jvm.target = "1.8"
 }
 def gitHash = 'git rev-parse --short HEAD'.execute().text.trim()
 def buildTime = new Date().format("yyyy-MM-dd HH:mm:ss")
