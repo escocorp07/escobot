@@ -3,6 +3,9 @@ package main.java.site;
 import arc.struct.Seq;
 import io.javalin.http.Context;
 
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.function.Consumer;
 
 import static main.java.BVars.*;
@@ -19,7 +22,9 @@ public class Routes {
         });
 
         site.get("/favicon.ico", ctx->{
-            ctx.uploadedFile("public/favicon.gif");
+            InputStream is = Files.newInputStream(Paths.get("cdn/favicon.gif"));
+            ctx.contentType("image/gif");
+            ctx.result(is);
         });
 
         site.get("/sitemap.xml", ctx->{
