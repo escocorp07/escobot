@@ -13,9 +13,15 @@ public class Routes {
         site.before(h->{
             incrementReqHandled();
         });
+
         get("/", ctx->{
             ctx.status(200).result("It works!");
         });
+
+        site.get("favicon.ico", ctx->{
+            ctx.uploadedFile("public/favicon.gif");
+        });
+
         site.get("sitemap.xml", ctx->{
             ctx.contentType("application/xml");
             StringBuilder sitemap = new StringBuilder();
