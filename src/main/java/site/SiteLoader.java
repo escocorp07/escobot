@@ -8,22 +8,28 @@ import io.javalin.http.staticfiles.Location;
 import static main.java.BVars.*;
 import static main.java.site.Routes.*;
 
+/*
+precompress
+ * если браузер поддерживает сжатие и у тебя в cdn есть
+ * файл.png и есть файл.gz
+ * юзер сделал запрос на файл.png
+ * а отправило сразу файл.gz,
+ * мол ты сжал сам его и жавалину утруждаться не нужно
+ * и сжимать уже нужно
+ * */
+
 public class SiteLoader {
     public static void load() {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{
                     staticf.hostedPath="public";
-                    /*
-                    * если браузер поддерживает сжатие и у тебя в cdn есть
-                    * файл.png и есть файл.gz
-                    * юзер сделал запрос на файл.png
-                    * а отправило сразу файл.gz,
-                    * мол ты сжал сам его и жавалину утруждаться не нужно
-                    * и сжимать уже нужно
-                    * */
-                    staticf.precompress=true;
+                    staticf.precompress=false;
                 });
-                config.staticFiles.add("cdn", Location.EXTERNAL);
+                config.staticFiles.add(staticf->{
+                    staticf.hostedPath="cdn";
+                    staticf.precompress=true;
+                    staticf.location=Location.EXTERNAL;
+                });
             });
             loadRoutes();
             Threads.daemon(()->{
