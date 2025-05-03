@@ -140,9 +140,9 @@
           });
 
           if (response.ok) {
-              alert(`Айди вашей заявки ${data.appealID\nВы можете посмотреть ее статус по этому айди.}`);
+              const data = await response.json();
+              alert(`Айди вашей заявки: ${data.appealID}\nВы можете посмотреть её статус по этому айди.`);
               form.reset();
-
           } else {
               alert('Ошибка при отправке заявки. Попробуйте позже.');
           }
