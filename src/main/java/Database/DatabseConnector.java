@@ -103,7 +103,7 @@ public class DatabseConnector {
     }
     public static Optional<Integer> createAppeal(String ip, String excuses, int ban_id) {
         return executeQueryAsync(
-                "INSERT into appeals (ban_id, ip, excuses) VALUES (?,CAST(? AS INET),?)",
+                "INSERT into appeals (ban_id, ip, excuses) VALUES (?,CAST(? AS INET),?) RETURNING id",
                 stmt->{
                     stmt.setInt(1, ban_id);
                     stmt.setString(2, ip);
@@ -127,7 +127,6 @@ public class DatabseConnector {
     public static Optional<Appeal> getAppeal(int id) {
         return executeQueryAsync(
                 "SELECT * FROM appeals WHERE id = ?"
-                +" LIMIT 1",
                 stmt->stmt.setInt(1, id),
                 DatabseConnector::mapResultSetToAppeal
         );
