@@ -111,14 +111,16 @@
   <div class="info">
     <h2>Аппеляция</h2>
     <p>Заполните форму ниже</p>
+    <p>Чем подробнее вы опишите ситуацию, тем больше шанс на одобрение.</p>
   </div>
   <div class="form-container">
     <form id="appealForm" action="/submit-appeal" method="POST">
       <label for="ban_id">Ban ID:</label>
-      <input type="text" id="ban_id" name="ban_id" required>
+      <input type="number" id="ban_id" name="ban_id" required>
 
-      <label for="proof">Proof (оправдания):</label>
-      <textarea id="proof" name="proof" required></textarea>
+      <label for="proof">excuses (оправдания):</label>
+      <textarea id="proof" name="proof" required rows="10" cols="60"></textarea>
+
       <button type="submit">Отправить заявку</button>
     </form>
   </div>
