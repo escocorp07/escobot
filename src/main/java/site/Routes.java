@@ -20,10 +20,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static main.java.BVars.*;
+import static main.java.appeals.AppealStatus.parseStatus;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.utils.randomString;
 import static main.java.Database.DatabseConnector.*;
@@ -182,6 +184,42 @@ public class Routes {
                         return Mono.empty();
                     }).subscribe();
         });
+
+        site.post("/appeal-info", ctx->{
+            int appeal_id;
+            try {
+                String aplid = ctx.formParam("appealid");
+                if(aplid == null) {
+                    var var = new Object() {
+                        String error = "Unkown appeal id.";
+                    };
+                    ctx.status(400).json(var);
+                    return;
+                }
+                appeal_id = Integer.parseInt(aplid);
+            } catch (NumberFormatException ex) {
+                var var = new Object() {
+                    String error = "Unkown appeal id.";
+                };
+                ctx.status(400).json(var);
+                return;
+            }
+            Appeal appeal = getAppeal(appeal_id).orElse(null);
+            if(appeal == null) {
+                var var = new Object() {
+                    String error = "Unkown appeal id.";
+                };
+                ctx.status(400).json(var);
+                return;
+            }
+            var var = new Object() {
+                String comment=appeal.getAdmin_comment();
+                String status=parseStatus(appeal.getStatus()).toString();
+                String appeal_id=String.valueOf(appeal.getId());
+            };
+            ctx.status(200).json(var);
+        });
+
         site.error(404, ctx->{
             ctx.status(404).result("Not found.");
         });

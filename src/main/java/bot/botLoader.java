@@ -145,8 +145,9 @@ public class botLoader {
                     getAppealByMessage(mid.asString()).ifPresent(appeal -> {
                         //Log.info("appeal");
                         if(appeal.getDiscord_message().equals(mid.asString())) {
-                            Log.info(setAppealComment(event.getMessage().getContent(), appeal.getId()));
+                            setAppealComment(event.getMessage().getContent(), appeal.getId());
                             //Log.info("set comment");
+                            event.getMessage().addReaction(Emoji.unicode("✅")).subscribe();
                         }
                     });
                 });
