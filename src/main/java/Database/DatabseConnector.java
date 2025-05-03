@@ -1,6 +1,9 @@
 package main.java.Database;
 
 import arc.util.Log;
+import lombok.Getter;
+import lombok.Setter;
+import main.java.annotations.GenerateSet;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
@@ -27,6 +30,11 @@ public class DatabseConnector {
         ds.setPassword(DB_PASSWORD);
         return ds;
     }
+
+    public static void newAppeal() {
+
+    }
+
     /**
      * Выполнить sql код асинхронно
      */
@@ -91,5 +99,64 @@ public class DatabseConnector {
     @FunctionalInterface
     private interface SQLFunction<T, R> {
         R apply(T t) throws SQLException;
+    }
+    public static Optional<Appeal> getAppeal(int id) {
+        return executeQueryAsync(
+                "SELECT * FROM appeals WHERE id = ?"
+                +" LIMIT 1",
+                stmt->stmt.setInt(1, id),
+                DatabseConnector::mapResultSetToAppeal
+        );
+    }
+    public static Optional<AppealResult> getAppealResult(int id) {
+        return executeQueryAsync(
+                "SELECT * FROM appealresult WHERE id = ?"
+                        +" LIMIT 1",
+                stmt->stmt.setInt(1, id),
+                DatabseConnector::mapResultSetToAppealResult
+        );
+    }
+    private static Appeal mapResultSetToAppeal(ResultSet rs) throws SQLException {
+        return new Appeal(
+                rs.getString("ip"),
+                rs.getInt("ban_id"),
+                rs.getString("excuses")
+        );
+    }
+    private static AppealResult mapResultSetToAppealResult(ResultSet rs) throws SQLException {
+        return new AppealResult(
+                rs.getInt("id"),
+                rs.getInt("appeal_id"),
+                rs.getBoolean("result"),
+                rs.getString("comment")
+        );
+    }
+    @Getter
+    @Setter
+    public static class Appeal {
+        String ip;
+        int ban_id;
+        String excuses;
+        String admin_comment;
+        boolean result; // принята ли.
+        public Appeal(String ip, int ban_id, String excusest) {
+            this.ip=ip;
+            this.ban_id=ban_id;
+            this.excuses=excuses;
+        }
+    }
+    @Getter
+    @Setter
+    public static class AppealResult {
+        int id;
+        int appeal_id;
+        boolean result;
+        String admin_comment;
+        public AppealResult(int id, int appeal_id, boolean result, String comment) {
+            this.id=id;
+            this.appeal_id=appeal_id;
+            this.result=result;
+            this.admin_comment=comment;
+        }
     }
 }
