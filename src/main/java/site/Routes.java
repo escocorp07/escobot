@@ -130,29 +130,14 @@ public class Routes {
         // backend
         site.post("/submit-appeal", ctx->{
             StringBuilder sb = new StringBuilder();
-            String playerId = ctx.formParam("player_id");
             String banId = ctx.formParam("ban_id");
             String proof = ctx.formParam("proof");
-            String server = ctx.formParam("server");
-            String adminId = ctx.formParam("admin_id");
-            if (playerId == null || playerId.isEmpty()) {
-                ctx.status(400).result("Missing player_id");
-                return;
-            }
             if (banId == null || banId.isEmpty()) {
                 ctx.status(400).result("Missing ban_id");
                 return;
             }
             if (proof == null || proof.isEmpty()) {
                 ctx.status(400).result("Missing proof");
-                return;
-            }
-            if (server == null || server.isEmpty()) {
-                ctx.status(400).result("Missing server");
-                return;
-            }
-            if (adminId == null || adminId.isEmpty()) {
-                ctx.status(400).result("Missing admin_id");
                 return;
             }
             String ip;
@@ -163,11 +148,8 @@ public class Routes {
                 ip=ctx.ip();
             sb.append("```\n");
             sb.append("New appeal\nIP:"+ip+"\n");
-            sb.append("Player_ID: "+playerId.replace("`", ""))
-                    .append("\nBan_ID: "+banId.replace("`", ""))
-                    .append("\nProof: "+proof.replace("`", ""))
-                    .append("\nServer: "+server.replace("`", ""))
-                    .append("\nAdmin_ID or votekick_name: "+adminId.replace("`", ""));
+            sb.append("Ban_ID: "+banId.replace("`", ""))
+                            .append("proof: "+proof.replace("`", ""));
             sb.setLength(1997);
             sb.append("```");
             sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));

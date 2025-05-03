@@ -114,21 +114,11 @@
   </div>
   <div class="form-container">
     <form id="appealForm" action="/submit-appeal" method="POST">
-      <label for="player_id">Player ID:</label>
-      <input type="text" id="player_id" name="player_id" required>
-
       <label for="ban_id">Ban ID:</label>
       <input type="text" id="ban_id" name="ban_id" required>
 
       <label for="proof">Proof (оправдания):</label>
       <textarea id="proof" name="proof" required></textarea>
-
-      <label for="server">Server:</label>
-      <input type="text" id="server" name="server" required>
-
-      <label for="admin_id">Admin ID or Votekick Initiator Nick:</label>
-      <input type="text" id="admin_id" name="admin_id" required>
-
       <button type="submit">Отправить заявку</button>
     </form>
   </div>
