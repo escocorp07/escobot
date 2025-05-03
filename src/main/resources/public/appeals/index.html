@@ -141,7 +141,7 @@
 
           if (response.ok) {
               const data = await response.json();
-              alert(`Айди вашей заявки: ${data.appealID}\nВы можете посмотреть её статус по этому айди.`);
+              alert(`Айди вашей заявки: ${data.appealID}\nВы можете посмотреть её статус по этому айди https://grely.icu/appeal-status`);
               form.reset();
           } else {
               alert('Ошибка при отправке заявки. Попробуйте позже.');
