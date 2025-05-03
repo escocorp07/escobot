@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta property="og:title" content="Проверка статуса аппеляции" />
+    <meta property="og:description" content="Узнай статус своей заявки." />
+    <meta property="og:url" content="https://grely.icu/appeal-status" />
+    <meta property="og:image" content="https://grely.icu/favicon.ico" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#5865F2" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статус заявки</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #1f1f1f;
+            color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            padding: 20px 10px;
+        }
+
+        .container {
+            background-color: #2e2e2e;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #ffffff;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background-color: #3a3a3a;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 30px;
+            background-color: #383838;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #72ff8d;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Проверка статуса заявки</h2>
+    <p>Введите ID заявки для просмотра информации</p>
+    <input type="number" id="appealIdInput" placeholder="ID заявки" required>
+    <br>
+    <button onclick="checkAppeal()">Проверить</button>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    async function checkAppeal() {
+        const input = document.getElementById('appealIdInput');
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'none';
+        resultDiv.innerHTML = '';
+
+        const formData = new FormData();
+        formData.append('appealid', input.value);
+
+        try {
+            const response = await fetch('/appeal-info', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                resultDiv.innerHTML = `<p class="error">Ошибка: ${data.error || 'Неизвестная ошибка'}</p>`;
+            } else {
+                resultDiv.innerHTML = `
+                    <p><strong>ID заявки:</strong> ${data.appeal_id}</p>
+                    <p><strong>Статус:</strong> <span class="success">${data.status}</span></p>
+                    <p><strong>Комментарий модератора:</strong> ${data.comment || '—'}</p>
+                `;
+            }
+        } catch (err) {
+            resultDiv.innerHTML = `<p class="error">Ошибка запроса: ${err.message}</p>`;
+        }
+
+        resultDiv.style.display = 'block';
+    }
+</script>
+</body>
+</html>

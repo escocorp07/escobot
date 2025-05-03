@@ -104,6 +104,13 @@ public class Routes {
                 ctx.status(500).result("");
             }
         });
+        get("/appeal-status", ctx->{
+            try {
+                ctx.html(readFileFromJar("public/appeals-status/index.html"));
+            } catch (IOException e) {
+                ctx.status(500).result("");
+            }
+        });
 
         site.get("/favicon.ico", ctx->{
             File localFile = new File("cdn/favicon.gif");
