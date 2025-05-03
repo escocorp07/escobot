@@ -149,7 +149,7 @@ public class Routes {
             sb.append("```\n");
             sb.append("New appeal\nIP:"+ip+"\n");
             sb.append("Ban_ID: "+banId.replace("`", ""))
-                            .append("proof: "+proof.replace("`", ""));
+                            .append("\nproof: "+proof.replace("`", ""));
             sb.setLength(1997);
             sb.append("```");
             sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));
