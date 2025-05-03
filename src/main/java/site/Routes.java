@@ -245,7 +245,7 @@ public class Routes {
                 }
             }
         } catch (Exception e) {
-            Log.err(e);
+            return false;
         }
         return false;
     }
