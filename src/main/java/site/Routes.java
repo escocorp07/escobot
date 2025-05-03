@@ -140,6 +140,12 @@ public class Routes {
                 ctx.status(400).result("Missing proof");
                 return;
             }
+            try {
+                Integer.parseInt(banId);
+            } catch (NumberFormatException ex) {
+                ctx.status(400).result("Ban_ID not integer!");
+                return;
+            }
             String ip;
             ip=ctx.header("CF-Connecting-IP");
             if(ip==null)
