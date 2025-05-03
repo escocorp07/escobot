@@ -161,12 +161,14 @@ public class Routes {
             sb.setLength(1997);
             sb.append("```");
             sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));
-            createAppeal(ip, proof, Integer.parseInt(banId));
-            /*String appeal_ID = randomString();
-            var response = new Object() {
-                public String appeal_id = appeal_ID;
-            };*/
-            ctx.status(200);
+            final int appeal_id = createAppeal(ip, proof, Integer.parseInt(banId)).orElse(0);
+            if(appeal_id != 0) {
+                var var = new Object() {
+                    public int appealID = appeal_id;
+                };
+                ctx.status(200).json(var);
+            } else
+                ctx.status(500).result("Unable to create appeal.");
         });
         site.error(404, ctx->{
             ctx.status(404).result("Not found.");

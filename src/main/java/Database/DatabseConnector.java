@@ -101,14 +101,15 @@ public class DatabseConnector {
     private interface SQLFunction<T, R> {
         R apply(T t) throws SQLException;
     }
-    public static boolean createAppeal(String ip, String excuses, int ban_id) {
-        return executeUpdate(
+    public static Optional<Integer> createAppeal(String ip, String excuses, int ban_id) {
+        return executeQueryAsync(
                 "INSERT into appeals (ban_id, ip, excuses) VALUES (CAST(? AS INET),?,?)",
                 stmt->{
                     stmt.setInt(1, ban_id);
                     stmt.setString(2, ip);
                     stmt.setString(3, excuses);
-                }
+                },
+                rs -> rs.getInt("id")
         );
     }
     public static boolean unbanPlayerByBanId(int ban_id) {

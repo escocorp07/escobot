@@ -2,8 +2,8 @@ package main.java.appeals;
 
 public enum AppealStatus {
     denied("Denied"),
-    accepted("Accepted"),
-    waiting("Waiting.");
+    waiting("Waiting."),
+    accepted("Accepted");
 
     public String status;
     AppealStatus(String status) {
