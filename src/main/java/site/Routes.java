@@ -167,7 +167,7 @@ public class Routes {
                     .append("\nBan_ID: "+banId.replace("`", ""))
                     .append("\nProof: "+proof.replace("`", ""))
                     .append("\nServer: "+server.replace("`", ""))
-                    .append("\nAdmin_ID or votekick_name: "+adminId);
+                    .append("\nAdmin_ID or votekick_name: "+adminId.replace("`", ""));
             sb.setLength(1997);
             sb.append("```");
             sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));
