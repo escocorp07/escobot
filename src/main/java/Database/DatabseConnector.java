@@ -126,7 +126,7 @@ public class DatabseConnector {
     }
     public static Optional<Appeal> getAppeal(int id) {
         return executeQueryAsync(
-                "SELECT * FROM appeals WHERE id = ?"
+                "SELECT * FROM appeals WHERE id = ?",
                 stmt->stmt.setInt(1, id),
                 DatabseConnector::mapResultSetToAppeal
         );
