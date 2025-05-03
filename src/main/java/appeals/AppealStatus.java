@@ -9,4 +9,11 @@ public enum AppealStatus {
     AppealStatus(String status) {
         this.status=status;
     }
+    public static AppealStatus parseStatus(String name) {
+        for(AppealStatus s : AppealStatus.values()) {
+            if(s.toString().equals(name))
+                return s;
+        }
+        return waiting;
+    }
 }

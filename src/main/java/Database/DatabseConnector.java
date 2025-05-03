@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static main.java.BVars.*;
+import static main.java.appeals.AppealStatus.parseStatus;
 
 public class DatabseConnector {
     private static final DataSource dataSource = createDataSource();
@@ -135,7 +136,7 @@ public class DatabseConnector {
                 rs.getString("ip"),
                 rs.getInt("ban_id"),
                 rs.getString("excuses"),
-                rs.getString("status"),
+                parseStatus(rs.getString("status")).toString(),
                 rs.getString("comment")
         );
     }
