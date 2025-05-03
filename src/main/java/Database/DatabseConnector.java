@@ -110,6 +110,18 @@ public class DatabseConnector {
                 }
         );
     }
+    public static boolean unbanPlayerByBanId(int ban_id) {
+        return executeUpdate(
+                "UPDATE bans SET is_active = false WHERE ban_id = ?",
+                stmt->stmt.setInt(1, ban_id)
+        );
+    }
+    public static boolean unbanPlayerByUUID(String uuid) {
+        return executeUpdate(
+                "UPDATE bans SET is_active = false WHERE player_id in (SELECT * FROM players WHERE uuid = ?)",
+                stmt->stmt.setString(1, uuid)
+        );
+    }
     public static Optional<Appeal> getAppeal(int id) {
         return executeQueryAsync(
                 "SELECT * FROM appeals WHERE id = ?"

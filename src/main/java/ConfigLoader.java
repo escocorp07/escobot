@@ -30,6 +30,7 @@ public class ConfigLoader {
             BVars.debug = value.getBoolean("debug", false);
             BVars.d4jdebug = value.getBoolean("d4jdebug", false);
             BVars.sugping= value.getLong("suggestions_ping_id");
+            BVars.admin_id= value.getLong("admin_id");
             BVars.sugpingrole= value.getLong("suggestions_role_id");
             if(!BVars.prefix.endsWith(".")) BVars.prefix += ".";
             Log.info("Config loaded!");

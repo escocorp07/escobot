@@ -53,6 +53,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import static main.java.BVars.*;
+import static main.java.Database.DatabseConnector.unbanPlayerByBanId;
+import static main.java.Database.DatabseConnector.unbanPlayerByUUID;
 import static main.java.bot.botUtils.*;
 import static main.java.bot.commands.commandHandler.commands;
 import static main.java.bot.commands.commandHandler.*;
@@ -92,6 +94,19 @@ public class botCommands {
             }
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
+        });
+        registerCommand("unban", "Разбанить игрока по айди бана или юид.", "<ban-uuid or id>", admin_id, (e, args)->{
+            try {
+                if(unbanPlayerByBanId(Integer.parseInt(args[0])))
+                    sendReply(e.getMessage(), "Unbanned.");
+                else
+                    sendReply(e.getMessage(), "**NOT** unbanned.");
+            } catch (NumberFormatException ex) {
+                if(unbanPlayerByUUID(args[0]))
+                    sendReply(e.getMessage(), "Unbanned.");
+                else
+                    sendReply(e.getMessage(), "**NOT** unbanned.");
+            }
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
            sendMessage(e.getMessage().getChannelId(), testSeq.toString());
