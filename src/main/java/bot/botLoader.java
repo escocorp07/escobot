@@ -18,6 +18,8 @@ import discord4j.core.spec.MessageCreateSpec;
 import discord4j.gateway.GatewayOptions;
 import discord4j.gateway.intent.IntentSet;
 import main.java.BVars;
+import main.java.Database.DatabseConnector;
+import main.java.appeals.AppealStatus;
 import main.java.bot.commands.botCommands;
 import main.java.bot.emoji.botEmoji;
 import mindustry.type.Item;
@@ -28,7 +30,9 @@ import reactor.core.publisher.Mono;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 
+import static main.java.Database.DatabseConnector.*;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.join.event.handleJEvent;
 
@@ -71,7 +75,17 @@ public class botLoader {
                         errorLogger.debug("emoji is null");
                     }
                 } else {
-                    errorLogger.debug("Not reaction message");
+                    Optional<DatabseConnector.Appeal> appeal = getAppealByMessage(m.getId().asString());
+                    appeal.ifPresent(a->{
+                        UnicodeEmoji s = event.getEmoji().asUnicodeEmoji().orElse(null);
+                        if(s != null) {
+                            if(s.getRaw().equals("✅")) {
+                                setAppealStatus(a.getId(), AppealStatus.approved.toString());
+                            } else if (s.getRaw().equals("❌")) {
+                                setAppealStatus(a.getId(), AppealStatus.denied.toString());
+                            }
+                        }
+                    });
                 }
                 return Mono.empty();
             }).subscribe();
@@ -123,6 +137,14 @@ public class botLoader {
                 }
                 return Mono.empty();
             }).subscribe();
+            event.getMessage().getMessageReference().ifPresent(m->{
+                m.getMessageId().ifPresent(mid->{
+                    getAppealByMessage(mid.asString()).ifPresent(appeal -> {
+                        if(appeal.getDiscord_message().equals(mid.asString()))
+                            setAppealComment(event.getMessage().getContent(), appeal.getId());
+                    });
+                });
+            });
             handleEvent(event);
             if (event.getMessage().getContent().toLowerCase().contains("здарова")) {
                 File image = new File("images/здарова.png");

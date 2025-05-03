@@ -131,7 +131,14 @@ public class DatabseConnector {
                 DatabseConnector::mapResultSetToAppeal
         );
     }
-    public static boolean setAppealMessage(String message_id, int appeal_id) {
+    public static Optional<Appeal> getAppealByMessage(String id) {
+        return executeQueryAsync(
+                "SELECT * FROM appeals WHERE message_id = ?",
+                stmt->stmt.setString(1, id),
+                DatabseConnector::mapResultSetToAppeal
+        );
+    }
+    public static boolean setAppealMessageId(String message_id, int appeal_id) {
         return executeUpdate(
                 "UPDATE appeals SET message_id = ? WHERE id = ?",
                 stmt->{
@@ -140,35 +147,58 @@ public class DatabseConnector {
                 }
         );
     }
+    public static boolean setAppealComment(String comment, int appeal_id) {
+        return executeUpdate(
+                "UPDATE appeals SET comment = ? WHERE id = ?",
+                stmt->{
+                    stmt.setString(1, comment);
+                    stmt.setInt(2, appeal_id);
+                }
+        );
+    }
+    public static boolean setAppealStatus(int appeal_id, String status) {
+        return executeUpdate(
+                "UPDATE appeals SET status = ? WHERE id = ?",
+                stmt->{
+                    stmt.setString(1, status);
+                    stmt.setInt(2, appeal_id);
+                }
+        );
+    }
     private static Appeal mapResultSetToAppeal(ResultSet rs) throws SQLException {
         return new Appeal(
+                rs.getInt("id"),
                 rs.getString("ip"),
                 rs.getInt("ban_id"),
                 rs.getString("excuses"),
                 parseStatus(rs.getString("status")).toString(),
-                rs.getString("comment")
+                rs.getString("comment"),
+                rs.getString("message_id")
         );
     }
 
     @Getter
     @Setter
     public static class Appeal {
+        int id;
         String ip;
         int ban_id;
         String excuses;
         String admin_comment;
+        String discord_message;
         /**
          * Ожидает рассмотрения,
          * отклонена,
          * принята.
          * */
         String status;
-        public Appeal(String ip, int ban_id, String excuses, String status, String comment) {
+        public Appeal(int id, String ip, int ban_id, String excuses, String status, String comment, String discord_message) {
             this.ip=ip;
             this.ban_id=ban_id;
             this.excuses=excuses;
             this.status=status;
             this.admin_comment=comment;
+            this.discord_message=discord_message;
         }
     }
 }
