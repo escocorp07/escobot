@@ -106,7 +106,7 @@ public class Routes {
         });
         get("/appeal-status", ctx->{
             try {
-                ctx.html(readFileFromJar("public/appeals-status/index.html"));
+                ctx.html(readFileFromJar("public/appeal-status/index.html"));
             } catch (IOException e) {
                 ctx.status(500).result("");
             }
