@@ -7,7 +7,6 @@ import discord4j.core.GatewayDiscordClient;
 import io.javalin.Javalin;
 import main.java.annotations.GenerateSet;
 import main.java.annotations.SettingsL;
-import io.github.cdimascio.dotenv.Dotenv;
 import java.util.Random;
 
 public class BVars {
