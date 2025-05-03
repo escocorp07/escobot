@@ -82,6 +82,22 @@
         .success {
             color: #72ff8d;
         }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .status.denied {
+            color: #ff4c4c;
+        }
+
+        .status.waiting {
+            color: #ffd700;
+        }
+
+        .status.approved {
+            color: #72ff8d;
+        }
     </style>
 </head>
 <body>
@@ -116,10 +132,13 @@
             if (!response.ok) {
                 resultDiv.innerHTML = `<p class="error">Ошибка: ${data.error || 'Неизвестная ошибка'}</p>`;
             } else {
+                const statusClass = ['denied', 'waiting', 'approved'].includes(data.status.toLowerCase())
+                    ? data.status.toLowerCase()
+                    : '';
                 resultDiv.innerHTML = `
                     <p><strong>ID заявки:</strong> ${data.appeal_id}</p>
-                    <p><strong>Статус:</strong> <span class="success">${data.status}</span></p>
-                    <p><strong>Комментарий модератора:</strong> ${data.comment || '—'}</p>
+                    <p><strong>Статус:</strong> <span class="status ${statusClass}">${data.status}</span></p>
+                    <p><strong>Комментарий администратора:</strong> ${data.comment || '—'}</p>
                 `;
             }
         } catch (err) {
