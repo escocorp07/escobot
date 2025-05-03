@@ -140,7 +140,8 @@ public class botLoader {
             event.getMessage().getMessageReference().ifPresent(m->{
                 Log.info("Message reference");
                 m.getMessageId().ifPresent(mid->{
-                    Log.info("message id");
+                    Log.info("message id"); // последний лог, дальше - пустота.
+                    Log.info(mid.asString());
                     getAppealByMessage(mid.asString()).ifPresent(appeal -> {
                         Log.info("appeal");
                         if(appeal.getDiscord_message().equals(mid.asString())) {
