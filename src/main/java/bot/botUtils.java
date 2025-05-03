@@ -92,6 +92,8 @@ public class botUtils {
                             }
                         } else if(type == Snowflake.class) {
                             field.set(null, Snowflake.of(sb.toString().trim()));
+                        } else if(type == Boolean.class) {
+                            field.set(null, Boolean.parseBoolean(sb.toString()));
                         }
                         sendMessage(e.getMessage().getChannelId(), "Назначено " + field.getName() + ": " + sb.toString().trim());
                     } catch (Exception ex) {

@@ -18,6 +18,7 @@ public class BVars {
 
     public static String btoken, prefix;
     @SettingsL public static String joinMessage, presence;
+    @SettingsL @GenerateSet public static boolean noTwinkMode = false;
     public static Snowflake guild; // сервер бота
     @SettingsL public static long handledCommands, handledMessages, handledRequests;
     @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
