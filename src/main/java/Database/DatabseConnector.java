@@ -100,6 +100,16 @@ public class DatabseConnector {
     private interface SQLFunction<T, R> {
         R apply(T t) throws SQLException;
     }
+    public static boolean createAppeal(String ip, String excuses, int ban_id) {
+        return executeUpdate(
+                "INSERT into appeals (ban_id, ip, excuses) VALUES (CAST(? AS INET),?,?)",
+                stmt->{
+                    stmt.setInt(1, ban_id);
+                    stmt.setString(2, ip);
+                    stmt.setString(3, excuses);
+                }
+        );
+    }
     public static Optional<Appeal> getAppeal(int id) {
         return executeQueryAsync(
                 "SELECT * FROM appeals WHERE id = ?"
@@ -108,29 +118,16 @@ public class DatabseConnector {
                 DatabseConnector::mapResultSetToAppeal
         );
     }
-    public static Optional<AppealResult> getAppealResult(int id) {
-        return executeQueryAsync(
-                "SELECT * FROM appealresult WHERE id = ?"
-                        +" LIMIT 1",
-                stmt->stmt.setInt(1, id),
-                DatabseConnector::mapResultSetToAppealResult
-        );
-    }
     private static Appeal mapResultSetToAppeal(ResultSet rs) throws SQLException {
         return new Appeal(
                 rs.getString("ip"),
                 rs.getInt("ban_id"),
-                rs.getString("excuses")
-        );
-    }
-    private static AppealResult mapResultSetToAppealResult(ResultSet rs) throws SQLException {
-        return new AppealResult(
-                rs.getInt("id"),
-                rs.getInt("appeal_id"),
-                rs.getBoolean("result"),
+                rs.getString("excuses"),
+                rs.getString("status"),
                 rs.getString("comment")
         );
     }
+
     @Getter
     @Setter
     public static class Appeal {
@@ -138,24 +135,17 @@ public class DatabseConnector {
         int ban_id;
         String excuses;
         String admin_comment;
-        boolean result; // принята ли.
-        public Appeal(String ip, int ban_id, String excusest) {
+        /**
+         * Ожидает рассмотрения,
+         * отклонена,
+         * принята.
+         * */
+        String status;
+        public Appeal(String ip, int ban_id, String excuses, String status, String comment) {
             this.ip=ip;
             this.ban_id=ban_id;
             this.excuses=excuses;
-        }
-    }
-    @Getter
-    @Setter
-    public static class AppealResult {
-        int id;
-        int appeal_id;
-        boolean result;
-        String admin_comment;
-        public AppealResult(int id, int appeal_id, boolean result, String comment) {
-            this.id=id;
-            this.appeal_id=appeal_id;
-            this.result=result;
+            this.status=status;
             this.admin_comment=comment;
         }
     }

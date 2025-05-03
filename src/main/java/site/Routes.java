@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.utils.randomString;
+import static main.java.Database.DatabseConnector.*;
 
 public class Routes {
     public static Seq<String> sitemapRoutes = new Seq<>();
@@ -46,11 +47,11 @@ public class Routes {
         site.before(ctx->{
             try {
                 String ip = ctx.ip();
-                if (ip == null) {
+                /*if (ip == null) {
                     ctx.status(403).result("Forbidden.");
                     ctx.skipRemainingHandlers();
                     return;
-                }
+                }*/
                 if(!isCloudflareIP(ip)) {
                     ctx.status(403).result("Forbidden.");
                     ctx.skipRemainingHandlers();
@@ -160,6 +161,7 @@ public class Routes {
             sb.setLength(1997);
             sb.append("```");
             sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));
+            createAppeal(ip, proof, Integer.parseInt(banId));
             /*String appeal_ID = randomString();
             var response = new Object() {
                 public String appeal_id = appeal_ID;
