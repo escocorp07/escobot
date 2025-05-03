@@ -135,6 +135,26 @@ public class Routes {
             String proof = ctx.formParam("proof");
             String server = ctx.formParam("server");
             String adminId = ctx.formParam("admin_id");
+            if (playerId == null || playerId.isEmpty()) {
+                ctx.status(400).result("Missing player_id");
+                return;
+            }
+            if (banId == null || banId.isEmpty()) {
+                ctx.status(400).result("Missing ban_id");
+                return;
+            }
+            if (proof == null || proof.isEmpty()) {
+                ctx.status(400).result("Missing proof");
+                return;
+            }
+            if (server == null || server.isEmpty()) {
+                ctx.status(400).result("Missing server");
+                return;
+            }
+            if (adminId == null || adminId.isEmpty()) {
+                ctx.status(400).result("Missing admin_id");
+                return;
+            }
             String ip;
             ip=ctx.header("CF-Connecting-IP");
             if(ip==null)
