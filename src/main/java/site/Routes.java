@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static main.java.BVars.*;
 import static main.java.bot.botUtils.sendMessage;
+import static main.java.bot.utils.randomString;
 
 public class Routes {
     public static Seq<String> sitemapRoutes = new Seq<>();
@@ -159,7 +160,11 @@ public class Routes {
             sb.setLength(1997);
             sb.append("```");
             sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));
-            ctx.status(200).result("Good.");
+            /*String appeal_ID = randomString();
+            var response = new Object() {
+                public String appeal_id = appeal_ID;
+            };*/
+            ctx.status(200);
         });
         site.error(404, ctx->{
             ctx.status(404).result("Not found.");

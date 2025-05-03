@@ -81,7 +81,7 @@ public class botCommands {
             sb.append("Mindustry version: " + mindustry_version+"\n");
             sb.append("Commands handled: "+handledCommands+"\n");
             sb.append("Messages handled: "+handledMessages+"\n");
-            sb.append("Requests handled: "+handledRequests+"\n");
+            sb.append("Requests handled: "+getReqHandled()+"\n");
             sendMessage(e.getMessage().getChannelId(), sb.toString());
             sb.setLength(0);
         });

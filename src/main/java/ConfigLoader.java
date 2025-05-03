@@ -31,8 +31,6 @@ public class ConfigLoader {
             BVars.d4jdebug = value.getBoolean("d4jdebug", false);
             BVars.sugping= value.getLong("suggestions_ping_id");
             BVars.sugpingrole= value.getLong("suggestions_role_id");
-            BVars.DB_USER=value.getString("DB_USER", "");
-            BVars.DB_PASSWORD=value.getString("DB_PASSWORD", "");
             if(!BVars.prefix.endsWith(".")) BVars.prefix += ".";
             Log.info("Config loaded!");
         } catch (Exception e) {

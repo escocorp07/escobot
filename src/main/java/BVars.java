@@ -41,8 +41,11 @@ public class BVars {
      * */
     public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid, sugping, sugpingrole;
     public static boolean debug, d4jdebug;
-    public static String DB_USER;
-    public static String DB_PASSWORD;
+
+    public static String DB_USER = System.getenv("DB_USER");
+    public static String DB_PASSWORD = System.getenv("DB_PASSWORD");
+    public static final String JDBC_URL = "jdbc:postgresql://localhost:5432/production";
+
     public static Seq<String> bannedErrs = Seq.with("ui", "TextFormatter", "renderer", "reading entity", "enableEffects", "entity", "mindustry.gen.LogicExplosionCallPacket.handled(LogicExplosionCallPacket.java:54)", "EOFException");
 
     public static Random random = new Random();
