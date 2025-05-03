@@ -220,9 +220,9 @@ public class Routes {
                 return;
             }
             var var = new Object() {
-                String comment=appeal.getAdmin_comment();
-                String status=parseStatus(appeal.getStatus()).toString();
-                String appeal_id=String.valueOf(appeal.getId());
+                public String comment=appeal.getAdmin_comment();
+                public String status=parseStatus(appeal.getStatus()).toString();
+                public String appeal_id=String.valueOf(appeal.getId());
             };
             ctx.status(200).json(var);
         });
