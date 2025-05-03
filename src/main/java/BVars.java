@@ -7,12 +7,7 @@ import discord4j.core.GatewayDiscordClient;
 import io.javalin.Javalin;
 import main.java.annotations.GenerateSet;
 import main.java.annotations.SettingsL;
-import main.java.bot.utils;
-import mindustry.type.Item;
-
-import javax.script.ScriptEngine;
-import java.util.HashMap;
-import java.util.Map;
+import io.github.cdimascio.dotenv.Dotenv;
 import java.util.Random;
 
 public class BVars {
@@ -28,6 +23,7 @@ public class BVars {
     @SettingsL public static Seq<Snowflake> bannedInSug = new Seq<>();
     @SettingsL @GenerateSet
     public static Seq<String> testSeq = new Seq<>();
+    public static Dotenv dotenv = Dotenv.load();
     /**
      * ownerid-айди роли-владельца сервера
      * reactionMessage-айди куда ставят эмодзи чтобы получить пинг роль новостей
@@ -42,8 +38,8 @@ public class BVars {
     public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid, sugping, sugpingrole, admin_id;
     public static boolean debug, d4jdebug;
 
-    public static String DB_USER = System.getenv("DB_USER");
-    public static String DB_PASSWORD = System.getenv("DB_PASSWORD");
+    public static String DB_USER = dotenv.getenv("DB_USER");
+    public static String DB_PASSWORD = dotenv.getenv("DB_PASSWORD");
     public static final String JDBC_URL = "jdbc:postgresql://localhost:5432/production";
 
     public static Seq<String> bannedErrs = Seq.with("ui", "TextFormatter", "renderer", "reading entity", "enableEffects", "entity", "mindustry.gen.LogicExplosionCallPacket.handled(LogicExplosionCallPacket.java:54)", "EOFException");
