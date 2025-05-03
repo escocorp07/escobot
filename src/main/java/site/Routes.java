@@ -163,14 +163,14 @@ public class Routes {
                 ip=ctx.ip();
             sb.append("```\n");
             sb.append("New appeal\nIP:"+ip+"\n");
-            sb.append("Player_ID: "+playerId)
-                    .append("\nBan_ID: "+banId)
-                    .append("\nProof: "+proof)
-                    .append("\nServer: "+server)
+            sb.append("Player_ID: "+playerId.replace("`", ""))
+                    .append("\nBan_ID: "+banId.replace("`", ""))
+                    .append("\nProof: "+proof.replace("`", ""))
+                    .append("\nServer: "+server.replace("`", ""))
                     .append("\nAdmin_ID or votekick_name: "+adminId);
             sb.setLength(1997);
             sb.append("```");
-            sendMessage("1368010923503128637", sb.toString().replace("@", "(@)").replace("`", ""));
+            sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));
             ctx.status(200).result("Good.");
         });
         site.error(404, ctx->{
