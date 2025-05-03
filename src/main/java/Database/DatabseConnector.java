@@ -131,6 +131,15 @@ public class DatabseConnector {
                 DatabseConnector::mapResultSetToAppeal
         );
     }
+    public static boolean setAppealMessage(String message_id, int appeal_id) {
+        return executeUpdate(
+                "UPDATE appeals SET message_id = ? WHERE id = ?",
+                stmt->{
+                    stmt.setString(1, message_id);
+                    stmt.setInt(2, appeal_id);
+                }
+        );
+    }
     private static Appeal mapResultSetToAppeal(ResultSet rs) throws SQLException {
         return new Appeal(
                 rs.getString("ip"),

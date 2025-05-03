@@ -35,7 +35,7 @@ public class BVars {
      * sugping - сообщение для получения роли пинга
      * sugpingrole - роль пинга
      * */
-    public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid, sugping, sugpingrole, admin_id;
+    public static long ownerid, reactionMessage, newsid, grelyid, forumBannedid, arrivalsid, sugid, sugping, sugpingrole, admin_id, appeals_id;
     public static boolean debug, d4jdebug;
 
     public static String DB_USER = dotenv.get("DB_USER");

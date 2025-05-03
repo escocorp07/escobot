@@ -2,12 +2,16 @@ package main.java.site;
 
 import arc.struct.Seq;
 import arc.util.Log;
+import discord4j.common.util.Snowflake;
+import discord4j.core.object.entity.channel.GuildMessageChannel;
+import discord4j.core.object.entity.channel.TextChannel;
 import discord4j.core.spec.MessageCreateSpec;
 import io.javalin.http.Context;
 import io.javalin.http.UnauthorizedResponse;
 import main.java.Main;
 import main.java.bot.errorLogger;
 import org.apache.commons.net.util.SubnetUtils;
+import reactor.core.publisher.Mono;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -160,15 +164,23 @@ public class Routes {
                             .append("\nproof: "+proof.replace("`", ""));
             sb.setLength(1997);
             sb.append("```");
-            final int appeal_id = createAppeal(ip, proof, Integer.parseInt(banId)).orElse(0);
-            if(appeal_id != 0) {
-                var var = new Object() {
-                    public int appealID = appeal_id;
-                };
-                ctx.status(200).json(var);
-                sendMessage("1368010923503128637", sb.toString());
-            } else
-                ctx.status(500).result("Unable to create appeal.");
+            String finalIp = ip;
+            gateway.getChannelById(Snowflake.of(appeals_id))
+                    .ofType(GuildMessageChannel.class)
+                    .flatMap(ch->{
+                        final int appeal_id = createAppeal(finalIp, proof, Integer.parseInt(banId)).orElse(0);
+                        if(appeal_id != 0) {
+                            var var = new Object() {
+                                public int appealID = appeal_id;
+                            };
+                            ctx.status(200).json(var);
+                            ch.createMessage(sb.toString()).subscribe(m->{
+                                setAppealMessage(m.getId().asString(), appeal_id);
+                            });
+                        } else
+                            ctx.status(500).result("Unable to create appeal.");
+                        return Mono.empty();
+                    }).subscribe();
         });
         site.error(404, ctx->{
             ctx.status(404).result("Not found.");
