@@ -199,6 +199,7 @@ public class DatabseConnector {
             this.status=status;
             this.admin_comment=comment;
             this.discord_message=discord_message;
+            this.id=id;
         }
     }
 }
