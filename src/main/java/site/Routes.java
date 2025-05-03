@@ -150,7 +150,7 @@ public class Routes {
                     .append("\nAdmin_ID or votekick_name: "+adminId);
             sb.setLength(1997);
             sb.append("```");
-            sendMessage("1368010923503128637", sb.toString().replace("@", "(@)"));
+            sendMessage("1368010923503128637", sb.toString().replace("@", "(@)").replace("`", ""));
             ctx.status(200).result("Good.");
         });
         site.error(404, ctx->{
