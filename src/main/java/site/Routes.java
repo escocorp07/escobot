@@ -160,13 +160,13 @@ public class Routes {
                             .append("\nproof: "+proof.replace("`", ""));
             sb.setLength(1997);
             sb.append("```");
-            sendMessage("1368010923503128637", sb.toString().replace("@", "(@"));
             final int appeal_id = createAppeal(ip, proof, Integer.parseInt(banId)).orElse(0);
             if(appeal_id != 0) {
                 var var = new Object() {
                     public int appealID = appeal_id;
                 };
                 ctx.status(200).json(var);
+                sendMessage("1368010923503128637", sb.toString());
             } else
                 ctx.status(500).result("Unable to create appeal.");
         });
