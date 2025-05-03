@@ -138,10 +138,15 @@ public class botLoader {
                 return Mono.empty();
             }).subscribe();
             event.getMessage().getMessageReference().ifPresent(m->{
+                Log.info("Message reference");
                 m.getMessageId().ifPresent(mid->{
+                    Log.info("message id");
                     getAppealByMessage(mid.asString()).ifPresent(appeal -> {
-                        if(appeal.getDiscord_message().equals(mid.asString()))
+                        Log.info("appeal");
+                        if(appeal.getDiscord_message().equals(mid.asString())) {
                             setAppealComment(event.getMessage().getContent(), appeal.getId());
+                            Log.info("set comment");
+                        }
                     });
                 });
             });

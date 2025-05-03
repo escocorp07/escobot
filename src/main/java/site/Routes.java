@@ -175,7 +175,7 @@ public class Routes {
                             };
                             ctx.status(200).json(var);
                             ch.createMessage(sb.toString()).subscribe(m->{
-                                Log.info(setAppealMessageId(m.getId().asString(), appeal_id));
+                                setAppealMessageId(m.getId().asString(), appeal_id);
                             });
                         } else
                             ctx.status(500).result("Unable to create appeal.");
