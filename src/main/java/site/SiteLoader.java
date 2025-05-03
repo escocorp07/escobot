@@ -35,7 +35,7 @@ public class SiteLoader {
                 });
             });
             loadRoutes();
-            Threads.daemon(()->{
+            Threads.daemon("Site", ()->{
                 Log.info("Starting site!");
                 site.start(port);
             });

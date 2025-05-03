@@ -1,13 +1,9 @@
 package main.java.site;
 
 import arc.struct.Seq;
-import arc.util.Log;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
-import discord4j.core.object.entity.channel.TextChannel;
-import discord4j.core.spec.MessageCreateSpec;
 import io.javalin.http.Context;
-import io.javalin.http.UnauthorizedResponse;
 import main.java.Main;
 import main.java.bot.errorLogger;
 import org.apache.commons.net.util.SubnetUtils;
@@ -19,16 +15,15 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static main.java.BVars.*;
+import static main.java.Database.DatabseConnector.*;
 import static main.java.appeals.AppealStatus.parseStatus;
 import static main.java.bot.botUtils.sendMessage;
-import static main.java.bot.utils.randomString;
-import static main.java.Database.DatabseConnector.*;
 
 public class Routes {
     public static Seq<String> sitemapRoutes = new Seq<>();
@@ -49,6 +44,7 @@ public class Routes {
             "172.64.0.0/13",
             "131.0.72.0/22"
     );
+    static Map<String, Long> submit_appeal_rateLimited = new HashMap<>();
     public static void loadRoutes() {
         site.before(ctx->{
             try {
@@ -144,6 +140,14 @@ public class Routes {
         });
         // backend
         site.post("/submit-appeal", ctx->{
+            String ip = ctx.ip();
+
+            if (submit_appeal_rateLimited.containsKey(ip))
+                if (System.currentTimeMillis() < submit_appeal_rateLimited.get(ip)) {
+                    ctx.status(429).result("Rate limited. Try again later.");
+                    return;
+                } else
+                    submit_appeal_rateLimited.remove(ip);
             StringBuilder sb = new StringBuilder();
             String banId = ctx.formParam("ban_id");
             String proof = ctx.formParam("proof");
@@ -161,7 +165,6 @@ public class Routes {
                 ctx.status(400).result("Ban_ID not integer!");
                 return;
             }
-            String ip;
             ip=ctx.header("CF-Connecting-IP");
             if(ip==null)
                 ip=ctx.header("X-Forwarded-For");
@@ -183,6 +186,7 @@ public class Routes {
                                 public int appealID = appeal_id;
                             };
                             ctx.status(200).json(var);
+                            submit_appeal_rateLimited.put(finalIp, System.currentTimeMillis() + 12 * 60 * 60 * 1000L);
                             ch.createMessage(sb.toString()).subscribe(m->{
                                 setAppealMessageId(m.getId().asString(), appeal_id);
                             });
