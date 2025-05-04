@@ -9,20 +9,13 @@ import main.java.bot.errorLogger;
 import main.java.site.SiteLoader;
 import mindustry.Vars;
 import mindustry.core.*;
-import mindustry.ctype.Content;
-import mindustry.game.Rules;
-import mindustry.gen.Groups;
 import mindustry.mod.Mods;
-import mindustry.type.Item;
-import mindustry.type.UnitType;
-import mindustry.world.Block;
 import reactor.util.Loggers;
 
-import static main.java.BVars.*;
 import static main.java.ConfigLoader.loadcfg;
 import static main.java.bot.utils.*;
 
-public class Main {
+public class MainM {
     public static void main(String[] args) {
         Vars.loadLogger();
         Loggers.useCustomLoggers(new LoggerProvider());
