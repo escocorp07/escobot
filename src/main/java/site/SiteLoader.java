@@ -40,7 +40,7 @@ public class SiteLoader {
                 SslPlugin plugin = new SslPlugin(conf->{
                     conf.pemFromPath(certPath, keyPath);
                 });
-                config.registerPlugin(plugin);
+                // config.registerPlugin(plugin);
             });
             loadRoutes();
             Threads.daemon("Site", ()->{
