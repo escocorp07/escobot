@@ -4,9 +4,13 @@ import arc.util.Log;
 import arc.util.Threads;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
+import io.javalin.community.ssl.SslPlugin;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
-import static main.java.BVars.*;
-import static main.java.site.Routes.*;
+import static main.java.BVars.port;
+import static main.java.BVars.site;
+import static main.java.site.Routes.loadRoutes;
 
 /*
 precompress
@@ -19,6 +23,8 @@ precompress
  * */
 
 public class SiteLoader {
+    String certPath = "/etc/letsencrypt/live/grely.icu/fullchain.pem"; // Путь к файлу сертификата
+    String keyPath = "/etc/letsencrypt/live/grely.icu/privkey.pem";
     public static void load() {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{
@@ -33,6 +39,10 @@ public class SiteLoader {
                     staticf.precompress=false;
                     staticf.location=Location.EXTERNAL;
                 });
+                SslPlugin plugin = new SslPlugin(conf->{
+                    conf.pemFromPath(certPath, keyPath);
+                });
+                config.plugins.register(plugin);
             });
             loadRoutes();
             Threads.daemon("Site", ()->{
