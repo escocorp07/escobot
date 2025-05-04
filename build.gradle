@@ -16,6 +16,7 @@ repositories{
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven{ url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
     maven{ url 'https://www.jitpack.io' }
+    //jcenter()
     mavenCentral()
 }
 
@@ -44,7 +45,7 @@ dependencies{
     implementation("org.slf4j:slf4j-simple:2.0.10")
     implementation 'commons-net:commons-net:3.8.0'
     implementation 'io.github.cdimascio:dotenv-java:3.2.0'
-    implementation 'io.javalin.community:ssl-plugin:6.6.0'
+    implementation 'io.javalin.community.ssl:ssl-plugin:6.6.0'
 }
 
 jar{
