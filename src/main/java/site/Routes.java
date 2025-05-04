@@ -54,11 +54,11 @@ public class Routes {
                     ctx.skipRemainingHandlers();
                     return;
                 }*/
-                if(!isCloudflareIP(ip)) {
+                /*if(!isCloudflareIP(ip)) {
                     ctx.status(403).result("Forbidden.");
                     ctx.skipRemainingHandlers();
                     return;
-                }
+                }*/
                 incrementReqHandled();
                 String headers = ctx.headerMap().entrySet().stream()
                         .map(e -> e.getKey() + ": " + e.getValue())

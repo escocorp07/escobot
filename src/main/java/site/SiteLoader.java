@@ -45,7 +45,7 @@ public class SiteLoader {
             loadRoutes();
             Threads.daemon("Site", ()->{
                 Log.info("Starting site!");
-                site.start(port);
+                site.start("127.0.0.1", port);
             });
     }
 }
