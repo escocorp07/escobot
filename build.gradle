@@ -45,7 +45,7 @@ dependencies{
     implementation("org.slf4j:slf4j-simple:2.0.10")
     implementation 'commons-net:commons-net:3.8.0'
     implementation 'io.github.cdimascio:dotenv-java:3.2.0'
-    implementation 'io.javalin.community.ssl:ssl-plugin:6.6.0'
+    //implementation 'io.javalin.community.ssl:ssl-plugin:6.6.0'
 }
 
 jar{
@@ -55,7 +55,7 @@ jar{
     }
     manifest {
         attributes(
-                'Main-Class': 'main.java.MainM'
+                'Main-Class': 'main.java.Main'
         )
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

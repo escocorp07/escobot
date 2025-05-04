@@ -15,7 +15,7 @@ import reactor.util.Loggers;
 import static main.java.ConfigLoader.loadcfg;
 import static main.java.bot.utils.*;
 
-public class MainM {
+public class Main {
     public static void main(String[] args) {
         Vars.loadLogger();
         Loggers.useCustomLoggers(new LoggerProvider());

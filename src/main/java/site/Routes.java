@@ -4,7 +4,7 @@ import arc.struct.Seq;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import io.javalin.http.Context;
-import main.java.MainM;
+import main.java.Main;
 import main.java.bot.errorLogger;
 import org.apache.commons.net.util.SubnetUtils;
 import reactor.core.publisher.Mono;
@@ -261,7 +261,7 @@ public class Routes {
     }
     public static void sendFileFromJar(Context ctx, String filename) {
         try {
-            InputStream is = MainM.class.getResourceAsStream("/" + filename);
+            InputStream is = Main.class.getResourceAsStream("/" + filename);
             if (is == null) {
                 ctx.status(404).result("File not found in JAR.");
                 return;
@@ -279,7 +279,7 @@ public class Routes {
         }
     }
     public static String readFileFromJar(String fileName) throws IOException {
-        InputStream inputStream = MainM.class.getResourceAsStream("/" + fileName);
+        InputStream inputStream = Main.class.getResourceAsStream("/" + fileName);
 
         if (inputStream == null) {
             throw new IOException("Файл \"" + fileName + "\" не найден в JAR.");
