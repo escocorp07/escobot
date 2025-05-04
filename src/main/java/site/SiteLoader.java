@@ -37,10 +37,10 @@ public class SiteLoader {
                     staticf.precompress=false;
                     staticf.location=Location.EXTERNAL;
                 });
-                SslPlugin plugin = new SslPlugin(conf->{
+                /*SslPlugin plugin = new SslPlugin(conf->{
                     conf.pemFromPath(certPath, keyPath);
                 });
-                // config.registerPlugin(plugin);
+                config.registerPlugin(plugin);*/
             });
             loadRoutes();
             Threads.daemon("Site", ()->{
