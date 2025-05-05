@@ -94,6 +94,10 @@ public class Routes {
             }
         });
         get("/appeal", ctx->{
+            if(true) {
+                ctx.result("Страница временно не доступна.");
+                return;
+            }
             try {
                 ctx.html(readFileFromJar("public/appeals/index.html"));
             } catch (IOException e) {
@@ -101,6 +105,10 @@ public class Routes {
             }
         });
         get("/appeal-status", ctx->{
+            if(true) {
+                ctx.result("Страница временно не доступна.");
+                return;
+            }
             try {
                 ctx.html(readFileFromJar("public/appeal-status/index.html"));
             } catch (IOException e) {
@@ -140,6 +148,10 @@ public class Routes {
         });
         // backend
         site.post("/submit-appeal", ctx->{
+            if(true) {
+                ctx.result("Страница временно не доступна.");
+                return;
+            }
             String ip = ctx.ip();
 
             if (submit_appeal_rateLimited.containsKey(ip))
@@ -197,6 +209,10 @@ public class Routes {
         });
 
         site.post("/appeal-info", ctx->{
+            if(true) {
+                ctx.result("Страница временно не доступна.");
+                return;
+            }
             int appeal_id;
             try {
                 String aplid = ctx.formParam("appealid");
