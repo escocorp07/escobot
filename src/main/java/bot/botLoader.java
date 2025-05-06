@@ -170,6 +170,23 @@ public class botLoader {
                             .subscribe();
                 }
             }
+                    if (event.getMessage().getContent().toLowerCase().contains("1984")) {
+                        File image = new File("images/1984.gif");
+                        if (image.exists()) {
+                            event.getMessage().getChannel()
+                                    .flatMap(channel -> {
+                                        try {
+                                            return channel.createMessage(MessageCreateSpec.builder()
+                                                    .addFile("1984.gif", new FileInputStream(image))
+                                                    .build());
+                                        } catch (FileNotFoundException e) {
+                                            errorLogger.logErr(e);
+                                            return Mono.empty();
+                                        }
+                                    })
+                                    .subscribe();
+                        }
+                    }
             return Mono.empty();
         })
                 .doOnError(errorLogger::logErr)
