@@ -97,6 +97,7 @@ public class botCommands {
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
             World w = new World();
+            w.loadMap(new Map(new StringMap()));
             w.resize(512, 512);
             Seq<Block> floors = new Seq<>();
             for(Block b: Vars.content.blocks()) {
