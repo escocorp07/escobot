@@ -3,6 +3,8 @@ package main.java.bot.commands;
 import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
+import arc.struct.Seq;
+import arc.struct.StringMap;
 import arc.util.Log;
 import arc.util.OS;
 import discord4j.common.util.Snowflake;
@@ -21,8 +23,11 @@ import discord4j.rest.util.Color;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.Vars;
+import mindustry.core.World;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
+import mindustry.world.Block;
+import mindustry.world.blocks.environment.Floor;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -91,7 +96,17 @@ public class botCommands {
             }
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-           sendMessage(e.getMessage().getChannelId(), testSeq.toString());
+            World w = new World();
+            w.resize(512, 512);
+            Seq<Block> floors = new Seq<>();
+            for(Block b: Vars.content.blocks()) {
+                if(b.isFloor())
+                    floors.add(b);
+            }
+            for(int y=1; y<512;y+=1) {
+                for(int x=1;x<512;x+=1)
+                    w.tile(x, y).setFloor((Floor) floors.get(random.nextInt(floors.size)));
+            }
         }).setVisible(false);
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
