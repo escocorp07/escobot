@@ -31,6 +31,7 @@ public class Main {
         Vars.content.createBaseContent();
         Vars.content.loadColors();
         Vars.mods = new Mods();
+        Vars.dataDirectory=Core.files.local("config");
         Vars.customMapDirectory=Vars.dataDirectory.child("maps");
         Core.app = new Application() {
             @Override
