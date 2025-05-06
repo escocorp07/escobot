@@ -140,12 +140,12 @@ public class DatabaseConnector {
                 DatabaseConnector::mapResultSetToAppeal
         );
     }
-    public static boolean setAppealMessageId(String message_id, int appeal_id) {
+    public static boolean setAppealMessageId(String message_id, String appeal_id) {
         return executeUpdate(
                 "UPDATE appeals SET message_id = ? WHERE id = ?",
                 stmt->{
                     stmt.setString(1, message_id);
-                    stmt.setInt(2, appeal_id);
+                    stmt.setString(2, appeal_id);
                 }
         );
     }
@@ -189,7 +189,7 @@ public class DatabaseConnector {
     @Getter
     @Setter
     public static class Appeal {
-        int id;
+        String id;
         String ip;
         int ban_id;
         String excuses;
@@ -201,7 +201,7 @@ public class DatabaseConnector {
          * принята.
          * */
         String status;
-        public Appeal(int id, String ip, int ban_id, String excuses, String status, String comment, String discord_message) {
+        public Appeal(String id, String ip, int ban_id, String excuses, String status, String comment, String discord_message) {
             this.ip=ip;
             this.ban_id=ban_id;
             this.excuses=excuses;

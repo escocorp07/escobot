@@ -194,7 +194,7 @@ public class Routes {
             gateway.getChannelById(Snowflake.of(appeals_id))
                     .ofType(GuildMessageChannel.class)
                     .flatMap(ch->{
-                        final String appeal_id = createAppeal(finalIp, proof, Integer.parseInt(banId)).orElse(0);
+                        final String appeal_id = createAppeal(finalIp, proof, Integer.parseInt(banId)).orElse("null");
                         var var = new Object() {
                             public String appealID = appeal_id;
                         };
@@ -213,7 +213,7 @@ public class Routes {
                 return;
             }
             String appeal_id = ctx.formParam("appealid");
-            if(aplid == null) {
+            if(appeal_id == null) {
                 var var = new Object() {
                     String error = "Unkown appeal id.";
                 };
