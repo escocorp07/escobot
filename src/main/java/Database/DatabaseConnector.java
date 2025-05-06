@@ -103,7 +103,7 @@ public class DatabaseConnector {
     private interface SQLFunction<T, R> {
         R apply(T t) throws SQLException;
     }
-    public static Optional<Integer> createAppeal(String ip, String excuses, int ban_id) {
+    public static Optional<String> createAppeal(String ip, String excuses, int ban_id) {
         return executeQueryAsync(
                 "INSERT into appeals (ban_id, ip, excuses) VALUES (?,CAST(? AS INET),?) RETURNING id",
                 stmt->{
@@ -111,7 +111,7 @@ public class DatabaseConnector {
                     stmt.setString(2, ip);
                     stmt.setString(3, excuses);
                 },
-                rs -> rs.getInt("id")
+                rs -> rs.getString("id")
         );
     }
     public static boolean unbanPlayerByBanId(int ban_id) {
@@ -126,10 +126,10 @@ public class DatabaseConnector {
                 stmt->stmt.setString(1, uuid)
         );
     }
-    public static Optional<Appeal> getAppeal(int id) {
+    public static Optional<Appeal> getAppeal(String id) {
         return executeQueryAsync(
                 "SELECT * FROM appeals WHERE id = ?",
-                stmt->stmt.setInt(1, id),
+                stmt->stmt.setString(1, id),
                 DatabaseConnector::mapResultSetToAppeal
         );
     }
@@ -149,21 +149,21 @@ public class DatabaseConnector {
                 }
         );
     }
-    public static boolean setAppealComment(String comment, int appeal_id) {
+    public static boolean setAppealComment(String comment, String appeal_id) {
         return executeUpdate(
                 "UPDATE appeals SET comment = ? WHERE id = ?",
                 stmt->{
                     stmt.setString(1, comment);
-                    stmt.setInt(2, appeal_id);
+                    stmt.setString(2, appeal_id);
                 }
         );
     }
-    public static boolean setAppealStatus(int appeal_id, String status) {
+    public static boolean setAppealStatus(String appeal_id, String status) {
         return executeUpdate(
                 "UPDATE appeals SET status = ? WHERE id = ?",
                 stmt->{
                     stmt.setString(1, status);
-                    stmt.setInt(2, appeal_id);
+                    stmt.setString(2, appeal_id);
                 }
         );
     }

@@ -94,7 +94,7 @@ public class Routes {
             }
         });
         get("/appeal", ctx->{
-            if(true) {
+            if(false) {
                 ctx.result("Страница временно не доступна.");
                 return;
             }
@@ -105,7 +105,7 @@ public class Routes {
             }
         });
         get("/appeal-status", ctx->{
-            if(true) {
+            if(false) {
                 ctx.result("Страница временно не доступна.");
                 return;
             }
@@ -148,18 +148,20 @@ public class Routes {
         });
         // backend
         site.post("/submit-appeal", ctx->{
-            if(true) {
+            if(false) {
                 ctx.result("Страница временно не доступна.");
                 return;
             }
             String ip = ctx.ip();
 
-            if (submit_appeal_rateLimited.containsKey(ip))
+            if (submit_appeal_rateLimited.containsKey(ip)) {
                 if (System.currentTimeMillis() < submit_appeal_rateLimited.get(ip)) {
                     ctx.status(429).result("Rate limited. Try again later.");
                     return;
-                } else
+                } else {
                     submit_appeal_rateLimited.remove(ip);
+                }
+            }
             StringBuilder sb = new StringBuilder();
             String banId = ctx.formParam("ban_id");
             String proof = ctx.formParam("proof");
@@ -192,39 +194,26 @@ public class Routes {
             gateway.getChannelById(Snowflake.of(appeals_id))
                     .ofType(GuildMessageChannel.class)
                     .flatMap(ch->{
-                        final int appeal_id = createAppeal(finalIp, proof, Integer.parseInt(banId)).orElse(0);
-                        if(appeal_id != 0) {
-                            var var = new Object() {
-                                public int appealID = appeal_id;
-                            };
-                            ctx.status(200).json(var);
-                            submit_appeal_rateLimited.put(finalIp, System.currentTimeMillis() + 12 * 60 * 60 * 1000L);
-                            ch.createMessage(sb.toString()).subscribe(m->{
-                                setAppealMessageId(m.getId().asString(), appeal_id);
-                            });
-                        } else
-                            ctx.status(500).result("Unable to create appeal.");
+                        final String appeal_id = createAppeal(finalIp, proof, Integer.parseInt(banId)).orElse(0);
+                        var var = new Object() {
+                            public String appealID = appeal_id;
+                        };
+                        ctx.status(200).json(var);
+                        submit_appeal_rateLimited.put(finalIp, System.currentTimeMillis() + 12 * 60 * 60 * 1000L);
+                        ch.createMessage(sb.toString()).subscribe(m->{
+                            setAppealMessageId(m.getId().asString(), appeal_id);
+                        });
                         return Mono.empty();
                     }).subscribe();
         });
 
         site.post("/appeal-info", ctx->{
-            if(true) {
+            if(false) {
                 ctx.result("Страница временно не доступна.");
                 return;
             }
-            int appeal_id;
-            try {
-                String aplid = ctx.formParam("appealid");
-                if(aplid == null) {
-                    var var = new Object() {
-                        String error = "Unkown appeal id.";
-                    };
-                    ctx.status(400).json(var);
-                    return;
-                }
-                appeal_id = Integer.parseInt(aplid);
-            } catch (NumberFormatException ex) {
+            String appeal_id = ctx.formParam("appealid");
+            if(aplid == null) {
                 var var = new Object() {
                     String error = "Unkown appeal id.";
                 };
