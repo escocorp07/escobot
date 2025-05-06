@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static main.java.BVars.*;
-import static main.java.Database.DatabseConnector.*;
+import static main.java.Database.DatabaseConnector.*;
 import static main.java.appeals.AppealStatus.parseStatus;
 import static main.java.bot.botUtils.sendMessage;
 

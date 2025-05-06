@@ -3,8 +3,6 @@ package main.java.bot.commands;
 import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
-import arc.struct.Seq;
-import arc.struct.StringMap;
 import arc.util.Log;
 import arc.util.OS;
 import discord4j.common.util.Snowflake;
@@ -20,14 +18,12 @@ import discord4j.core.object.emoji.Emoji;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.core.spec.StartThreadFromMessageSpec;
 import discord4j.rest.util.Color;
+import main.java.Database.DatabaseConnector;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.Vars;
-import mindustry.core.World;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
-import mindustry.world.Block;
-import mindustry.world.blocks.environment.Floor;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -41,8 +37,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import static main.java.BVars.*;
-import static main.java.Database.DatabseConnector.unbanPlayerByBanId;
-import static main.java.Database.DatabseConnector.unbanPlayerByUUID;
+import static main.java.Database.DatabaseConnector.*;
 import static main.java.bot.botUtils.*;
 import static main.java.bot.commands.commandHandler.commands;
 import static main.java.bot.commands.commandHandler.*;
@@ -423,6 +418,28 @@ public class botCommands {
             sendReply(e.getMessage(), "Ok.");
             sb.setLength(0);
         }).setVisible(false);
+        registerCommand("pstats", "Посмотреть стату игрока", "<id>", (e, args)->{
+            if(args.length<1) {
+                sendReply(e.getMessage(), "Wrong id!");
+                return;
+            }
+            int id;
+            try {
+                id = Integer.parseInt(args[0]);
+            } catch (NumberFormatException lox) {
+                sendReply(e.getMessage(), "Wrong id!");
+                return;
+            }
+            getPlayerById(id).ifPresent(d->{
+                sendReply(e.getMessage(), "Level: "+d.getLevel()
+                +"\nEXP: "+d.getExperience()
+                +"\nWins: "+d.getWins()
+                +"\nLoses: "+d.getLoses()
+                +"\nBlocks placed/broken: "+d.getBlocksPlaced()+"/"+d.getBlocksBroken()
+                +"\nWaves survived: "+d.getWavesSurvived()
+                +"\nPlaytime: " + d.getPlaytime() / (7 * 24 * 3600) + "w " + (d.getPlaytime() % (7 * 24 * 3600)) / (24 * 3600) + "d " + (d.getPlaytime() % (24 * 3600)) / 3600 + "h " + (d.getPlaytime() % 3600) / 60 + "m " + d.getPlaytime() % 60 + "s");
+            });
+        });
         KbotCommands.Companion.KregisterCommands();
         generateCommands();
     }

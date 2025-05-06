@@ -18,13 +18,10 @@ import discord4j.core.spec.MessageCreateSpec;
 import discord4j.gateway.GatewayOptions;
 import discord4j.gateway.intent.IntentSet;
 import main.java.BVars;
-import main.java.Database.DatabseConnector;
+import main.java.Database.DatabaseConnector;
 import main.java.appeals.AppealStatus;
 import main.java.bot.commands.botCommands;
 import main.java.bot.emoji.botEmoji;
-import mindustry.type.Item;
-import mindustry.type.UnitType;
-import mindustry.world.Block;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -32,7 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Optional;
 
-import static main.java.Database.DatabseConnector.*;
+import static main.java.Database.DatabaseConnector.*;
 import static main.java.bot.botUtils.sendMessage;
 import static main.java.bot.join.event.handleJEvent;
 
@@ -75,7 +72,7 @@ public class botLoader {
                         errorLogger.debug("emoji is null");
                     }
                 } else {
-                    Optional<DatabseConnector.Appeal> appeal = getAppealByMessage(m.getId().asString());
+                    Optional<DatabaseConnector.Appeal> appeal = getAppealByMessage(m.getId().asString());
                     appeal.ifPresent(a->{
                         UnicodeEmoji s = event.getEmoji().asUnicodeEmoji().orElse(null);
                         if(s != null) {
