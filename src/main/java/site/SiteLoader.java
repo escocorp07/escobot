@@ -21,6 +21,7 @@ precompress
  * */
 
 public class SiteLoader {
+    public static final String host = "127.0.0.1";
     public static void load() {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{
@@ -42,8 +43,8 @@ public class SiteLoader {
             });
             loadRoutes();
             Threads.daemon("Site", ()->{
-                Log.info("Starting site!");
-                site.start("127.0.0.1", port);
+                Log.info("Starting site on @:@!", host, port);
+                site.start(host, port);
             });
     }
 }

@@ -39,5 +39,4 @@ public class ConfigLoader {
             Log.err("Error while trying to load config!", e);
         }
     }
-
 }
