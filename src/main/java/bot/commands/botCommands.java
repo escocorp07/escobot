@@ -96,18 +96,7 @@ public class botCommands {
             }
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-            World w = new World();
-            w.loadMap(new Map(new StringMap()));
-            w.resize(512, 512);
-            Seq<Block> floors = new Seq<>();
-            for(Block b: Vars.content.blocks()) {
-                if(b.isFloor())
-                    floors.add(b);
-            }
-            for(int y=1; y<512;y+=1) {
-                for(int x=1;x<512;x+=1)
-                    w.tile(x, y).setFloor((Floor) floors.get(random.nextInt(floors.size)));
-            }
+            // some test code
         }).setVisible(false);
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
