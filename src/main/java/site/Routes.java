@@ -24,6 +24,7 @@ import static main.java.BVars.*;
 import static main.java.Database.DatabaseConnector.*;
 import static main.java.appeals.AppealStatus.parseStatus;
 import static main.java.bot.botUtils.sendMessage;
+import static main.java.utils.isValidUUID;
 
 public class Routes {
     public static Seq<String> sitemapRoutes = new Seq<>();
@@ -220,6 +221,13 @@ public class Routes {
                 ctx.status(400).json(var);
                 return;
             }
+            if(!isValidUUID(appeal_id)) {
+                var var = new Object() {
+                    String error = "Unkown appeal id.";
+                };
+                ctx.status(400).json(var);
+                return;
+            }
             Appeal appeal = getAppeal(appeal_id).orElse(null);
             if(appeal == null) {
                 var var = new Object() {
@@ -315,4 +323,5 @@ public class Routes {
         }
         return false;
     }
+
 }
