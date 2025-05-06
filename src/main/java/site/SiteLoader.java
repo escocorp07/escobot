@@ -21,8 +21,6 @@ precompress
  * */
 
 public class SiteLoader {
-    static String certPath = "/etc/letsencrypt/live/grely.icu/fullchain.pem"; // Путь к файлу сертификата
-    static String keyPath = "/etc/letsencrypt/live/grely.icu/privkey.pem";
     public static void load() {
             site = Javalin.create(config -> {
                 config.staticFiles.add(staticf->{

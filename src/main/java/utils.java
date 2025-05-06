@@ -1,4 +1,4 @@
-package main.java.bot;
+package main.java;
 
 import arc.files.Fi;
 import arc.graphics.Pixmap;
@@ -7,44 +7,17 @@ import arc.util.serialization.*;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;
-import lombok.Getter;
-import lombok.Setter;
-import main.java.BVars;
 import main.java.annotations.SettingsL;
+import main.java.bot.errorLogger;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
-import mindustry.net.Packets;
 import mindustry.type.Item;
-import mindustry.type.UnitType;
-import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
 import arc.*;
-import arc.files.Fi;
 import arc.math.Rand;
-import arc.mock.MockFiles;
-import arc.net.Client;
 import arc.struct.Seq;
-import arc.struct.StringMap;
-import arc.util.Log;
-import arc.util.TaskQueue;
-import arc.util.Threads;
-import arc.util.Timer;
 import arc.util.serialization.Base64Coder;
-import mindustry.Vars;
-import mindustry.core.*;
-import mindustry.game.EventType;
-import mindustry.game.Rules;
-import mindustry.game.Universe;
-import mindustry.gen.*;
-import mindustry.net.ArcNetProvider;
-import mindustry.net.ArcNetProvider.PacketSerializer;
-import mindustry.net.Net;
-import mindustry.net.NetworkIO;
-import mindustry.net.Packets;
-import mindustry.net.Packets.Connect;
-import mindustry.net.Packets.Disconnect;
-import mindustry.net.Packets.WorldStream;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,24 +28,11 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.zip.InflaterInputStream;
 import java.io.StringWriter;
 import java.nio.file.Files;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 
-import main.java.bot.commands.commandHandler;
-import org.reflections.Reflections;
 import java.lang.reflect.Field;
-import static main.java.BVars.*;
+
 import static mindustry.io.MapIO.colorFor;
 
 public class utils {

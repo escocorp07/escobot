@@ -13,7 +13,7 @@ import mindustry.mod.Mods;
 import reactor.util.Loggers;
 
 import static main.java.ConfigLoader.loadcfg;
-import static main.java.bot.utils.*;
+import static main.java.utils.*;
 
 public class Main {
     public static void main(String[] args) {

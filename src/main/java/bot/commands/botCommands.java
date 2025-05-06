@@ -1,19 +1,15 @@
 package main.java.bot.commands;
 
-import arc.Core;
 import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
-import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.OS;
-import arc.util.Timer;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
-import discord4j.core.object.entity.channel.TopLevelGuildMessageChannel;
 //import discord4j.core.object.reaction.ReactionEmoji; // deprecated
 import discord4j.core.object.presence.ClientActivity;
 import discord4j.core.object.presence.ClientPresence;
@@ -21,14 +17,10 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.object.emoji.Emoji;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.core.spec.StartThreadFromMessageSpec;
-import discord4j.core.spec.StartThreadFromMessageSpecGenerator;
 import discord4j.rest.util.Color;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.Vars;
-import mindustry.core.Version;
-import mindustry.gen.Call;
-import mindustry.gen.Groups;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import reactor.core.publisher.Mono;
@@ -37,18 +29,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -59,8 +42,7 @@ import static main.java.bot.botUtils.*;
 import static main.java.bot.commands.commandHandler.commands;
 import static main.java.bot.commands.commandHandler.*;
 import static main.java.BuildInfo.*;
-import static main.java.BVars.*;
-import static main.java.bot.utils.*;
+import static main.java.utils.*;
 
 public class botCommands {
     private static boolean loaded = false;

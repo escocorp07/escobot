@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static main.java.BVars.*;
-import static main.java.bot.utils.randomString;
+import static main.java.utils.randomString;
 
 /**Логер ошибок и не только.*/
 public class errorLogger {
