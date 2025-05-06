@@ -31,6 +31,7 @@ public class Main {
         Vars.content.createBaseContent();
         Vars.content.loadColors();
         Vars.mods = new Mods();
+        Vars.customMapDirectory=Vars.dataDirectory.child("maps");
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
