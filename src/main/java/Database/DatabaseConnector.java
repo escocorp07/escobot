@@ -128,7 +128,7 @@ public class DatabaseConnector {
     }
     public static Optional<Appeal> getAppeal(String id) {
         return executeQueryAsync(
-                "SELECT * FROM appeals WHERE id = ?",
+                "SELECT * FROM appeals WHERE id = ?::UUID",
                 stmt->stmt.setString(1, id),
                 DatabaseConnector::mapResultSetToAppeal
         );
@@ -142,7 +142,7 @@ public class DatabaseConnector {
     }
     public static boolean setAppealMessageId(String message_id, String appeal_id) {
         return executeUpdate(
-                "UPDATE appeals SET message_id = ? WHERE id = ?",
+                "UPDATE appeals SET message_id = ? WHERE id = ?::UUID",
                 stmt->{
                     stmt.setString(1, message_id);
                     stmt.setString(2, appeal_id);
@@ -151,7 +151,7 @@ public class DatabaseConnector {
     }
     public static boolean setAppealComment(String comment, String appeal_id) {
         return executeUpdate(
-                "UPDATE appeals SET comment = ? WHERE id = ?",
+                "UPDATE appeals SET comment = ? WHERE id = ?::UUID",
                 stmt->{
                     stmt.setString(1, comment);
                     stmt.setString(2, appeal_id);
@@ -160,7 +160,7 @@ public class DatabaseConnector {
     }
     public static boolean setAppealStatus(String appeal_id, String status) {
         return executeUpdate(
-                "UPDATE appeals SET status = ? WHERE id = ?",
+                "UPDATE appeals SET status = ? WHERE id = ?::UUID",
                 stmt->{
                     stmt.setString(1, status);
                     stmt.setString(2, appeal_id);
@@ -169,7 +169,7 @@ public class DatabaseConnector {
     }
     public static Optional<PlayerData> getPlayerById(int id) {
         return executeQueryAsync(
-                "SELECT * FROM Players WHERE Id = ?",
+                "SELECT * FROM Players WHERE Id = ?::UUID",
                 stmt -> stmt.setInt(1, id),
                 DatabaseConnector::mapResultSetToPlayer
         );
