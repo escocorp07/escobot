@@ -176,7 +176,7 @@ public class DatabaseConnector {
     }
     private static Appeal mapResultSetToAppeal(ResultSet rs) throws SQLException {
         return new Appeal(
-                rs.getInt("id"),
+                rs.getString("id"),
                 rs.getString("ip"),
                 rs.getInt("ban_id"),
                 rs.getString("excuses"),
