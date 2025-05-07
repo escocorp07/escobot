@@ -259,12 +259,14 @@ public class utils {
         int colCount = meta.getColumnCount();
         List<String[]> rows = new ArrayList<>();
 
+        // Заголовки
         String[] headers = new String[colCount];
         for (int i = 0; i < colCount; i++) {
             headers[i] = meta.getColumnLabel(i + 1);
         }
         rows.add(headers);
 
+        // Данные
         while (rs.next()) {
             String[] row = new String[colCount];
             for (int i = 0; i < colCount; i++) {
@@ -274,33 +276,39 @@ public class utils {
         }
 
         Font font = new Font("Monospaced", Font.PLAIN, 14);
-        int padding = 8;
+        int cellPadding = 8;
         int rowHeight = 24;
+        int maxWidth = 1000;  // Ширина изображения
+        int maxHeight = 600;  // Высота изображения
 
         BufferedImage tmpImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D gTmp = tmpImg.createGraphics();
         gTmp.setFont(font);
         FontMetrics fm = gTmp.getFontMetrics();
 
+        // Вычисляем максимальную ширину для каждого столбца
         int[] colWidths = new int[colCount];
         for (String[] row : rows) {
             for (int i = 0; i < colCount; i++) {
                 String val = row[i] == null ? "null" : row[i];
-                int width = fm.stringWidth(val) + 2 * padding;
+                int width = fm.stringWidth(val) + 2 * cellPadding;
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
 
+        // Суммарная ширина всех столбцов
         int totalWidth = Arrays.stream(colWidths).sum();
         if (totalWidth > maxWidth) {
-            int available = maxWidth - (colCount * padding * 2);
-            int totalContent = Arrays.stream(colWidths).sum();
+            // Если таблица слишком широка, пропорционально уменьшаем ширины столбцов
+            int remainingWidth = maxWidth - (colCount * cellPadding * 2);
+            int totalContentWidth = Arrays.stream(colWidths).sum();
             for (int i = 0; i < colCount; i++) {
-                colWidths[i] = Math.max((int) ((double) colWidths[i] / totalContent * available), 30);
+                colWidths[i] = Math.max((int) ((double) colWidths[i] / totalContentWidth * remainingWidth), 30);
             }
             totalWidth = Arrays.stream(colWidths).sum();
         }
 
+        // Высота изображения
         int rowCount = rows.size();
         int imgHeight = Math.min(rowCount * rowHeight, maxHeight);
 
@@ -311,12 +319,13 @@ public class utils {
         g.fillRect(0, 0, totalWidth, imgHeight);
         g.setColor(Color.BLACK);
 
+        // Рисуем строки таблицы
         for (int r = 0; r < rowCount; r++) {
             if ((r + 1) * rowHeight > imgHeight) break;
             int x = 0;
             for (int c = 0; c < colCount; c++) {
                 String text = rows.get(r)[c] == null ? "null" : rows.get(r)[c];
-                g.drawString(text, x + padding, (r + 1) * rowHeight - 6);
+                g.drawString(text, x + cellPadding, (r + 1) * rowHeight - 6);
                 x += colWidths[c];
             }
         }
@@ -324,8 +333,6 @@ public class utils {
         g.dispose();
         return image;
     }
-
-
 
     private static List<String[]> transpose(List<String[]> original) {
         int rows = original.size();
