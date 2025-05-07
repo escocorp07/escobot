@@ -25,7 +25,6 @@ import static main.java.BVars.*;
 import static main.java.appeals.AppealStatus.parseStatus;
 import static main.java.bot.botUtils.sendReply;
 import static main.java.bot.commands.commandHandler.registerCommand;
-import static main.java.utils.renderTable;
 
 public class DatabaseConnector {
     private static final DataSource dataSource = createDataSource();
@@ -42,42 +41,6 @@ public class DatabaseConnector {
 
     public static void registerSQLCommands() {
         Log.info("Time to register commands with access to sql!");
-        registerCommand("sql", "Execute raw SQL", "[query...]", ownerid, (e, args) -> {
-            if (args.length == 0) {
-                sendReply(e.getMessage(), "А че мне в бд посылать то?");
-                return;
-            }
-            Threads.daemon(()->{
-            String query = String.join(" ", args);
-            try (Connection conn = dataSource.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-                boolean hasResultSet = pstmt.execute();
-                if (hasResultSet) {
-                        try (ResultSet rs = pstmt.getResultSet()) {
-                            BufferedImage tableImage = renderTable(rs);
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            ImageIO.write(tableImage, "png", baos);
-                            byte[] imageBytes = baos.toByteArray();
-
-                            e.getMessage().getChannel()
-                                    .flatMap(channel -> channel.createMessage(messageCreateSpec -> {
-                                        messageCreateSpec.addFile("result.png", new ByteArrayInputStream(imageBytes));
-                                    }))
-                                    .subscribe();
-                        } catch (SQLException | IOException ex) {
-                            sendReply(e.getMessage(), ex.getMessage());
-                        }
-                } else {
-                    sendReply(e.getMessage(), "Обновлено: " + pstmt.getUpdateCount());
-                }
-
-            } catch (SQLException ex) {
-                sendReply(e.getMessage(), ex.getMessage());
-            }
-            });
-        }).setVisible(false);
-
     }
     /**
      * Выполнить sql код асинхронно
