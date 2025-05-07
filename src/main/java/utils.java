@@ -321,19 +321,35 @@ public class utils {
 
         html.append("</table></body></html>");
 
-        // Рендерим HTML в BufferedImage с использованием maxWidth и maxHeight
+        // Рендерим HTML в JEditorPane
         JEditorPane editorPane = new JEditorPane("text/html", html.toString());
-        editorPane.setSize(maxWidth, maxHeight);  // Используем maxWidth и maxHeight из класса
+        editorPane.setSize(maxWidth, maxHeight);  // Устанавливаем максимальные размеры
         editorPane.setPreferredSize(new Dimension(maxWidth, maxHeight));
 
-        // Вычисляем требуемый размер для изображения с учетом контента
+        // Вычисляем размеры, учитывая фактический контент
         int imageWidth = Math.min(maxWidth, editorPane.getPreferredSize().width);
         int imageHeight = Math.min(maxHeight, editorPane.getPreferredSize().height);
 
+        // Если изображение больше по высоте или ширине, уменьшить его
+        if (editorPane.getPreferredSize().width > maxWidth) {
+            float scaleX = (float) maxWidth / editorPane.getPreferredSize().width;
+            float scaleY = (float) maxHeight / editorPane.getPreferredSize().height;
+            float scale = Math.min(scaleX, scaleY);  // Масштабирование по наименьшему измерению
+
+            imageWidth = (int) (editorPane.getPreferredSize().width * scale);
+            imageHeight = (int) (editorPane.getPreferredSize().height * scale);
+        }
+
+        // Создаем BufferedImage с нужными размерами
         BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
 
-        editorPane.print(graphics);  // Рендерим в графику
+        // Масштабируем графику, если это необходимо
+        graphics.scale((float) imageWidth / editorPane.getPreferredSize().width,
+                (float) imageHeight / editorPane.getPreferredSize().height);
+
+        // Рендерим в графику
+        editorPane.print(graphics);
 
         graphics.dispose();
         return image;
