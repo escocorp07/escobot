@@ -293,8 +293,6 @@ public class utils {
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
-
-        int maxWidth = 1200;
         int width = Arrays.stream(colWidths).sum();
 
         if (width > maxWidth) {
