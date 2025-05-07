@@ -210,7 +210,7 @@ public class DatabaseConnector {
     }
     public static Optional<PlayerData> getPlayerById(int id) {
         return executeQueryAsync(
-                "SELECT * FROM Players WHERE Id = ?::UUID",
+                "SELECT * FROM Players WHERE Id = ?",
                 stmt -> stmt.setInt(1, id),
                 DatabaseConnector::mapResultSetToPlayer
         );
