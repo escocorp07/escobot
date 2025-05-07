@@ -253,7 +253,7 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    private BufferedImage renderTable(ResultSet rs) throws SQLException {
+    public static BufferedImage renderTable(ResultSet rs) throws SQLException {
         ResultSetMetaData meta = rs.getMetaData();
         int colCount = meta.getColumnCount();
         List<String[]> rows = new ArrayList<>();
@@ -337,7 +337,7 @@ public class utils {
         return img;
     }
 
-    private List<String[]> transpose(List<String[]> original) {
+    public static List<String[]> transpose(List<String[]> original) {
         int rows = original.size();
         int cols = original.get(0).length;
         List<String[]> transposed = new ArrayList<>(cols);
