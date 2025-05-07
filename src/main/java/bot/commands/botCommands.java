@@ -473,7 +473,7 @@ public class botCommands {
                 ).subscribe();
                 frame.dispose();
             }, (er)->{
-
+                errorLogger.logErr(er);
             });
         });
         KbotCommands.Companion.KregisterCommands();
