@@ -19,6 +19,8 @@ import arc.math.Rand;
 import arc.struct.Seq;
 import arc.util.serialization.Base64Coder;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
@@ -32,6 +34,12 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 
 import java.lang.reflect.Field;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 import static mindustry.io.MapIO.colorFor;
 
@@ -244,6 +252,66 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
+    public static BufferedImage renderTable(ResultSet rs) throws SQLException {
+        ResultSetMetaData meta = rs.getMetaData();
+        int colCount = meta.getColumnCount();
+        List<String[]> rows = new ArrayList<>();
+
+        String[] headers = new String[colCount];
+        for (int i = 0; i < colCount; i++) {
+            headers[i] = meta.getColumnLabel(i + 1);
+        }
+        rows.add(headers);
+
+        while (rs.next()) {
+            String[] row = new String[colCount];
+            for (int i = 0; i < colCount; i++) {
+                row[i] = rs.getString(i + 1);
+            }
+            rows.add(row);
+        }
+
+        int cellPadding = 8;
+        int rowHeight = 24;
+        Font font = new Font("Monospaced", Font.PLAIN, 14);
+        BufferedImage tmp = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        Graphics2D gTmp = tmp.createGraphics();
+        gTmp.setFont(font);
+        FontMetrics fm = gTmp.getFontMetrics();
+
+        int[] colWidths = new int[colCount];
+        for (String[] row : rows) {
+            for (int i = 0; i < colCount; i++) {
+                String text = row[i] == null ? "null" : row[i];
+                int width = fm.stringWidth(text) + 2 * cellPadding;
+                colWidths[i] = Math.max(colWidths[i], width);
+            }
+        }
+
+        int width = Arrays.stream(colWidths).sum();
+        int height = rows.size() * rowHeight;
+
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = img.createGraphics();
+        g.setFont(font);
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        g.setColor(Color.BLACK);
+
+        for (int row = 0; row < rows.size(); row++) {
+            int y = (row + 1) * rowHeight - 6;
+            int x = 0;
+            for (int col = 0; col < colCount; col++) {
+                String cell = rows.get(row)[col];
+                g.drawString(cell == null ? "null" : cell, x + cellPadding, y);
+                x += colWidths[col];
+            }
+        }
+
+        g.dispose();
+        return img;
+    }
+
     public static boolean isValidUUID(String str) {
         return str.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
     }
