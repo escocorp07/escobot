@@ -243,20 +243,41 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    public static void getAttach(Attachment attachment) {
-        String urlStr = attachment.getUrl();
-        String fileName = attachment.getFilename();
-        Path savePath = Paths.get("data/atch", fileName);
+    public static BufferedImage renderTable(ResultSet rs) throws SQLException {
+        int width = 500;
+        int height = 500;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics g = image.getGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Monospaced", Font.PLAIN, 20));
 
-        try {
-            Files.createDirectories(savePath.getParent());
-            try (InputStream in = new URL(urlStr).openStream()) {
-                Files.copy(in, savePath, StandardCopyOption.REPLACE_EXISTING);
-            }
-        } catch (IOException exception) {
-            errorLogger.logErr(exception);
+        int x = 10;
+        int y = 30;
+        int rowHeight = 25;
+
+        ResultSetMetaData meta = rs.getMetaData();
+        int columnCount = meta.getColumnCount();
+        StringBuilder header = new StringBuilder();
+        for (int i = 1; i <= columnCount; i++) {
+            header.append(meta.getColumnLabel(i)).append("   ");
         }
+        g.drawString(header.toString(), x, y);
+
+        while (rs.next()) {
+            y += rowHeight;
+            StringBuilder row = new StringBuilder();
+            for (int i = 1; i <= columnCount; i++) {
+                row.append(rs.getString(i)).append("   ");
+            }
+            g.drawString(row.toString(), x, y);
+        }
+
+        g.dispose();
+        return image;
     }
+
     public static boolean isValidUUID(String str) {
         return str.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
     }

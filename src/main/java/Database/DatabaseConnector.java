@@ -49,35 +49,30 @@ public class DatabaseConnector {
             String query = String.join(" ", args);
             try (Connection conn = dataSource.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(query)) {
+
                 boolean hasResultSet = pstmt.execute();
                 if (hasResultSet) {
                     try (ResultSet rs = pstmt.getResultSet()) {
-                        ResultSetMetaData meta = rs.getMetaData();
-                        int colCount = meta.getColumnCount();
-                        StringBuilder sb = new StringBuilder();
-                        for (int i = 1; i <= colCount; i++) {
-                            sb.append(meta.getColumnLabel(i)).append("\t");
-                        }
-                        sb.append("\n");
-                        while (rs.next()) {
-                            for (int i = 1; i <= colCount; i++) {
-                                sb.append(rs.getString(i)).append("\t");
-                            }
-                            sb.append("\n");
-                        }
-                        String all = sb.toString();
-                        for (int i = 0; i < all.length(); i += 1990) {
-                            sendReply(e.getMessage(), (all.substring(i, Math.min(i + 1990, all.length()))));
-                        }
+                        BufferedImage tableImage = renderTable(rs);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        ImageIO.write(tableImage, "png", baos);
+                        byte[] imageBytes = baos.toByteArray();
+
+                        e.getMessage().getChannel()
+                                .flatMap(channel -> channel.createMessage(messageCreateSpec -> {
+                                    messageCreateSpec.addFile("result.png", new ByteArrayInputStream(imageBytes));
+                                }))
+                                .subscribe();
                     }
                 } else {
                     sendReply(e.getMessage(), "Обновлено: " + pstmt.getUpdateCount());
                 }
 
-            } catch (SQLException ex) {
+            } catch (SQLException | IOException ex) {
                 sendReply(e.getMessage(), ex.getMessage());
             }
         }).setVisible(false);
+
     }
     /**
      * Выполнить sql код асинхронно
