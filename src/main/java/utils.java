@@ -278,8 +278,6 @@ public class utils {
         Font font = new Font("Monospaced", Font.PLAIN, 14);
         int cellPadding = 8;
         int rowHeight = 24;
-        int maxWidth = 1000;  // Ширина изображения
-        int maxHeight = 600;  // Высота изображения
 
         BufferedImage tmpImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D gTmp = tmpImg.createGraphics();
