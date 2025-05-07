@@ -25,6 +25,7 @@ import static main.java.BVars.*;
 import static main.java.appeals.AppealStatus.parseStatus;
 import static main.java.bot.botUtils.sendReply;
 import static main.java.bot.commands.commandHandler.registerCommand;
+import static main.java.utils.renderTable;
 
 public class DatabaseConnector {
     private static final DataSource dataSource = createDataSource();
