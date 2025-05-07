@@ -258,7 +258,6 @@ public class utils {
         int colCount = meta.getColumnCount();
         List<String[]> rows = new ArrayList<>();
 
-        // Собираем заголовки и данные
         String[] headers = new String[colCount];
         for (int i = 0; i < colCount; i++) {
             headers[i] = meta.getColumnLabel(i + 1);
@@ -273,13 +272,11 @@ public class utils {
             rows.add(row);
         }
 
-        // Если строк больше, чем столбцов, меняем их местами (транспонируем)
         if (rows.size() - 1 < colCount) {
             rows = transpose(rows);
-            colCount = rows.get(0).length;  // Теперь количество столбцов будет равно количеству строк
+            colCount = rows.get(0).length;
         }
 
-        // Настройки отступов и шрифта
         int cellPadding = 8;
         int rowHeight = 24;
         Font font = new Font("Monospaced", Font.PLAIN, 14);
@@ -288,7 +285,6 @@ public class utils {
         gTmp.setFont(font);
         FontMetrics fm = gTmp.getFontMetrics();
 
-        // Вычисляем ширину столбцов
         int[] colWidths = new int[colCount];
         for (String[] row : rows) {
             for (int i = 0; i < colCount; i++) {
@@ -298,11 +294,9 @@ public class utils {
             }
         }
 
-        // Максимальная ширина изображения (например, 1200px)
         int maxWidth = 1200;
         int width = Arrays.stream(colWidths).sum();
 
-        // Если ширина таблицы больше максимальной, масштабируем её
         if (width > maxWidth) {
             double scale = (double) maxWidth / width;
             for (int i = 0; i < colCount; i++) {
@@ -311,8 +305,7 @@ public class utils {
             width = maxWidth;
         }
 
-        // Ограничиваем высоту изображения
-        int maxHeight = 800; // Ограничиваем максимальную высоту изображения
+        int maxHeight = 800;
         int rowCount = rows.size();
         int height = Math.min(rowCount * rowHeight, maxHeight);
 
@@ -321,12 +314,11 @@ public class utils {
         Graphics2D g = img.createGraphics();
         g.setFont(font);
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width, height); // Фон
+        g.fillRect(0, 0, width, height);
         g.setColor(Color.BLACK);
 
-        // Рисуем строки таблицы
         for (int row = 0; row < rows.size(); row++) {
-            if (row * rowHeight > height) break;  // Выход из цикла, если превышена максимальная высота
+            if (row * rowHeight > height) break;
             int y = (row + 1) * rowHeight - 6;
             int x = 0;
             for (int col = 0; col < colCount; col++) {
@@ -340,22 +332,16 @@ public class utils {
         return img;
     }
 
-    // Метод для транспонирования таблицы
     private static List<String[]> transpose(List<String[]> original) {
         int rows = original.size();
         int cols = original.get(0).length;
-
-        // Проверка на пустые строки
         if (rows == 0 || cols == 0) {
-            return new ArrayList<>();  // Возвращаем пустую таблицу, если есть пустые строки или столбцы
+            return new ArrayList<>();
         }
-
         List<String[]> transposed = new ArrayList<>(cols);
-
         for (int i = 0; i < cols; i++) {
             String[] newRow = new String[rows];
             for (int j = 0; j < rows; j++) {
-                // Добавляем проверку на наличие данных
                 newRow[j] = original.get(j).length > i ? original.get(j)[i] : "";
             }
             transposed.add(newRow);
@@ -363,17 +349,13 @@ public class utils {
 
         return transposed;
     }
-
-    // Разбиение на несколько изображений для больших таблиц
     public static List<BufferedImage> splitTableToImages(ResultSet rs) throws SQLException {
         List<BufferedImage> images = new ArrayList<>();
         BufferedImage img = renderTable(rs);
 
-        int maxImageHeight = 800;  // Максимальная высота для одного изображения
+        int maxImageHeight = 800;
         int rowHeight = 24;
-        int totalRows = rs.getRow();  // Получаем общее количество строк в ResultSet
-
-        // Разделяем на несколько изображений
+        int totalRows = rs.getRow();
         int numImages = (int) Math.ceil((double) totalRows / (maxImageHeight / rowHeight));
         for (int i = 0; i < numImages; i++) {
             int startRow = i * (maxImageHeight / rowHeight);
@@ -384,12 +366,9 @@ public class utils {
 
         return images;
     }
-
-    // Частичное рендеринг таблицы для большого числа строк
     private static BufferedImage renderPartialTable(ResultSet rs, int startRow, int endRow) throws SQLException {
-        // Измененный renderTable для рендеринга только части таблицы
         List<String[]> rows = new ArrayList<>();
-        rs.absolute(startRow);  // Перемещаемся к стартовой строке
+        rs.absolute(startRow);
         for (int i = startRow; i < endRow; i++) {
             if (rs.next()) {
                 String[] row = new String[rs.getMetaData().getColumnCount()];
@@ -399,9 +378,7 @@ public class utils {
                 rows.add(row);
             }
         }
-
-        // Рендерим часть таблицы
-        return renderTable(rs);  // Важно, чтобы этот метод рендерил часть таблицы.
+        return renderTable(rs);
     }
     public static boolean isValidUUID(String str) {
         return str.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");

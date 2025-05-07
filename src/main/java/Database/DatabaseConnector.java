@@ -3,6 +3,7 @@ package main.java.Database;
 import arc.graphics.Color;
 import arc.util.Log;
 import arc.util.Strings;
+import arc.util.Threads;
 import lombok.Getter;
 import lombok.Setter;
 import org.postgresql.ds.PGSimpleDataSource;
@@ -52,23 +53,27 @@ public class DatabaseConnector {
 
                 boolean hasResultSet = pstmt.execute();
                 if (hasResultSet) {
-                    try (ResultSet rs = pstmt.getResultSet()) {
-                        BufferedImage tableImage = renderTable(rs);
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        ImageIO.write(tableImage, "png", baos);
-                        byte[] imageBytes = baos.toByteArray();
+                    Threads.daemon(()->{
+                        try (ResultSet rs = pstmt.getResultSet()) {
+                            BufferedImage tableImage = renderTable(rs);
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            ImageIO.write(tableImage, "png", baos);
+                            byte[] imageBytes = baos.toByteArray();
 
-                        e.getMessage().getChannel()
-                                .flatMap(channel -> channel.createMessage(messageCreateSpec -> {
-                                    messageCreateSpec.addFile("result.png", new ByteArrayInputStream(imageBytes));
-                                }))
-                                .subscribe();
-                    }
+                            e.getMessage().getChannel()
+                                    .flatMap(channel -> channel.createMessage(messageCreateSpec -> {
+                                        messageCreateSpec.addFile("result.png", new ByteArrayInputStream(imageBytes));
+                                    }))
+                                    .subscribe();
+                        } catch (SQLException | IOException ex) {
+                            sendReply(e.getMessage(), ex.getMessage());
+                        }
+                    });
                 } else {
                     sendReply(e.getMessage(), "Обновлено: " + pstmt.getUpdateCount());
                 }
 
-            } catch (SQLException | IOException ex) {
+            } catch (SQLException ex) {
                 sendReply(e.getMessage(), ex.getMessage());
             }
         }).setVisible(false);
