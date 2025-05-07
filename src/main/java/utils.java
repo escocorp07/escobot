@@ -273,10 +273,13 @@ public class utils {
             rows.add(row);
         }
 
-        if (rows.size() - 1 < colCount) {
+        // Если строк больше, чем столбцов, меняем их местами (транспонируем)
+        if (rows.size() - 1 < colCount) {  // Меняем условие
             rows = transpose(rows);
-            colCount = rows.size() - 1;
+            colCount = rows.get(0).length;  // Теперь количество столбцов будет равно количеству строк
         }
+
+        // Настройки отступов и шрифта
         int cellPadding = 8;
         int rowHeight = 24;
         Font font = new Font("Monospaced", Font.PLAIN, 14);
@@ -284,6 +287,8 @@ public class utils {
         Graphics2D gTmp = tmp.createGraphics();
         gTmp.setFont(font);
         FontMetrics fm = gTmp.getFontMetrics();
+
+        // Вычисляем ширину столбцов
         int[] colWidths = new int[colCount];
         for (String[] row : rows) {
             for (int i = 0; i < colCount; i++) {
@@ -292,6 +297,9 @@ public class utils {
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
+
+        // Максимальная ширина изображения (например, 1200px)
+        int maxWidth = 1200;
         int width = Arrays.stream(colWidths).sum();
 
         // Если ширина таблицы больше максимальной, масштабируем её
@@ -329,18 +337,27 @@ public class utils {
         return img;
     }
 
+    // Метод для транспонирования таблицы
     public static List<String[]> transpose(List<String[]> original) {
         int rows = original.size();
         int cols = original.get(0).length;
+
+        // Проверка на пустые строки
+        if (rows == 0 || cols == 0) {
+            return new ArrayList<>();  // Возвращаем пустую таблицу, если есть пустые строки или столбцы
+        }
+
         List<String[]> transposed = new ArrayList<>(cols);
 
         for (int i = 0; i < cols; i++) {
             String[] newRow = new String[rows];
             for (int j = 0; j < rows; j++) {
-                newRow[j] = original.get(j)[i];
+                // Добавляем проверку на наличие данных
+                newRow[j] = original.get(j).length > i ? original.get(j)[i] : "";
             }
             transposed.add(newRow);
         }
+
         return transposed;
     }
     public static boolean isValidUUID(String str) {
