@@ -273,13 +273,10 @@ public class utils {
             rows.add(row);
         }
 
-        // Если строк больше, чем столбцов, меняем их местами (транспонируем)
-        if (rows.size() - 1 > colCount) {
+        if (rows.size() - 1 < colCount) {
             rows = transpose(rows);
             colCount = rows.size() - 1;
         }
-
-        // Настройки отступов и шрифта
         int cellPadding = 8;
         int rowHeight = 24;
         Font font = new Font("Monospaced", Font.PLAIN, 14);
@@ -287,8 +284,6 @@ public class utils {
         Graphics2D gTmp = tmp.createGraphics();
         gTmp.setFont(font);
         FontMetrics fm = gTmp.getFontMetrics();
-
-        // Вычисляем ширину столбцов
         int[] colWidths = new int[colCount];
         for (String[] row : rows) {
             for (int i = 0; i < colCount; i++) {
@@ -297,9 +292,6 @@ public class utils {
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
-
-        // Максимальная ширина изображения (например, 1200px)
-        int maxWidth = 1200;
         int width = Arrays.stream(colWidths).sum();
 
         // Если ширина таблицы больше максимальной, масштабируем её
