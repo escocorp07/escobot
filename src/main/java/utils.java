@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
+import static main.java.BVars.maxWidth;
 import static mindustry.io.MapIO.colorFor;
 
 public class utils {
@@ -270,7 +271,7 @@ public class utils {
         }
         int cellPadding = 8;
         int rowHeight = 24;
-        Font font = new Font("Monospaced", Font.PLAIN, 14);
+        Font font = new Font("Monospaced", Font.PLAIN, 12);
         BufferedImage tmp = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         Graphics2D gTmp = tmp.createGraphics();
         gTmp.setFont(font);
@@ -283,7 +284,7 @@ public class utils {
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
-        int maxWidth = 2400;
+        // int maxWidth = 1600;
         int width = Arrays.stream(colWidths).sum();
         if (width > maxWidth) {
             double scale = (double) maxWidth / width;
