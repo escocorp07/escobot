@@ -296,8 +296,6 @@ public class utils {
         }
 
         int totalWidth = Arrays.stream(colWidths).sum();
-        int maxWidth = 1000;
-        int maxHeight = 800;
 
         if (totalWidth > maxWidth) {
             int remainingWidth = maxWidth;
