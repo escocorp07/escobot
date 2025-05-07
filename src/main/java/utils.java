@@ -321,13 +321,13 @@ public class utils {
 
         html.append("</table></body></html>");
 
-        // Рендерим HTML в BufferedImage
+        // Рендерим HTML в BufferedImage с использованием maxWidth и maxHeight
         JEditorPane editorPane = new JEditorPane("text/html", html.toString());
-        editorPane.setSize(maxWeight, maxHeight);  // Устанавливаем размер, который ограничивает
-        editorPane.setPreferredSize(new Dimension(maxWeight, maxHeight));
+        editorPane.setSize(maxWidth, maxHeight);  // Используем maxWidth и maxHeight из класса
+        editorPane.setPreferredSize(new Dimension(maxWidth, maxHeight));
 
         // Вычисляем требуемый размер для изображения с учетом контента
-        int imageWidth = Math.min(maxWeight, editorPane.getPreferredSize().width);
+        int imageWidth = Math.min(maxWidth, editorPane.getPreferredSize().width);
         int imageHeight = Math.min(maxHeight, editorPane.getPreferredSize().height);
 
         BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
