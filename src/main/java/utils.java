@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
+import static main.java.BVars.maxHeight;
 import static main.java.BVars.maxWidth;
 import static mindustry.io.MapIO.colorFor;
 
@@ -303,7 +304,6 @@ public class utils {
             width = maxWidth;
         }
 
-        int maxHeight = 800;
         int rowCount = rows.size();
         int height = Math.min(rowCount * rowHeight, maxHeight);
 
