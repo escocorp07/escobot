@@ -16,7 +16,7 @@ public class BVars {
     public static Javalin site;
     public static final int port = 80;
 
-    @GenerateSet public static int maxWidth;
+    @SettingsL @GenerateSet public static int maxWidth;
     public static String btoken, prefix;
     @SettingsL public static String joinMessage, presence;
     @SettingsL @GenerateSet public static boolean noTwinkMode = false;

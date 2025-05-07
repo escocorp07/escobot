@@ -253,15 +253,18 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    public static BufferedImage renderTable(ResultSet rs) throws SQLException {
+    private BufferedImage renderTable(ResultSet rs) throws SQLException {
         ResultSetMetaData meta = rs.getMetaData();
         int colCount = meta.getColumnCount();
         List<String[]> rows = new ArrayList<>();
+
+        // Собираем заголовки и данные
         String[] headers = new String[colCount];
         for (int i = 0; i < colCount; i++) {
             headers[i] = meta.getColumnLabel(i + 1);
         }
         rows.add(headers);
+
         while (rs.next()) {
             String[] row = new String[colCount];
             for (int i = 0; i < colCount; i++) {
@@ -269,13 +272,23 @@ public class utils {
             }
             rows.add(row);
         }
+
+        // Если строк больше, чем столбцов, меняем их местами (транспонируем)
+        if (rows.size() - 1 > colCount) {
+            rows = transpose(rows);
+            colCount = rows.size() - 1;
+        }
+
+        // Настройки отступов и шрифта
         int cellPadding = 8;
         int rowHeight = 24;
-        Font font = new Font("Monospaced", Font.PLAIN, 12);
+        Font font = new Font("Monospaced", Font.PLAIN, 14);
         BufferedImage tmp = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         Graphics2D gTmp = tmp.createGraphics();
         gTmp.setFont(font);
         FontMetrics fm = gTmp.getFontMetrics();
+
+        // Вычисляем ширину столбцов
         int[] colWidths = new int[colCount];
         for (String[] row : rows) {
             for (int i = 0; i < colCount; i++) {
@@ -284,8 +297,12 @@ public class utils {
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
-        // int maxWidth = 1600;
+
+        // Максимальная ширина изображения (например, 1200px)
+        int maxWidth = 1200;
         int width = Arrays.stream(colWidths).sum();
+
+        // Если ширина таблицы больше максимальной, масштабируем её
         if (width > maxWidth) {
             double scale = (double) maxWidth / width;
             for (int i = 0; i < colCount; i++) {
@@ -293,13 +310,19 @@ public class utils {
             }
             width = maxWidth;
         }
+
+        // Вычисляем высоту изображения
         int height = rows.size() * rowHeight;
+
+        // Создаем изображение
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = img.createGraphics();
         g.setFont(font);
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width, height);
+        g.fillRect(0, 0, width, height); // Фон
         g.setColor(Color.BLACK);
+
+        // Рисуем строки таблицы
         for (int row = 0; row < rows.size(); row++) {
             int y = (row + 1) * rowHeight - 6;
             int x = 0;
@@ -314,6 +337,20 @@ public class utils {
         return img;
     }
 
+    private List<String[]> transpose(List<String[]> original) {
+        int rows = original.size();
+        int cols = original.get(0).length;
+        List<String[]> transposed = new ArrayList<>(cols);
+
+        for (int i = 0; i < cols; i++) {
+            String[] newRow = new String[rows];
+            for (int j = 0; j < rows; j++) {
+                newRow[j] = original.get(j)[i];
+            }
+            transposed.add(newRow);
+        }
+        return transposed;
+    }
     public static boolean isValidUUID(String str) {
         return str.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
     }
