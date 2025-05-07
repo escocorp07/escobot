@@ -273,76 +273,60 @@ public class utils {
             rows.add(row);
         }
 
-        if (rows.size() - 1 < colCount) {
-            rows = transpose(rows);
-            colCount = rows.get(0).length;
-        }
-
-        int cellPadding = 8;
-        int rowHeight = 24;
         Font font = new Font("Monospaced", Font.PLAIN, 14);
-        BufferedImage tmp = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        Graphics2D gTmp = tmp.createGraphics();
+        int padding = 8;
+        int rowHeight = 24;
+        int maxWidth = 1000;
+        int maxHeight = 600;
+
+        BufferedImage tmpImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D gTmp = tmpImg.createGraphics();
         gTmp.setFont(font);
         FontMetrics fm = gTmp.getFontMetrics();
 
         int[] colWidths = new int[colCount];
         for (String[] row : rows) {
             for (int i = 0; i < colCount; i++) {
-                String text = row[i] == null ? "null" : row[i];
-                int width = fm.stringWidth(text) + 2 * cellPadding;
+                String val = row[i] == null ? "null" : row[i];
+                int width = fm.stringWidth(val) + 2 * padding;
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
 
         int totalWidth = Arrays.stream(colWidths).sum();
-
         if (totalWidth > maxWidth) {
-            int remainingWidth = maxWidth;
-            int[] newColWidths = new int[colCount];
-
-            int totalContentWidth = Arrays.stream(colWidths).sum();
-
+            int available = maxWidth - (colCount * padding * 2);
+            int totalContent = Arrays.stream(colWidths).sum();
             for (int i = 0; i < colCount; i++) {
-                double weight = (double) colWidths[i] / totalContentWidth;
-                newColWidths[i] = Math.max((int) (weight * maxWidth), 30);
-                remainingWidth -= newColWidths[i];
+                colWidths[i] = Math.max((int) ((double) colWidths[i] / totalContent * available), 30);
             }
-
-            int i = 0;
-            while (remainingWidth > 0) {
-                newColWidths[i++ % colCount]++;
-                remainingWidth--;
-            }
-
-            colWidths = newColWidths;
-            totalWidth = maxWidth;
+            totalWidth = Arrays.stream(colWidths).sum();
         }
 
         int rowCount = rows.size();
-        int height = Math.min(rowCount * rowHeight, maxHeight);
+        int imgHeight = Math.min(rowCount * rowHeight, maxHeight);
 
-        BufferedImage img = new BufferedImage(totalWidth, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = img.createGraphics();
+        BufferedImage image = new BufferedImage(totalWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = image.createGraphics();
         g.setFont(font);
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, totalWidth, height);
+        g.fillRect(0, 0, totalWidth, imgHeight);
         g.setColor(Color.BLACK);
 
-        for (int row = 0; row < rows.size(); row++) {
-            if (row * rowHeight > height) break;
-            int y = (row + 1) * rowHeight - 6;
+        for (int r = 0; r < rowCount; r++) {
+            if ((r + 1) * rowHeight > imgHeight) break;
             int x = 0;
-            for (int col = 0; col < colCount; col++) {
-                String cell = rows.get(row)[col];
-                g.drawString(cell == null ? "null" : cell, x + cellPadding, y);
-                x += colWidths[col];
+            for (int c = 0; c < colCount; c++) {
+                String text = rows.get(r)[c] == null ? "null" : rows.get(r)[c];
+                g.drawString(text, x + padding, (r + 1) * rowHeight - 6);
+                x += colWidths[c];
             }
         }
 
         g.dispose();
-        return img;
+        return image;
     }
+
 
 
     private static List<String[]> transpose(List<String[]> original) {
