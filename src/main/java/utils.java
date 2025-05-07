@@ -258,8 +258,33 @@ public class utils {
         }
     }
     public static BufferedImage renderTable(ResultSet rs) throws SQLException {
-        int width = maxWidth;
-        int height = maxHeight;
+        ResultSetMetaData meta = rs.getMetaData();
+        int columnCount = meta.getColumnCount();
+
+        List<String[]> rows = new ArrayList<>();
+        String[] headers = new String[columnCount];
+        int[] colWidths = new int[columnCount];
+
+        for (int i = 0; i < columnCount; i++) {
+            headers[i] = meta.getColumnLabel(i + 1);
+            colWidths[i] = headers[i].length();
+        }
+
+        while (rs.next()) {
+            String[] row = new String[columnCount];
+            for (int i = 0; i < columnCount; i++) {
+                String value = rs.getString(i + 1);
+                row[i] = value != null ? value : "";
+                colWidths[i] = Math.max(colWidths[i], row[i].length());
+            }
+            rows.add(row);
+        }
+
+        int rowHeight = 25;
+        int width = 10;
+        for (int w : colWidths) width += (w + 2) * 10;
+        int height = (rows.size() + 1) * rowHeight + 10;
+
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();
         g.setColor(Color.WHITE);
@@ -268,28 +293,31 @@ public class utils {
         g.setFont(new Font("Monospaced", Font.PLAIN, 20));
 
         int x = 10;
-        int y = 30;
-        int rowHeight = 25;
+        int y = 25;
 
-        ResultSetMetaData meta = rs.getMetaData();
-        int columnCount = meta.getColumnCount();
-        StringBuilder header = new StringBuilder();
-        for (int i = 1; i <= columnCount; i++) {
-            header.append(meta.getColumnLabel(i)).append("   ");
+        int currentX = x;
+        for (int i = 0; i < columnCount; i++) {
+            g.drawString(pad(headers[i], colWidths[i]), currentX, y);
+            currentX += (colWidths[i] + 2) * 10;
         }
-        g.drawString(header.toString(), x, y);
 
-        while (rs.next()) {
+        for (String[] row : rows) {
             y += rowHeight;
-            StringBuilder row = new StringBuilder();
-            for (int i = 1; i <= columnCount; i++) {
-                row.append(rs.getString(i)).append("   ");
+            currentX = x;
+            for (int i = 0; i < columnCount; i++) {
+                g.drawString(pad(row[i], colWidths[i]), currentX, y);
+                currentX += (colWidths[i] + 2) * 10;
             }
-            g.drawString(row.toString(), x, y);
         }
 
         g.dispose();
         return image;
+    }
+
+    private static String pad(String s, int length) {
+        StringBuilder sb = new StringBuilder(s);
+        while (sb.length() < length) sb.append(" ");
+        return sb.toString();
     }
 
     public static boolean isValidUUID(String str) {
