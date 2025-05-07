@@ -294,25 +294,41 @@ public class utils {
                 colWidths[i] = Math.max(colWidths[i], width);
             }
         }
-        int width = Arrays.stream(colWidths).sum();
 
-        if (width > maxWidth) {
-            double scale = (double) maxWidth / width;
+        int totalWidth = Arrays.stream(colWidths).sum();
+        int maxWidth = 1000;
+        int maxHeight = 800;
+
+        if (totalWidth > maxWidth) {
+            int remainingWidth = maxWidth;
+            int[] newColWidths = new int[colCount];
+
+            int totalContentWidth = Arrays.stream(colWidths).sum();
+
             for (int i = 0; i < colCount; i++) {
-                colWidths[i] = (int) (colWidths[i] * scale);
+                double weight = (double) colWidths[i] / totalContentWidth;
+                newColWidths[i] = Math.max((int) (weight * maxWidth), 30);
+                remainingWidth -= newColWidths[i];
             }
-            width = maxWidth;
+
+            int i = 0;
+            while (remainingWidth > 0) {
+                newColWidths[i++ % colCount]++;
+                remainingWidth--;
+            }
+
+            colWidths = newColWidths;
+            totalWidth = maxWidth;
         }
 
         int rowCount = rows.size();
         int height = Math.min(rowCount * rowHeight, maxHeight);
 
-        // Создаем изображение
-        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(totalWidth, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = img.createGraphics();
         g.setFont(font);
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width, height);
+        g.fillRect(0, 0, totalWidth, height);
         g.setColor(Color.BLACK);
 
         for (int row = 0; row < rows.size(); row++) {
@@ -329,6 +345,7 @@ public class utils {
         g.dispose();
         return img;
     }
+
 
     private static List<String[]> transpose(List<String[]> original) {
         int rows = original.size();
