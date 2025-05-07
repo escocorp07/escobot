@@ -258,8 +258,8 @@ public class utils {
         }
     }
     public static BufferedImage renderTable(ResultSet rs) throws SQLException {
-        int width = 500;
-        int height = 500;
+        int width = maxWidth;
+        int height = maxHeight;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();
         g.setColor(Color.WHITE);
