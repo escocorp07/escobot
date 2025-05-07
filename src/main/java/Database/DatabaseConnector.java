@@ -47,13 +47,13 @@ public class DatabaseConnector {
                 sendReply(e.getMessage(), "А че мне в бд посылать то?");
                 return;
             }
+            Threads.daemon(()->{
             String query = String.join(" ", args);
             try (Connection conn = dataSource.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(query)) {
 
                 boolean hasResultSet = pstmt.execute();
                 if (hasResultSet) {
-                    Threads.daemon(()->{
                         try (ResultSet rs = pstmt.getResultSet()) {
                             BufferedImage tableImage = renderTable(rs);
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -68,7 +68,6 @@ public class DatabaseConnector {
                         } catch (SQLException | IOException ex) {
                             sendReply(e.getMessage(), ex.getMessage());
                         }
-                    });
                 } else {
                     sendReply(e.getMessage(), "Обновлено: " + pstmt.getUpdateCount());
                 }
@@ -76,6 +75,7 @@ public class DatabaseConnector {
             } catch (SQLException ex) {
                 sendReply(e.getMessage(), ex.getMessage());
             }
+            });
         }).setVisible(false);
 
     }
