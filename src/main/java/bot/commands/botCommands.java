@@ -3,6 +3,7 @@ package main.java.bot.commands;
 import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
+import arc.util.Http;
 import arc.util.Log;
 import arc.util.OS;
 import discord4j.common.util.Snowflake;
@@ -26,11 +27,11 @@ import mindustry.io.MapIO;
 import mindustry.maps.Map;
 import reactor.core.publisher.Mono;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.FileOutputStream;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
@@ -438,6 +439,41 @@ public class botCommands {
                 +"\nBlocks placed/broken: "+d.getBlocksPlaced()+"/"+d.getBlocksBroken()
                 +"\nWaves survived: "+d.getWavesSurvived()
                 +"\nPlaytime: " + d.getPlaytime() / (7 * 24 * 3600) + "w " + (d.getPlaytime() % (7 * 24 * 3600)) / (24 * 3600) + "d " + (d.getPlaytime() % (24 * 3600)) / 3600 + "h " + (d.getPlaytime() % 3600) / 60 + "m " + d.getPlaytime() % 60 + "s");
+            });
+        });
+        registerCommand("site", ".", "<site>", ownerid, (e, args) -> {
+            if(args.length==0)
+                return;
+            Http.get(args[0], (r)->{
+                String htmlContent = r.getResultAsString();
+                if(htmlContent.isEmpty())
+                    return;
+                JEditorPane editorPane = new JEditorPane("text/html", htmlContent);
+                editorPane.setEditable(false);
+                JFrame frame = new JFrame("HTML");
+                frame.getContentPane().add(editorPane);
+                frame.pack();
+                int width = editorPane.getPreferredSize().width;
+                int height = editorPane.getPreferredSize().height;
+                BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                Graphics g = image.getGraphics();
+                editorPane.paint(g);
+                g.dispose();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                try {
+                    ImageIO.write(image, "PNG", baos);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                InputStream imageInputStream = new ByteArrayInputStream(baos.toByteArray());
+                e.getMessage().getChannel().flatMap(channel ->
+                        channel.createMessage(message ->
+                                message.addFile("image.png", imageInputStream)
+                        )
+                ).subscribe();
+                frame.dispose();
+            }, (er)->{
+
             });
         });
         KbotCommands.Companion.KregisterCommands();
