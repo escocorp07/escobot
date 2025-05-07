@@ -279,6 +279,7 @@ public class utils {
             String columnName = metaData.getColumnName(i);
             g.drawString(columnName, x + (i - 1) * columnWidth, y);
         }
+
         y += rowHeight;
 
         while (rs.next()) {
@@ -293,6 +294,7 @@ public class utils {
 
         return image;
     }
+
 
     public static boolean isValidUUID(String str) {
         return str.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
