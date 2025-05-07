@@ -257,7 +257,7 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    public static BufferedImage renderTable(ResultSet rs) throws SQLException {
+    public static BufferedImage renderTable(ResultSet rs, int maxWeight, int maxHeight) throws SQLException {
         // Создаем список для хранения данных таблицы
         List<String[]> data = new ArrayList<>();
         List<String> columns = new ArrayList<>();
@@ -321,11 +321,16 @@ public class utils {
 
         html.append("</table></body></html>");
 
+        // Рендерим HTML в BufferedImage
         JEditorPane editorPane = new JEditorPane("text/html", html.toString());
-        editorPane.setSize(800, 600);  // Размер изображения
-        editorPane.setPreferredSize(new Dimension(800, 600));
+        editorPane.setSize(maxWeight, maxHeight);  // Устанавливаем размер, который ограничивает
+        editorPane.setPreferredSize(new Dimension(maxWeight, maxHeight));
 
-        BufferedImage image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+        // Вычисляем требуемый размер для изображения с учетом контента
+        int imageWidth = Math.min(maxWeight, editorPane.getPreferredSize().width);
+        int imageHeight = Math.min(maxHeight, editorPane.getPreferredSize().height);
+
+        BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
 
         editorPane.print(graphics);  // Рендерим в графику
