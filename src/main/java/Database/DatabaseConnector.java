@@ -9,10 +9,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +17,8 @@ import java.util.Optional;
 
 import static main.java.BVars.*;
 import static main.java.appeals.AppealStatus.parseStatus;
+import static main.java.bot.botUtils.sendReply;
+import static main.java.bot.commands.commandHandler.registerCommand;
 
 public class DatabaseConnector {
     private static final DataSource dataSource = createDataSource();
@@ -34,10 +33,46 @@ public class DatabaseConnector {
         return ds;
     }
 
-    public static void newAppeal() {
+    public static void registerSQLCommands() {
+        Log.info("Time to register commands with access to sql!");
+        registerCommand("sql", "Execute raw SQL", "[query...]", ownerid, (e, args) -> {
+            if (args.length == 0) {
+                sendReply(e.getMessage(), "А че мне в бд посылать то");
+                return;
+            }
+            String query = String.join(" ", args);
+            try (Connection conn = dataSource.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(query)) {
+                boolean hasResultSet = pstmt.execute();
+                if (hasResultSet) {
+                    try (ResultSet rs = pstmt.getResultSet()) {
+                        ResultSetMetaData meta = rs.getMetaData();
+                        int colCount = meta.getColumnCount();
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 1; i <= colCount; i++) {
+                            sb.append(meta.getColumnLabel(i)).append("\t");
+                        }
+                        sb.append("\n");
+                        while (rs.next()) {
+                            for (int i = 1; i <= colCount; i++) {
+                                sb.append(rs.getString(i)).append("\t");
+                            }
+                            sb.append("\n");
+                        }
+                        String all = sb.toString();
+                        for (int i = 0; i < all.length(); i += 1990) {
+                            sendReply(e.getMessage(), (all.substring(i, Math.min(i + 1990, all.length()))));
+                        }
+                    }
+                } else {
+                    sendReply(e.getMessage(), "Я обновил: " + pstmt.getUpdateCount());
+                }
 
+            } catch (SQLException ex) {
+                sendReply(e.getMessage(), "Жидкую пустил: " + ex.getMessage());
+            }
+        }).setVisible(false);
     }
-
     /**
      * Выполнить sql код асинхронно
      */

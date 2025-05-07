@@ -442,5 +442,6 @@ public class botCommands {
         });
         KbotCommands.Companion.KregisterCommands();
         generateCommands();
+        registerSQLCommands();
     }
 }
