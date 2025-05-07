@@ -257,7 +257,7 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
-    public static BufferedImage renderTable(ResultSet rs, int maxWeight, int maxHeight) throws SQLException {
+    public static BufferedImage renderTable(ResultSet rs) throws SQLException {
         // Создаем список для хранения данных таблицы
         List<String[]> data = new ArrayList<>();
         List<String> columns = new ArrayList<>();
