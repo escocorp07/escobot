@@ -19,6 +19,7 @@ import arc.math.Rand;
 import arc.struct.Seq;
 import arc.util.serialization.Base64Coder;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -256,46 +257,81 @@ public class utils {
         }
     }
     public static BufferedImage renderTable(ResultSet rs) throws SQLException {
-        int width = maxWidth;
-        int height = maxHeight;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        // Создаем список для хранения данных таблицы
+        List<String[]> data = new ArrayList<>();
+        List<String> columns = new ArrayList<>();
 
-        Graphics g = image.getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width, height);
-
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Monospaced", Font.PLAIN, 14));
-
-        int x = 20;
-        int y = 20;
-        int rowHeight = 20;
-        int columnWidth = 150;
-
+        // Извлекаем метаданные (столбцы)
         ResultSetMetaData metaData = rs.getMetaData();
         int columnCount = metaData.getColumnCount();
 
+        // Сохраняем названия столбцов
         for (int i = 1; i <= columnCount; i++) {
-            String columnName = metaData.getColumnName(i);
-            g.drawString(columnName, x + (i - 1) * columnWidth, y);
+            columns.add(metaData.getColumnLabel(i));
         }
 
-        y += rowHeight;
-
+        // Считываем строки из ResultSet
         while (rs.next()) {
+            String[] row = new String[columnCount];
             for (int i = 1; i <= columnCount; i++) {
-                String columnValue = rs.getString(i);
-                g.drawString(columnValue, x + (i - 1) * columnWidth, y);
+                row[i - 1] = rs.getString(i);
             }
-            y += rowHeight;
+            data.add(row);
         }
 
-        g.dispose();
+        // Если количество столбцов меньше количества строк, меняем местами
+        if (columnCount < data.size()) {
+            // Транспонируем данные
+            List<String[]> transposed = new ArrayList<>();
+            int maxLength = data.stream().mapToInt(row -> row.length).max().orElse(0);
 
+            for (int i = 0; i < maxLength; i++) {
+                String[] transposedRow = new String[data.size()];
+                for (int j = 0; j < data.size(); j++) {
+                    transposedRow[j] = data.get(j)[i];
+                }
+                transposed.add(transposedRow);
+            }
+            data = transposed;
+
+            // Меняем местами названия столбцов
+            Collections.swap(columns, 0, 1);
+        }
+
+        // Создаем HTML таблицу
+        StringBuilder html = new StringBuilder();
+        html.append("<html><body><table border='1' cellspacing='0' cellpadding='5'>");
+
+        // Добавляем заголовки столбцов
+        html.append("<tr>");
+        for (String column : columns) {
+            html.append("<th>").append(column).append("</th>");
+        }
+        html.append("</tr>");
+
+        // Добавляем строки данных
+        for (String[] row : data) {
+            html.append("<tr>");
+            for (String cell : row) {
+                html.append("<td>").append(cell != null ? cell : "").append("</td>");
+            }
+            html.append("</tr>");
+        }
+
+        html.append("</table></body></html>");
+
+        JEditorPane editorPane = new JEditorPane("text/html", html.toString());
+        editorPane.setSize(800, 600);  // Размер изображения
+        editorPane.setPreferredSize(new Dimension(800, 600));
+
+        BufferedImage image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = image.createGraphics();
+
+        editorPane.print(graphics);  // Рендерим в графику
+
+        graphics.dispose();
         return image;
     }
-
-
     public static boolean isValidUUID(String str) {
         return str.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
     }
