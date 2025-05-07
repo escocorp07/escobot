@@ -276,8 +276,6 @@ public class utils {
         Font font = new Font("Monospaced", Font.PLAIN, 14);
         int padding = 8;
         int rowHeight = 24;
-        int maxWidth = 1000;
-        int maxHeight = 600;
 
         BufferedImage tmpImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D gTmp = tmpImg.createGraphics();
