@@ -20,6 +20,7 @@ import arc.struct.Seq;
 import arc.util.serialization.Base64Coder;
 
 import java.awt.*;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -255,131 +256,44 @@ public class utils {
         }
     }
     public static BufferedImage renderTable(ResultSet rs) throws SQLException {
-        ResultSetMetaData meta = rs.getMetaData();
-        int colCount = meta.getColumnCount();
-        List<String[]> rows = new ArrayList<>();
+        int width = maxWidth;
+        int height = maxHeight;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-        // Заголовки
-        String[] headers = new String[colCount];
-        for (int i = 0; i < colCount; i++) {
-            headers[i] = meta.getColumnLabel(i + 1);
-        }
-        rows.add(headers);
-
-        // Данные
-        while (rs.next()) {
-            String[] row = new String[colCount];
-            for (int i = 0; i < colCount; i++) {
-                row[i] = rs.getString(i + 1);
-            }
-            rows.add(row);
-        }
-
-        Font font = new Font("Monospaced", Font.PLAIN, 14);
-        int cellPadding = 8;
-        int rowHeight = 24;
-
-        BufferedImage tmpImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gTmp = tmpImg.createGraphics();
-        gTmp.setFont(font);
-        FontMetrics fm = gTmp.getFontMetrics();
-
-        // Вычисляем максимальную ширину для каждого столбца
-        int[] colWidths = new int[colCount];
-        for (String[] row : rows) {
-            for (int i = 0; i < colCount; i++) {
-                String val = row[i] == null ? "null" : row[i];
-                int width = fm.stringWidth(val) + 2 * cellPadding;
-                colWidths[i] = Math.max(colWidths[i], width);
-            }
-        }
-
-        // Суммарная ширина всех столбцов
-        int totalWidth = Arrays.stream(colWidths).sum();
-        if (totalWidth > maxWidth) {
-            // Если таблица слишком широка, пропорционально уменьшаем ширины столбцов
-            int remainingWidth = maxWidth - (colCount * cellPadding * 2);
-            int totalContentWidth = Arrays.stream(colWidths).sum();
-            for (int i = 0; i < colCount; i++) {
-                colWidths[i] = Math.max((int) ((double) colWidths[i] / totalContentWidth * remainingWidth), 30);
-            }
-            totalWidth = Arrays.stream(colWidths).sum();
-        }
-
-        // Высота изображения
-        int rowCount = rows.size();
-        int imgHeight = Math.min(rowCount * rowHeight, maxHeight);
-
-        BufferedImage image = new BufferedImage(totalWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = image.createGraphics();
-        g.setFont(font);
+        Graphics g = image.getGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, totalWidth, imgHeight);
-        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, height);
 
-        // Рисуем строки таблицы
-        for (int r = 0; r < rowCount; r++) {
-            if ((r + 1) * rowHeight > imgHeight) break;
-            int x = 0;
-            for (int c = 0; c < colCount; c++) {
-                String text = rows.get(r)[c] == null ? "null" : rows.get(r)[c];
-                g.drawString(text, x + cellPadding, (r + 1) * rowHeight - 6);
-                x += colWidths[c];
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Monospaced", Font.PLAIN, 14));
+
+        int x = 20;
+        int y = 20;
+        int rowHeight = 20;
+        int columnWidth = 150;
+
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        for (int i = 1; i <= columnCount; i++) {
+            String columnName = metaData.getColumnName(i);
+            g.drawString(columnName, x + (i - 1) * columnWidth, y);
+        }
+        y += rowHeight;
+
+        while (rs.next()) {
+            for (int i = 1; i <= columnCount; i++) {
+                String columnValue = rs.getString(i);
+                g.drawString(columnValue, x + (i - 1) * columnWidth, y);
             }
+            y += rowHeight;
         }
 
         g.dispose();
+
         return image;
     }
 
-    private static List<String[]> transpose(List<String[]> original) {
-        int rows = original.size();
-        int cols = original.get(0).length;
-        if (rows == 0 || cols == 0) {
-            return new ArrayList<>();
-        }
-        List<String[]> transposed = new ArrayList<>(cols);
-        for (int i = 0; i < cols; i++) {
-            String[] newRow = new String[rows];
-            for (int j = 0; j < rows; j++) {
-                newRow[j] = original.get(j).length > i ? original.get(j)[i] : "";
-            }
-            transposed.add(newRow);
-        }
-
-        return transposed;
-    }
-    public static List<BufferedImage> splitTableToImages(ResultSet rs) throws SQLException {
-        List<BufferedImage> images = new ArrayList<>();
-        BufferedImage img = renderTable(rs);
-
-        int maxImageHeight = 800;
-        int rowHeight = 24;
-        int totalRows = rs.getRow();
-        int numImages = (int) Math.ceil((double) totalRows / (maxImageHeight / rowHeight));
-        for (int i = 0; i < numImages; i++) {
-            int startRow = i * (maxImageHeight / rowHeight);
-            int endRow = Math.min((i + 1) * (maxImageHeight / rowHeight), totalRows);
-            BufferedImage partImage = renderPartialTable(rs, startRow, endRow);
-            images.add(partImage);
-        }
-
-        return images;
-    }
-    private static BufferedImage renderPartialTable(ResultSet rs, int startRow, int endRow) throws SQLException {
-        List<String[]> rows = new ArrayList<>();
-        rs.absolute(startRow);
-        for (int i = startRow; i < endRow; i++) {
-            if (rs.next()) {
-                String[] row = new String[rs.getMetaData().getColumnCount()];
-                for (int j = 0; j < row.length; j++) {
-                    row[j] = rs.getString(j + 1);
-                }
-                rows.add(row);
-            }
-        }
-        return renderTable(rs);
-    }
     public static boolean isValidUUID(String str) {
         return str.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
     }
