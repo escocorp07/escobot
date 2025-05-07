@@ -243,6 +243,20 @@ public class utils {
             errorLogger.logErr(exception);
         }
     }
+    public static void getAttach(Attachment attachment) {
+        String urlStr = attachment.getUrl();
+        String fileName = attachment.getFilename();
+        Path savePath = Paths.get("data/atch", fileName);
+
+        try {
+            Files.createDirectories(savePath.getParent());
+            try (InputStream in = new URL(urlStr).openStream()) {
+                Files.copy(in, savePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException exception) {
+            errorLogger.logErr(exception);
+        }
+    }
     public static BufferedImage renderTable(ResultSet rs) throws SQLException {
         int width = 500;
         int height = 500;
