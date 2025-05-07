@@ -37,7 +37,7 @@ public class DatabaseConnector {
         Log.info("Time to register commands with access to sql!");
         registerCommand("sql", "Execute raw SQL", "[query...]", ownerid, (e, args) -> {
             if (args.length == 0) {
-                sendReply(e.getMessage(), "А че мне в бд посылать то");
+                sendReply(e.getMessage(), "А че мне в бд посылать то?");
                 return;
             }
             String query = String.join(" ", args);
@@ -65,11 +65,11 @@ public class DatabaseConnector {
                         }
                     }
                 } else {
-                    sendReply(e.getMessage(), "Я обновил: " + pstmt.getUpdateCount());
+                    sendReply(e.getMessage(), "Обновлено: " + pstmt.getUpdateCount());
                 }
 
             } catch (SQLException ex) {
-                sendReply(e.getMessage(), "Жидкую пустил: " + ex.getMessage());
+                sendReply(e.getMessage(), ex.getMessage());
             }
         }).setVisible(false);
     }
