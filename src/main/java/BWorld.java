@@ -4,9 +4,9 @@ import arc.util.Nullable;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
 
-public class World extends mindustry.core.World {
+public class BWorld extends mindustry.core.World {
     Tiles tiles = new Tiles(512, 512);
-    public World() {
+    public BWorld() {
         super();
     }
     @Override

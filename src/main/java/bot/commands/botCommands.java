@@ -48,6 +48,7 @@ import static main.java.bot.commands.commandHandler.commands;
 import static main.java.bot.commands.commandHandler.*;
 import static main.java.BuildInfo.*;
 import static main.java.utils.*;
+import main.java.BWorld;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -96,7 +97,7 @@ public class botCommands {
             }
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-            Vars.world = new main.java.World();
+            Vars.world = new BWorld();
             Vars.state.map=Vars.emptyMap;
             Vars.world.setGenerating(true);
             Vars.world.addMapLoader(Vars.emptyMap, ()->{});
