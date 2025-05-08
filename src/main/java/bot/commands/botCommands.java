@@ -96,7 +96,8 @@ public class botCommands {
             }
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-            Vars.world = new World();
+            Vars.world = new main.java.World();
+            Vars.state.map=Vars.emptyMap;
             Vars.world.setGenerating(true);
             Vars.world.addMapLoader(Vars.emptyMap, ()->{});
             Vars.world.loadMap(Vars.emptyMap);

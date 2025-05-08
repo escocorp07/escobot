@@ -37,6 +37,7 @@ public class Main {
         Vars.dataDirectory=Core.settings.getDataDirectory().child("data");
         Vars.customMapDirectory=Vars.dataDirectory.child("maps");
         Vars.emptyMap=new Map(new StringMap());
+        Vars.state=new GameState();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
