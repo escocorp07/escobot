@@ -41,6 +41,7 @@ public class Main {
         Vars.state=new GameState();
         Vars.maps=new Maps();
         Vars.maps.load();
+        Vars.world=new World();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
