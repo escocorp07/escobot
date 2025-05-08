@@ -10,6 +10,7 @@ import main.java.bot.errorLogger;
 import main.java.site.SiteLoader;
 import mindustry.Vars;
 import mindustry.core.*;
+import mindustry.gen.Groups;
 import mindustry.maps.Map;
 import mindustry.maps.Maps;
 import mindustry.mod.Mods;
@@ -43,6 +44,7 @@ public class Main {
         Vars.maps.load();
         Vars.world=new World();
         Vars.logic=new Logic();
+        Groups.init();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
