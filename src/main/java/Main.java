@@ -42,6 +42,7 @@ public class Main {
         Vars.maps=new Maps();
         Vars.maps.load();
         Vars.world=new World();
+        Vars.logic=new Logic();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
