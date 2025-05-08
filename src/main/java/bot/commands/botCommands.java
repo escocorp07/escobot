@@ -4,7 +4,6 @@ import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
 import arc.struct.Seq;
-import arc.util.Http;
 import arc.util.Log;
 import arc.util.OS;
 import discord4j.common.util.Snowflake;
@@ -20,7 +19,6 @@ import discord4j.core.object.emoji.Emoji;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.core.spec.StartThreadFromMessageSpec;
 import discord4j.rest.util.Color;
-import main.java.Database.DatabaseConnector;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.Vars;
@@ -31,10 +29,6 @@ import mindustry.world.Block;
 import mindustry.world.blocks.environment.Floor;
 import reactor.core.publisher.Mono;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,7 +42,7 @@ import static main.java.bot.commands.commandHandler.commands;
 import static main.java.bot.commands.commandHandler.*;
 import static main.java.BuildInfo.*;
 import static main.java.utils.*;
-import main.java.BWorld;
+import static mindustry.Vars.maps;
 
 public class botCommands {
     private static boolean loaded = false;
@@ -97,11 +91,8 @@ public class botCommands {
             }
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-            Vars.world = new BWorld();
-            Vars.state.map=Vars.emptyMap;
             Vars.world.setGenerating(true);
-            Vars.world.addMapLoader(Vars.emptyMap, ()->{});
-            Vars.world.loadMap(Vars.emptyMap);
+            Vars.world.loadMap(maps.loadInternalMap("groundZero"));
             Vars.world.resize(512, 512);
             Seq<Floor> floors = new Seq<>();
             for(Block b : Vars.content.blocks()) {

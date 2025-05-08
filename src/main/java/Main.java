@@ -11,6 +11,7 @@ import main.java.site.SiteLoader;
 import mindustry.Vars;
 import mindustry.core.*;
 import mindustry.maps.Map;
+import mindustry.maps.Maps;
 import mindustry.mod.Mods;
 import reactor.util.Loggers;
 
@@ -38,6 +39,8 @@ public class Main {
         Vars.customMapDirectory=Vars.dataDirectory.child("maps");
         Vars.emptyMap=new Map(new StringMap());
         Vars.state=new GameState();
+        Vars.maps=new Maps();
+        Vars.maps.load();
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){

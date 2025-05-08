@@ -105,6 +105,10 @@ tasks.withType(ProcessResources) {
         include '**/*'
         into 'sprites'
     }
+    from("src/main/resources/maps") {
+        include '**/*'
+        into 'maps'
+    }
 }
 compileJava.dependsOn(generateBuildInfo)
 compileKotlin.dependsOn(generateBuildInfo)
