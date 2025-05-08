@@ -76,7 +76,7 @@ public class DatabaseConnector {
 
     }
     /**
-     * Выполнить sql код асинхронно
+     * Выполнить sql код как-то
      */
     private static <T> Optional<T> executeQueryAsync(String sql, ThrowingConsumer<PreparedStatement> parameterSetter, SQLFunction<ResultSet, T> mapper) {
         try (Connection conn = dataSource.getConnection();

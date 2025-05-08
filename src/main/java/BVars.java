@@ -15,6 +15,7 @@ public class BVars {
     public static GatewayDiscordClient gateway;
     public static Javalin site;
     public static final int port = 80;
+    public static final Thread mainThread = Thread.currentThread();
 
     @SettingsL @GenerateSet public static int maxWidth=1800, maxHeight=1600;
     public static String btoken, prefix;

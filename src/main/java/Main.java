@@ -3,15 +3,18 @@ package main.java;
 import arc.*;
 import arc.mock.MockFiles;
 import arc.struct.Seq;
+import arc.struct.StringMap;
 import arc.util.Log;
 import main.java.bot.botLoader;
 import main.java.bot.errorLogger;
 import main.java.site.SiteLoader;
 import mindustry.Vars;
 import mindustry.core.*;
+import mindustry.maps.Map;
 import mindustry.mod.Mods;
 import reactor.util.Loggers;
 
+import static main.java.BVars.mainThread;
 import static main.java.ConfigLoader.loadcfg;
 import static main.java.utils.*;
 
@@ -31,6 +34,9 @@ public class Main {
         Vars.content.createBaseContent();
         Vars.content.loadColors();
         Vars.mods = new Mods();
+        Vars.dataDirectory=Core.settings.getDataDirectory().child("data");
+        Vars.customMapDirectory=Vars.dataDirectory.child("maps");
+        Vars.emptyMap=new Map(new StringMap());
         Core.app = new Application() {
             @Override
             public Seq<ApplicationListener> getListeners(){
@@ -55,7 +61,7 @@ public class Main {
             }
 
             @Override
-            public void post(Runnable runnable){
+            public synchronized void post(Runnable runnable){
                 try {
                     runnable.run();
                 } catch (Exception e) {

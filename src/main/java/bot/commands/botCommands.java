@@ -3,6 +3,7 @@ package main.java.bot.commands;
 import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.PixmapIO;
+import arc.struct.Seq;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.OS;
@@ -23,8 +24,11 @@ import main.java.Database.DatabaseConnector;
 import main.java.bot.errorLogger;
 import main.kotlin.bot.KbotCommands;
 import mindustry.Vars;
+import mindustry.core.World;
 import mindustry.io.MapIO;
 import mindustry.maps.Map;
+import mindustry.world.Block;
+import mindustry.world.blocks.environment.Floor;
 import reactor.core.publisher.Mono;
 
 import javax.imageio.ImageIO;
@@ -92,7 +96,21 @@ public class botCommands {
             }
         });
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
-            // some test code
+            Vars.world = new World();
+            Vars.world.setGenerating(true);
+            Vars.world.loadMap(Vars.emptyMap);
+            Vars.world.resize(512, 512);
+            Seq<Floor> floors = new Seq<>();
+            for(Block b : Vars.content.blocks()) {
+                if(b.isFloor() && !b.name.contains("air"))
+                    floors.add((Floor) b);
+            }
+            for(int y=0;y<512;y+=1) {
+                for(int x=0;x<512;x+=1) {
+                    Vars.world.tile(x, y).setFloor(floors.get(random.nextInt(floors.size)));
+                }
+            }
+            Vars.world.setGenerating(false);
         }).setVisible(false);
         registerCommand("js", "js really", "<text...>", ownerid, (e, args)->{
                 StringBuilder sb = new StringBuilder();
