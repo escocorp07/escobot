@@ -106,8 +106,8 @@ public class botCommands {
                 if(b.isFloor() && !b.name.contains("air"))
                     floors.add((Floor) b);
             }
-            for(int y=0;y<512;y+=1) {
-                for(int x=0;x<512;x+=1) {
+            for(int y=1;y<512;y+=1) {
+                for(int x=1;x<512;x+=1) {
                     Vars.world.tile(x, y).setFloor(floors.get(random.nextInt(floors.size)));
                 }
             }
