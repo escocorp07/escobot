@@ -98,8 +98,8 @@ public class botCommands {
         registerCommand("test", "Test command", "[text...]", ownerid, (e, args)->{
             Vars.world = new World();
             Vars.world.setGenerating(true);
-            //Vars.world.loadMap(Vars.emptyMap);
             Vars.world.addMapLoader(Vars.emptyMap, ()->{});
+            Vars.world.loadMap(Vars.emptyMap);
             Vars.world.resize(512, 512);
             Seq<Floor> floors = new Seq<>();
             for(Block b : Vars.content.blocks()) {
