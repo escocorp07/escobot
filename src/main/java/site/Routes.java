@@ -74,7 +74,7 @@ public class Routes {
                 sb.setLength(1997);
                 if(!sb.toString().endsWith("```"))
                     sb.append("```");
-                sendMessage("1330050716928049262", sb.toString());
+                sendMessage("1373161155316678697", sb.toString());
             } catch (Exception ex) {
                 errorLogger.logErr(ex);
             }
